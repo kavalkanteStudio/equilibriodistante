@@ -1,18 +1,53 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  src: url('/fonts/oswald/oswald-medium-regular.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Six Caps';
+  src: url('/fonts/Six_Caps/SixCaps-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-display: swap;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Oswald', sans-serif;
+  --font-accent: 'Six Caps', sans-serif;
+
+  --color-brand-primary: #aa3bff;
+  --color-brand-secondary: #c084fc;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
   --bg: #fff;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
-  --accent: #aa3bff;
+  --accent: var(--color-brand-primary);
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: 'Bricolage Grotesque', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Oswald', system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
@@ -37,7 +72,7 @@
     --bg: #16171d;
     --border: #2e303a;
     --code-bg: #1f2028;
-    --accent: #c084fc;
+    --accent: var(--color-brand-secondary);
     --accent-bg: rgba(192, 132, 252, 0.15);
     --accent-border: rgba(192, 132, 252, 0.5);
     --social-bg: rgba(47, 48, 58, 0.5);
