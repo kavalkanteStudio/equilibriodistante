@@ -1,0 +1,78 @@
+Sim — imagens geradas por essas ferramentas **podem ser usadas comercialmente em alguns casos**, mas não existe uma lista universal de “modelos permitidos”. A autorização depende de quatro coisas:
+
+1. os termos da plataforma;
+2. o plano usado — gratuito, pago ou empresarial;
+3. o modelo e os componentes utilizados;
+4. o conteúdo final da imagem.
+
+Para seus quadros, eu separaria assim:
+
+| Ferramenta | Uso comercial | Cuidados principais |
+|---|---|---|
+| **Leonardo.Ai** | Em geral, permitido. No plano pago, as gerações privadas têm condições mais favoráveis de titularidade; no gratuito, as criações podem ser públicas e reutilizáveis por outros usuários. | Verifique se a geração estava pública ou privada e guarde o plano usado. <citation src="3,4"></citation> |
+| **Nano Banana/Gemini** | Os termos do Google normalmente não reivindicam a propriedade das imagens geradas, permitindo uso comercial, sujeito às leis aplicáveis. | Pode haver marca d’água ou SynthID; você continua responsável pelo conteúdo, e o Google pode gerar imagens semelhantes para outras pessoas. <citation src="5"></citation> |
+| **Grok/Reimagine** | Não trate como automaticamente liberado. A autorização pode depender do produto, plano e versão dos termos da xAI. | Reimagine pode envolver uma imagem enviada por você ou por terceiros. Você precisa ter direito sobre a imagem de entrada e sobre a transformação feita. |
+| **Freepik AI** | Pode permitir uso comercial conforme o recurso e o plano contratado. | Confira especificamente se a função utilizada permite venda de produtos físicos e se há restrição para usuários gratuitos. Recursos, modelos e bancos incorporados podem ter regras próprias. |
+| **Copilot/Designer/Image Creator** | Há diferença entre ferramentas da Microsoft. O antigo Image Creator/Bing não apresenta a mesma restrição explícita de uso pessoal que já apareceu em versões anteriores, mas o Designer pode ter termos específicos de uso pessoal ou comercial. | Identifique exatamente qual produto você usou e salve os termos vigentes. Não confunda Copilot, Designer e Image Creator. <citation src="2,5"></citation> |
+| **Adobe Firefly** | É uma das opções mais interessantes para uso comercial, especialmente em planos e fluxos destinados a criação profissional. | Verifique o plano, os recursos usados e eventuais limitações de saída, marcas e conteúdo de terceiros. |
+| **Midjourney** | Em geral, permite uso comercial, mas há diferenças conforme assinatura, regras de propriedade e eventuais imagens públicas. | Evite tratar uma imagem pública de outro usuário como sua; crie uma geração própria e confira os termos do plano. |
+| **Stable Diffusion/Flux e similares** | Não depende apenas do nome do modelo. Cada checkpoint, LoRA, VAE e embedding pode ter licença diferente. | Leia a licença do modelo específico. “Open source” ou “download gratuito” não significa automaticamente “uso comercial”. |
+
+A própria Leonardo resume bem a lógica: a licença da plataforma importa, mas também importam o prompt, as imagens fornecidas como referência e o que aparece no resultado. Uma imagem que contenha personagem protegido, logotipo, celebridade ou obra reconhecível pode trazer problemas mesmo quando a plataforma permite uso comercial. <citation src="3"></citation>
+
+## Para o seu caso, use esta classificação
+
+**Mais seguros para uma linha comercial:**
+
+- Adobe Firefly, respeitando os termos do plano;
+- Leonardo.Ai pago, com gerações privadas;
+- Nano Banana/Gemini, após conferir os termos vigentes;
+- modelos locais com licença comercial explícita;
+- imagens criadas por você ou encomendadas com cessão escrita.
+
+**Usáveis com documentação mais cuidadosa:**
+
+- Leonardo gratuito;
+- Copilot/Designer;
+- Freepik AI;
+- Grok/Reimagine;
+- modelos comunitários no Civitai;
+- imagens remixadas ou derivadas de outras imagens.
+
+**Evite para venda:**
+
+- imagem baixada do Pinterest;
+- geração baseada em obra de terceiros sem licença;
+- modelo sem licença clara;
+- ferramenta cujo plano diga “personal use only”;
+- personagem, logo ou estilo identificável de uma franquia;
+- imagem de outra pessoa remixada sem autorização;
+- conteúdo cuja licença permita apenas uso não comercial.
+
+## Um procedimento profissional para cada arte
+
+Crie uma ficha interna para cada quadro contendo:
+
+- ferramenta usada;
+- nome exato do modelo;
+- plano utilizado;
+- data da geração;
+- prompt;
+- imagem de referência, se houver;
+- licença ou termos aplicáveis;
+- captura da página da licença;
+- alterações feitas por você;
+- crédito exigido;
+- observações sobre marcas, personagens e pessoas.
+
+Nomeie os arquivos, por exemplo:
+
+```text
+Q001_botanico_2026-09-07_Leonardo-pago_privado.png
+Q001_termos-captura-2026-09-07.pdf
+Q001_prompt-e-edicao.txt
+```
+
+Se a imagem for criada em uma ferramenta paga, mas depois você fizer uma grande composição própria — edição, pintura digital, tipografia, elementos artesanais e montagem — isso fortalece a identidade autoral do produto, embora não apague eventuais direitos de terceiros presentes na imagem original.
+
+Minha recomendação objetiva para começar é: **use uma ferramenta com autorização comercial explícita, gere imagens originais do zero, não use referências protegidas e mantenha um dossiê simples de cada arte**. Entre as opções citadas, eu colocaria inicialmente **Leonardo pago, Adobe Firefly e Nano Banana/Gemini**, sempre confirmando os termos atuais no dia da criação. Para Grok, Freepik e Copilot, eu só colocaria a imagem à venda depois de confirmar a cláusula específica do produto e do plano utilizado.

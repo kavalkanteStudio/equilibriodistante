@@ -1,0 +1,447 @@
+Bom dia! Pelo seu perfil e pelo objetivo de reduzir custos, eu adotaria uma arquitetura **serverless**, com o repositório público e nenhum segredo embutido no frontend.
+
+## Recomendação direta
+
+Minha escolha seria:
+
+- **Frontend/PWA:** React + Vite ou Next.js + Tailwind + shadcn/ui
+- **Hospedagem:** Vercel
+- **Backend principal:** Supabase
+- **Banco:** PostgreSQL do Supabase
+- **Autenticação:** Supabase Auth, se houver área administrativa ou contas de clientes
+- **Arquivos/imagens:** Supabase Storage ou um serviço especializado de imagens
+- **Funções backend:** Supabase Edge Functions ou Vercel Functions
+- **Conteúdo editorial:** inicialmente Supabase; Hygraph apenas se o CMS GraphQL trouxer uma vantagem real
+- **Notion:** usado como ferramenta interna de planejamento, não como backend da loja
+- **Domínio:** GoDaddy apontando para a Vercel
+
+Isso elimina a necessidade de VPS para o MVP e mantém uma possibilidade razoável de evolução.
+
+## O ponto mais importante: tokens não devem ser protegidos no frontend
+
+Se o código for público, qualquer variável usada pelo navegador pode ser descoberta no bundle JavaScript, no DevTools ou nas requisições de rede. Portanto, não existe maneira segura de esconder um token que obrigatoriamente precise ser usado pelo browser.
+
+A solução correta é separar as credenciais em dois grupos:
+
+### Credenciais públicas
+
+Podem aparecer no frontend, desde que tenham permissões limitadas:
+
+- URL pública do projeto Supabase;
+- chave `sb_publishable_...` do Supabase;
+- identificadores públicos;
+- configurações de analytics;
+- chaves explicitamente desenhadas para uso client-side.
+
+A chave publicável do Supabase é considerada apropriada para browser, mobile e código público, mas a segurança deve ser feita com permissões SQL e Row Level Security — não com o segredo da chave. <citation src="2"></citation>
+
+### Credenciais privadas
+
+Devem existir somente em funções executadas no servidor:
+
+- token do Notion;
+- token privado do Hygraph;
+- chave de pagamento;
+- credenciais de envio de e-mail;
+- token de marketplace ou logística;
+- chave `sb_secret_...` do Supabase;
+- qualquer credencial com acesso administrativo.
+
+As chaves secretas do Supabase ignoram o RLS e nunca devem ser colocadas no browser, em aplicativo distribuído ou no repositório. <citation src="2,4"></citation>
+
+A arquitetura fica assim:
+
+```text
+Browser/PWA
+   |
+   | chave publicável + sessão do usuário
+   v
+Supabase Data API / Edge Function pública
+   |
+   | segredo privado armazenado no ambiente server-side
+   v
+Hygraph, Notion, pagamento, e-mail ou APIs externas
+```
+
+## Supabase, Hygraph ou Notion?
+
+| Opção | Melhor uso | Vantagens | Limitações |
+|---|---|---|---|
+| Supabase | Banco, autenticação, pedidos, estoque, clientes | PostgreSQL, Auth, Storage, RLS e Edge Functions no mesmo ecossistema | Exige modelagem e configuração de segurança |
+| Hygraph | CMS editorial e conteúdo estruturado | GraphQL, bom para conteúdo relacionado, páginas e catálogos editoriais | Pode ser complexo ou caro demais para um catálogo pequeno |
+| Notion | Backoffice, calendário, workflow e documentação | Interface excelente para operação manual | Não é ideal como banco transacional de e-commerce |
+
+### Minha recomendação
+
+Use o **Supabase como fonte de verdade operacional**:
+
+- produtos;
+- variantes;
+- tamanhos;
+- cores;
+- preços;
+- estoque;
+- pedidos;
+- status de produção;
+- licenças;
+- workflow de criação;
+- referências para Civitai e LeonardoAI;
+- imagens finais;
+- textos comerciais.
+
+Use o Notion para:
+
+- brainstorming;
+- calendário editorial;
+- checklist de cada peça;
+- planejamento de campanhas;
+- documentação do processo criativo;
+- acompanhamento interno.
+
+Você poderia sincronizar o Notion com o Supabase por uma Edge Function ou por uma automação, mas eu não faria o catálogo público depender diretamente do Notion. O token de uma conexão interna do Notion é uma credencial de acesso ao workspace e deve ficar no backend. <citation src="15"></citation>
+
+O Hygraph passa a fazer sentido se você quiser que pessoas não técnicas editem com frequência:
+
+- páginas institucionais;
+- histórias das coleções;
+- artigos;
+- landing pages;
+- blocos de conteúdo;
+- versões em vários idiomas;
+- relacionamentos complexos entre coleções, artistas e produtos.
+
+Para um primeiro lançamento, adicionar Supabase **e** Hygraph provavelmente criaria mais superfície operacional do que benefício.
+
+## Modelagem inicial no Supabase
+
+Uma estrutura possível:
+
+```text
+collections
+- id
+- slug
+- name
+- description
+- cover_image
+- status
+- published_at
+
+artworks
+- id
+- collection_id
+- title
+- slug
+- prompt_summary
+- workflow_description
+- civitai_url
+- leonardo_url
+- license_notes
+- source_model
+- final_image_url
+- published
+
+products
+- id
+- artwork_id
+- product_type
+- title
+- description
+- base_price
+- active
+
+product_variants
+- id
+- product_id
+- size
+- color
+- sku
+- stock_quantity
+- price
+
+orders
+- id
+- customer_id
+- status
+- total_amount
+- payment_reference
+- shipping_reference
+
+order_items
+- id
+- order_id
+- product_variant_id
+- quantity
+- unit_price
+
+production_workflows
+- id
+- artwork_id
+- tool
+- model
+- parameters
+- workflow_text
+- source_url
+- commercial_license_notes
+```
+
+Para o seu caso, eu manteria separado:
+
+- **obra digital**: o quadro/arte gerada;
+- **produto**: camiseta, quadro, pôster etc.;
+- **variante**: tamanho, cor, acabamento e SKU.
+
+Assim, a mesma arte pode originar vários produtos sem duplicação.
+
+## Organização do repositório
+
+Mesmo que o código seja público, você pode manter a aplicação em um único monorepo:
+
+```text
+app/
+├── src/
+├── public/
+├── supabase/
+│   ├── migrations/
+│   ├── functions/
+│   └── seed.sql
+├── .env.example
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+O `.env.example` deve conter apenas nomes de variáveis:
+
+```env
+VITE_SUPABASE_URL=
+VITE_SUPABASE_PUBLISHABLE_KEY=
+```
+
+Nunca coloque valores reais nesse arquivo.
+
+Para o frontend, usando Vite:
+
+```env
+VITE_SUPABASE_URL=https://seu-projeto.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
+```
+
+Esses valores não são “segredos” no sentido tradicional. Eles serão enviados ao navegador. A proteção real deve estar nas policies do Supabase.
+
+Para uma função backend:
+
+```ts
+const notionToken = Deno.env.get("NOTION_TOKEN");
+const hygraphToken = Deno.env.get("HYGRAPH_TOKEN");
+const secretKey = Deno.env.get("SUPABASE_SECRET_KEYS");
+```
+
+Essas variáveis ficam configuradas no painel do Supabase ou da Vercel. O Supabase recomenda manter arquivos `.env` fora do Git e cadastrar os segredos nas configurações das Edge Functions. <citation src="4"></citation>
+
+## Vercel ou GitHub Pages?
+
+### Vercel
+
+É a opção mais conveniente para o seu cenário porque permite:
+
+- deploy automático a partir do GitHub;
+- preview deployments;
+- domínio personalizado;
+- funções serverless;
+- variáveis de ambiente por ambiente;
+- integração simples com React/Next.js;
+- possibilidade de manter o repositório público.
+
+As variáveis são cadastradas no painel da Vercel e utilizadas no runtime server-side. A própria documentação de uso indica separar ambientes de desenvolvimento, preview e produção. <citation src="8"></citation>
+
+### GitHub Pages
+
+É adequado para:
+
+- site completamente estático;
+- documentação;
+- portfólio;
+- landing page sem operações privadas.
+
+Não é adequado como único backend para:
+
+- tokens privados;
+- integração com Notion;
+- criação de pedidos;
+- webhooks;
+- pagamentos;
+- lógica administrativa;
+- proxy para APIs externas.
+
+Mesmo que o GitHub Actions use secrets durante o build, qualquer segredo necessário no JavaScript final acabará exposto no artefato enviado ao navegador. Portanto, GitHub Pages pode hospedar o frontend, mas você ainda precisaria de Supabase Functions, Vercel Functions ou outro backend para operações privadas.
+
+Para reduzir complexidade, eu usaria **Vercel desde o início**. A diferença de custo para um projeto pequeno tende a ser menor do que o custo operacional de manter frontend e backend distribuídos entre várias plataformas.
+
+## Onde colocar cada integração
+
+### Civitai e LeonardoAI
+
+Se você apenas exibe links e descreve o workflow, isso pode ficar no banco como conteúdo público:
+
+```text
+civitai_url
+leonardo_url
+workflow_description
+model_name
+parameters
+license_notes
+```
+
+Se no futuro o site precisar chamar APIs dessas plataformas:
+
+```text
+Frontend → Edge Function → API da plataforma
+```
+
+Nunca:
+
+```text
+Frontend → API da plataforma usando token privado
+```
+
+### Pagamentos
+
+O frontend inicia o checkout chamando uma função server-side. A função:
+
+1. valida os produtos e preços no banco;
+2. recalcula o total;
+3. cria a sessão de pagamento;
+4. devolve somente a URL ou identificador necessário;
+5. recebe o webhook;
+6. atualiza o pedido no Supabase.
+
+Não confie em preço ou quantidade enviados pelo navegador.
+
+### Notion
+
+Uma função pode expor operações limitadas:
+
+```text
+POST /api/sync-notion
+```
+
+Essa função deve:
+
+- autenticar o administrador;
+- validar o payload;
+- usar o token do Notion no servidor;
+- permitir apenas bases ou páginas específicas;
+- registrar erros;
+- aplicar rate limiting.
+
+Não crie um endpoint genérico que aceite uma URL ou query arbitrária e a encaminhe ao Notion.
+
+## Segurança mínima do Supabase
+
+Para cada tabela acessível pela Data API:
+
+1. habilite RLS;
+2. conceda apenas as operações necessárias;
+3. crie policies explícitas;
+4. não use `service_role` ou `sb_secret` no frontend;
+5. evite expor tabelas administrativas diretamente;
+6. prefira funções para operações sensíveis;
+7. valide dados novamente no backend.
+
+O Supabase separa grants SQL e policies RLS: os grants definem quais papéis podem alcançar um objeto, enquanto o RLS determina quais linhas podem ser acessadas. As duas camadas devem ser configuradas. <citation src="5"></citation>
+
+Exemplo conceitual de policy para catálogo público:
+
+```sql
+alter table public.products enable row level security;
+
+create policy "public can read active products"
+on public.products
+for select
+to anon, authenticated
+using (active = true);
+```
+
+Para pedidos, não permita simplesmente que qualquer cliente leia a tabela inteira. Um usuário autenticado deve acessar apenas os próprios pedidos:
+
+```sql
+create policy "customers read their own orders"
+on public.orders
+for select
+to authenticated
+using (customer_id = auth.uid());
+```
+
+A tabela administrativa de licenças, custos e notas internas poderia nem ser exposta pela Data API. Nesse caso, acesse-a apenas através de uma Edge Function autenticada.
+
+## PWA: o que eu faria
+
+Começaria com:
+
+- React + Vite;
+- `vite-plugin-pwa`;
+- React Router;
+- TanStack Query;
+- Supabase JS;
+- Tailwind;
+- shadcn/ui;
+- Zod;
+- React Hook Form;
+- Vitest;
+- Playwright;
+- ESLint + Prettier.
+
+Eu escolheria Next.js apenas se você realmente quiser:
+
+- SSR;
+- SEO mais avançado;
+- páginas dinâmicas renderizadas no servidor;
+- rotas server-side integradas;
+- maior flexibilidade de backend na própria aplicação.
+
+Para um catálogo com PWA e Supabase, Vite é mais simples e suficiente. A parte privada pode ficar em Supabase Edge Functions. Se o SEO e as páginas de coleção forem prioridade alta, Next.js na Vercel torna-se uma escolha melhor.
+
+## Arquitetura recomendada para o MVP
+
+```text
+GoDaddy
+   |
+   v
+Vercel
+   ├── React/Next.js
+   ├── PWA
+   └── rotas server-side opcionais
+          |
+          v
+Supabase
+   ├── PostgreSQL
+   ├── Auth
+   ├── Storage
+   ├── RLS
+   └── Edge Functions
+          ├── Notion
+          ├── Hygraph, se necessário
+          ├── pagamento
+          ├── e-mail
+          └── webhooks
+```
+
+## Plano de implementação
+
+1. Criar o repositório público e configurar `.gitignore`, `.env.example` e secret scanning.
+2. Criar o projeto Supabase.
+3. Modelar coleções, obras, produtos, variantes e pedidos.
+4. Criar migrations SQL versionadas no repositório.
+5. Ativar RLS desde a primeira tabela.
+6. Construir o catálogo público.
+7. Configurar Supabase Storage para imagens.
+8. Criar autenticação apenas para administração, se possível.
+9. Implementar Edge Functions para integrações privadas.
+10. Configurar checkout e webhooks.
+11. Adicionar o PWA e o manifesto.
+12. Conectar o domínio na Vercel.
+13. Configurar ambientes `development`, `preview` e `production`.
+14. Testar tentativas de acesso anônimo a cada tabela.
+15. Fazer rotação das credenciais antes do lançamento.
+
+A decisão mais importante é esta: **o repositório público não é o problema; o problema é colocar segredo em código que chega ao navegador**. Com Supabase publicável + RLS no cliente e Edge Functions para tudo que exige segredo, você consegue manter o código aberto, evitar VPS e ainda preservar uma arquitetura profissional.

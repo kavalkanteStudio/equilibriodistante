@@ -1,0 +1,201 @@
+Bom dia! Seu projeto tem potencial, especialmente porque combina **produto decorativo**, **identidade visual** e possibilidade de venda recorrente para empresas e condomínios. Eu avançaria em três frentes: formalização, definição do modelo comercial e validação rápida do mercado.
+
+## 1. Comece validando antes de investir muito
+
+Monte uma pequena coleção inicial, por exemplo:
+
+- 6 a 12 modelos de quadros;
+- tamanhos A3 e, eventualmente, A4;
+- moldura simples de madeira;
+- identidade visual no verso;
+- embalagem segura;
+- catálogo digital com fotos, medidas, preços e prazo de entrega.
+
+Tenha pelo menos três linhas de produto:
+
+1. **Decoração geral:** abstratos, botânicos, frases, formas geométricas.
+2. **Temas para ambientes comerciais:** cafeterias, salões, lojas, escritórios e restaurantes.
+3. **Personalizados:** arte com nome do condomínio, loja, bairro, cidade ou identidade da marca.
+
+A personalização pode ser seu diferencial, mas evite usar personagens, logotipos, fotografias ou obras de terceiros sem autorização. Para imagens e fontes, use material próprio, licenciado ou de domínio permitido.
+
+## 2. Formalização: o caminho mais prático tende a ser o MEI
+
+Como você pretende vender produtos físicos com alguma regularidade e atender empresas, o **MEI** costuma ser o primeiro caminho a avaliar. A ocupação “artesão” aparece entre as atividades permitidas, mas você deve conferir no Portal do Empreendedor qual descrição corresponde melhor ao que efetivamente fabrica e vende. <citation src="1,3"></citation>
+
+A abertura é feita gratuitamente pelo portal oficial do governo, mediante conta gov.br. Depois da formalização, você recebe o CCMEI e o CNPJ. O MEI passa a ter obrigações como pagamento mensal do DAS, declaração anual e controle das receitas. <citation src="3"></citation>
+
+Para o seu tipo de negócio, considere verificar:
+
+- atividade principal adequada;
+- possibilidade de incluir atividade secundária;
+- endereço de produção;
+- autorização da prefeitura, se exigida;
+- regras do seu estado para venda e circulação de mercadorias;
+- necessidade de inscrição estadual;
+- emissão de nota fiscal para clientes empresariais.
+
+O limite tradicional do MEI é de **R$ 81 mil de receita bruta anual**, mas confirme o valor e as regras vigentes no Portal do Empreendedor antes de abrir, pois legislação e valores podem mudar. <citation src="1,3"></citation>
+
+### E enquanto você ainda não tem CNPJ?
+
+Você pode começar com vendas pontuais para pessoas físicas, testar os produtos e participar de algumas oportunidades informais ou feiras que aceitem pessoa física. Porém, para vender de forma recorrente a condomínios, lojas e empresas, a falta de CNPJ pode dificultar:
+
+- emissão de nota fiscal;
+- cadastro como fornecedor;
+- recebimento por ordem de compra;
+- contratação formal;
+- participação em feiras mais estruturadas;
+- venda em consignação para estabelecimentos.
+
+Venda para empresas normalmente exige nota fiscal; as regras práticas podem variar conforme o estado e o tipo de operação. <citation src="2,3"></citation>
+
+## 3. Escolha um modelo comercial para cada cliente
+
+Você não precisa oferecer a mesma proposta para todos.
+
+| Cliente | Modelo recomendado | Como funciona |
+|---|---|---|
+| Condomínio | Venda direta ou projeto decorativo | Você apresenta uma seleção, aprova com síndico/conselho e entrega mediante pagamento |
+| Loja | Consignação ou atacado | A loja expõe suas peças e paga após a venda, ou compra com desconto |
+| Feira | Venda direta | Você paga a participação e vende ao consumidor final |
+| Cafeteria, salão ou restaurante | Exposição com venda | As obras decoram o ambiente e ficam disponíveis para compra |
+| Empresa | Kit ou encomenda personalizada | Você cria uma coleção alinhada à marca ou ao ambiente |
+
+Para condomínios, eu evitaria começar tentando “vender para o condomínio” de maneira genérica. Apresente uma solução concreta, como:
+
+- quadros para salão de festas;
+- decoração de hall de entrada;
+- composição para espaço gourmet;
+- arte para corredores;
+- painel de identidade do condomínio;
+- kits para áreas comuns;
+- lembranças para eventos internos.
+
+Um condomínio costuma exigir aprovação do síndico, administradora ou conselho. Portanto, prepare uma proposta que facilite essa aprovação: imagens simulando os quadros no ambiente, quantidade, medidas, prazo, instalação e valor total.
+
+## 4. Estruture dois produtos para lojas
+
+### Venda no atacado
+
+A loja compra as peças antecipadamente com desconto. É mais simples para você porque recebe antes ou no momento da entrega.
+
+Exemplo:
+
+- preço ao consumidor: R$ 149;
+- preço para a loja: R$ 90 ou R$ 100;
+- pedido mínimo: 5 ou 10 unidades;
+- pagamento: antecipado ou na entrega;
+- reposição: conforme disponibilidade.
+
+### Consignação
+
+Você deixa os quadros na loja e recebe apenas quando vender. Nesse caso, faça um documento simples contendo:
+
+- quantidade e descrição das peças;
+- código de cada produto;
+- preço de venda;
+- percentual ou valor destinado à loja;
+- data de início e prazo da consignação;
+- responsabilidade por perda, furto ou avaria;
+- periodicidade de conferência;
+- prazo para pagamento;
+- procedimento para devolução.
+
+Sem esse controle, a consignação pode gerar confusão sobre estoque, vendas e responsabilidade.
+
+## 5. Prepare uma apresentação comercial curta
+
+Tenha um PDF ou catálogo no WhatsApp com:
+
+- nome da marca;
+- fotos reais dos produtos;
+- medidas;
+- materiais utilizados;
+- opções de moldura;
+- prazo de produção;
+- preço de varejo;
+- preço para parceiros;
+- condições de pagamento;
+- possibilidade de personalização;
+- contato e redes sociais.
+
+Uma mensagem de abordagem poderia ser:
+
+> Olá, tudo bem? Sou responsável pela [nome da marca], que produz quadros decorativos em impressão digital, com moldura de madeira e acabamento artesanal. Estou apresentando uma coleção voltada para ambientes comerciais e áreas comuns de condomínios. Gostaria de enviar um catálogo com algumas opções e uma proposta de exposição ou fornecimento personalizado para o espaço de vocês.
+
+Não comece enviando um catálogo enorme. Primeiro descubra quem decide, qual ambiente querem decorar e qual faixa de orçamento existe.
+
+## 6. Faça a precificação corretamente
+
+Não calcule apenas papel, tinta e moldura. Inclua:
+
+- impressão;
+- moldura;
+- vidro ou acrílico, se houver;
+- fundo e acabamento;
+- silk ou impressão do verso;
+- embalagem;
+- transporte;
+- taxa da feira ou marketplace;
+- perdas e retrabalho;
+- mão de obra;
+- impostos;
+- comissão da loja;
+- margem de lucro.
+
+Uma fórmula simples é:
+
+\[
+\text{Preço mínimo} =
+\frac{\text{custos variáveis}+\text{custo de mão de obra}+\text{rateio fixo}}
+{1-\text{percentual de despesas e lucro}}
+\]
+
+Exemplo hipotético:
+
+- materiais: R$ 52;
+- mão de obra: R$ 25;
+- embalagem e transporte médio: R$ 8;
+- custo total: R$ 85;
+- despesas e margem desejada: 40%.
+
+\[
+85 \div (1-0{,}40)=R\$141{,}67
+\]
+
+Nesse caso, o preço poderia ser arredondado para R$ 149,90 no varejo. Para loja, você precisaria criar uma tabela própria, sem vender abaixo do seu preço mínimo.
+
+## 7. Feiras: use-as para testar, não apenas para vender
+
+Antes de pagar uma feira cara, pergunte:
+
+- qual é o público esperado;
+- quantos expositores oferecem produtos semelhantes;
+- se há estrutura para pendurar quadros;
+- se existe segurança para as peças;
+- se o evento divulga os expositores;
+- se há taxas adicionais;
+- se o público costuma comprar decoração.
+
+Leve um conjunto enxuto e observe:
+
+- quais temas atraem mais;
+- quais preços têm maior aceitação;
+- quais tamanhos vendem;
+- quais perguntas os clientes fazem;
+- quantas pessoas deixam contato sem comprar.
+
+A feira deve servir para gerar vendas, contatos para encomendas e possíveis parceiros comerciais.
+
+## 8. Plano de ação para os próximos 30 dias
+
+**Semana 1:** defina nome, identidade, coleção inicial, custos e preços.
+
+**Semana 2:** produza amostras, fotografe os quadros e monte o catálogo.
+
+**Semana 3:** converse com cinco lojas, três condomínios, dois cafés ou restaurantes e procure uma feira adequada.
+
+**Semana 4:** faça uma pequena exposição-piloto ou venda em feira, registre os resultados e ajuste a coleção.
+
+Minha recomendação prática seria: **comece com pessoa física apenas para validar a aceitação e, antes de fechar contratos recorrentes com empresas, providencie o MEI ou converse com o Sebrae/contador sobre a atividade correta**. Depois, use um contrato simples de venda, fornecimento ou consignação para não depender apenas de conversas pelo WhatsApp.

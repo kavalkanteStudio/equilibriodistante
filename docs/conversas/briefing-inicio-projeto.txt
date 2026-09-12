@@ -1,0 +1,124 @@
+# Briefing With GPT 
+
+GPT-5 mini:
+---
+
+Curto e direto — principais riscos e recomendações:
+
+Riscos no Brasil
+- Possível reação administrativa, civil ou criminal por "obscenidade" ou atentado ao pudor se obra for considerada sexualmente explícita e destinada a público geral; decisões variam conforme comunidade e juiz. (Art. 233 CP foi revogado; ações hoje usam tipos genéricos e proteção de menores ou normas municipais sobre exposição pública.)  
+- Se houver exposição a menores (por venda/mostruário em local acessível a crianças) o risco aumenta e pode atrair Ministério Público.  
+- Reações extra‑legais: boicote, censura por patrocinadores/galerias, retirada de exposição por pressões públicas ou administrativas — já houve casos notórios no Brasil envolvendo obras com linguagem sexual/ofensiva.
+
+Riscos internacionais (visão geral)
+- Leis variam muito por país: em muitos países democráticos obras artísticas com valor reconhecido tendem a ser protegidas por liberdade de expressão; porém normas sobre obscenidade, decência e proteção de menores podem gerar sanções ou apreensões em alguns locais. Jurisprudência é contextual e depende de padrão local (p. ex. padrão "comunidade" nos EUA — Miller test). 
+
+Fatores que reduzem risco
+- Enquadrar claramente a peça como obra de arte com valor estético/político/cômico (textos curatoriais, catálogo, notas do artista).  
+- Limitar acesso a menores (classificação indicativa, entrada 18+ em exposições públicas).  
+- Exibir em espaço privado ou galeria com aviso de conteúdo e controle de acesso.  
+- Evitar uso comercial em contextos de venda a público geral sem avisos (merch, vitrines em via pública).  
+- Documentar intenções artísticas e processo criativo; obter pareceres curadoriais ou de associações culturais, se possível.
+
+Ações práticas recomendadas
+1. Marcar a obra com aviso de conteúdo e faixa etária (18+) sempre que exposta publicamente.  
+2. Preferir exibição em galerias privadas/museus ou venda por canais que permitam controle etário.  
+3. Preparar texto curatoral justificando o valor artístico/cômico; manter registro (fichas técnicas).  
+4. Consultar advogado local antes de exposição pública, especialmente se planeja shows em espaços públicos, vitrines ou publicidade ampla.  
+5. Se exportar ou exibir no exterior, pesquisar regras locais do país/município anfitrião.
+
+Se quiser, eu resumo esse plano em um checklist pronto para uso (aviso, classificação, justificativa, canal de exibição) ou adapto recomendações para um estado/cidade/país específico — indique a localidade desejada.
+
+---
+
+Resumo específico — riscos e recomendações para Goiás (Brasil)
+
+Riscos principais
+- Uso de marca famosa (Unilever) em paródia pode gerar ação por violação de marca (diluição, tarnishment) ou concorrência desleal — empresas grandes costumam proteger ativamente suas marcas. 
+- Se a peça circula comercialmente (venda de quadros/prints/camisetas) aumenta risco; uso meramente satírico/pessoal em contexto não comercial tem menor risco, mas não elimina.   
+- Elemento sexual/cartoon (pênis) pode atrair problemas administrativos se exposto a público com crianças; Ministério Público ou prefeitura podem atuar em casos de exposição indevida.  
+- Em processos no Brasil, tribunais consideram: função da obra (artística vs. marca como fonte), probabilidade de confusão do consumidor, e se houve denegrimento da marca. Paródia que claramente comunica crítica/ humor tem mais chance de defesa, mas não garante imunidade. <citation src="1,4"></citation>
+
+Medidas práticas em Goiás (aconselhadas)
+1. Evite usar o logotipo exato da Unilever; crie referência visual suficiente para evocá‑la sem replicar elementos protegidos (cores/tipografia muito semelhantes) que indiquem origem.  
+2. Deixe claro caráter paródico/artístico: texto curatorial, títulos que expliquem a intenção humorística/crítica e créditos que não sugiram vínculo com a marca.  
+3. Controle circulação: exiba em galeria privada ou venda por canais que permitem restrição etária; evite vitrines em via pública sem aviso 18+.  
+4. Classifique e sinalize conteúdo (18+) quando houver exposição pública.  
+5. Documente o processo criativo e justificativas artísticas; mantenha registros e declarações do artista.  
+6. Para produtos comerciais (camisetas, quadros à venda), considerar alternativas: licenciar com a marca (se viável) ou alterar para um elemento original que comunique a piada sem referenciar diretamente a Unilever.  
+7. Consulte um advogado especializado em propriedade intelectual e direito do entretenimento em Goiás antes da produção em série ou exposição pública.
+
+Se quiser, eu preparo (a) checklist jurídico‑prático pronto para levar a um advogado em Goiás e (b) duas versões de design com menor risco (uma mais segura visivelmente transformada; outra mantida próxima à paródia) — qual prefere?
+
+---
+
+Perfeito — seguem três ideias seguras e inofensivas, fáceis de executar no Inkscape e sem referência a marcas que possam gerar risco jurídico:
+
+1) Tema: Frutas animadas em festa
+- Descrição: conjunto de frutas vetoriais (banana, morango, abacaxi) com expressões caricatas, óculos de sol, boquinha sorrindo; uma fruta segura um cartaz com a palavra “Unilover” trocada por algo neutro como “UniParty”.  
+- Por que é seguro: nenhum elemento de marca original; humor visual inocente; apelo pop.  
+- Execução Inkscape: formas simples com Pathfinder, sombras planas, paleta vibrante; usar stroke fino e contornos arredondados.
+
+2) Tema: Objetos domésticos antropomorfos
+- Descrição: potes, escovas, uma colher e uma caixa de sabão (genéricos) com rostos e poses cômicas formando uma “família do banho”; título opcional: “Hora do Banho Club”.  
+- Por que é seguro: remete a categorias de produtos, não a marcas; totalmente original.  
+- Execução Inkscape: crie silhouettes geométricas, adicione olhos grandes e sobrancelhas expressivas; textura sutil com pattern de pontos.
+
+3) Tema: Colagem pop retro (sem marcas)
+- Descrição: composição com formas geométricas coloridas, estrelas, faixas e um personagem cartoon neutro (sem conotação sexual) fazendo careta engraçada; incluir elementos tipográficos inventados (ex.: “Bloop!”).  
+- Por que é seguro: abstração + tipografia original elimina risco de marca/obscenidade.  
+- Execução Inkscape: combine layers, use blend mode para sobreposições, vetorize sombras com gradientes lineares suaves.
+
+Diretrizes de design para garantir inofensividade
+- Não reproduzir logotipos, slogans ou tipografias reconhecíveis.  
+- Evitar iconografia sexual; manter linguagem corporal amigável e infantilizada se quiser tom cômico.  
+- Usar cores vivas e estilo cartoon simplificado para sinalizar imediatamente o tom humorístico.  
+- Se for vender ou expor, marcar como “conteúdo não sexual” e manter controle de público (opcional).
+
+Se quiser, eu crio para você um brief técnico pronto para usar no Inkscape (paleta hex, fontes sugeridas, medidas do quadro, camadas e passos de vetorização). Quer esse brief?
+
+---
+
+Perfeito — segue o brief técnico pronto para uso no Inkscape.
+
+## Brief técnico — quadro “Frutas animadas em festa” (seguro, inofensivo)
+
+- Tamanho do documento: 60 cm x 80 cm (300 DPI para impressão raster; em vetor, mantenha proporção).  
+- Margem e sangria: 10 mm de sangria; margem segura interna 15 mm.  
+- Modo de cor: CMYK (use perfis da gráfica) ou RGB sRGB se a gráfica aceitar conversão.  
+- Paleta (hex):
+  - Fundo: #FFF6E6
+  - Primárias: #FF6B6B, #FFD166, #4ECDC4
+  - Acentos: #4A4A4A (contornos), #FFFFFF (destaques)
+- Tipografia:
+  - Título display: Montserrat ExtraBold (ou similar sem serifa)
+  - Texto auxiliar: Open Sans Regular
+  - Evitar fontes que remetam a marcas conhecidas
+- Estrutura de camadas:
+  1. Guides & bleed
+  2. Background
+  3. Shapes principais (cada fruta em subcamada)
+  4. Faces/expressões (olhos, boca, sobrancelhas)
+  5. Acessórios (óculos, chapéus, cartaz)
+  6. Shadows & highlights
+  7. Type / labels
+  8. Export / rasterização
+- Estilo visual e construção:
+  - Formas: usar curvas Bézier simples; cada elemento composto por objetos preenchidos, stroke 1–3 px (#4A4A4A).  
+  - Faces: olhos grandes (círculo branco + pupila preta), sorrisos simples; evitar detalhes realistas.  
+  - Sombra plana: duplicar forma, preencher com tonalidade mais escura, aplicar Gaussian blur leve (~3–6 px) ou usar shape com opacidade 20–30% para impressão em vetor.  
+  - Highlights: pequenos círculos brancos com opacidade 80% para brilho.
+- Paleta de variações para merchandising: crie 3 variantes de cor do conjunto (tropical, neon, pastel) em camadas separadas.
+- Acessibilidade e conteúdo: nenhuma referência sexual; linguagem corporal amigável; sem logotipos de terceiros.
+- Export configurações:
+  - Para impressão: exportar PDF/CairoSVG com corte e marcas de sangria; converter texto em curvas.  
+  - Para web/previews: PNG 2000 px maior lado, sRGB.
+- Checklist pré‑impressão:
+  - Texto convertido em caminhos.
+  - Todas as imagens embutidas ou convertidas em vetor.
+  - Sangria e marcas de corte presentes.
+  - CMYK confirmado com a gráfica.
+  - Prova impressa (1 exemplar).
+
+Quer que eu gere também as medidas exatas dos elementos (ex.: banana 24x12 cm, morango 18x14 cm), uma paleta alternativa neon/pastel, ou um arquivo SVG exemplo com formas base para importar no Inkscape? 
+

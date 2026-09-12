@@ -1,0 +1,29 @@
+😄 A **WTFPL** é justamente uma licença criada para ser extremamente permissiva — em termos práticos, ela pretende permitir copiar, modificar, distribuir e usar comercialmente sem exigir atribuição. O nome é irreverente, mas a intenção é séria.
+
+O ponto importante é que ela só resolve a licença **daquilo que o licenciante realmente pode licenciar**. Se a imagem foi gerada com um modelo, LoRA, embedding ou outro recurso cuja licença restringe uso comercial, uma declaração WTFPL feita por um usuário não necessariamente elimina essas restrições. Ele não pode conceder mais direitos do que possui.
+
+No caso de modelos baseados em outras obras ou treinados com material cuja origem é controversa, podem existir camadas diferentes:
+
+- licença do modelo principal;
+- licença de LoRAs, embeddings e VAE;
+- licença da imagem ou do workflow publicado;
+- direitos de terceiros retratados na imagem;
+- marcas, personagens e elementos reconhecíveis;
+- eventual direito autoral sobre a própria composição.
+
+Além disso, “WTFPL” não é sinônimo de “risco jurídico zero”. Ela é uma licença informal e muito ampla, mas pode deixar dúvidas sobre autoria, titularidade e alcance da autorização. Para uma obra que você pretende vender repetidamente, eu preferiria uma licença mais clara — **CC0, licença comercial expressa ou autorização escrita específica** — e manteria o registro da origem.
+
+Sobre a **NoobAI-XL/Noob XL**, a pergunta decisiva não é apenas “o output está sob WTFPL?”, mas:
+
+1. Quem publicou a imagem?
+2. Essa pessoa criou o modelo ou apenas o utilizou?
+3. O modelo autoriza geração e venda comercial?
+4. Os componentes usados no workflow também autorizam?
+5. Há personagens, marcas ou pessoas reconhecíveis?
+6. A licença cobre o **resultado gerado** ou apenas os arquivos do modelo?
+
+Para seu negócio, eu adotaria uma regra simples:
+
+> **Sem licença comercial clara para o modelo, os componentes e a imagem final, não entra na coleção vendida.**
+
+Você ainda pode usar essas imagens como referência de composição, paleta, iluminação ou direção visual — sem copiá-las diretamente — e criar uma arte original própria. E, quando a licença for permissiva, salve uma pasta com a imagem, captura da licença, nome do autor, modelo utilizado, data e eventuais créditos. Isso transforma uma decisão informal em documentação comercial organizada.

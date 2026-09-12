@@ -1,0 +1,7 @@
+# tipografia
+- Oswald
+- Six Caps
+- Bricolage Grothesque Normal
+- Bricolage Grothesque Medium
+- Bricolage Grothesque Bold
+- Bricolage Grothesque Condensed Normal

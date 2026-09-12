@@ -1,0 +1,67 @@
+Pode usar, mas **não pelo simples fato de a imagem estar no Civitai ou no Pinterest**. A regra prática é: a plataforma é apenas o local onde a imagem foi publicada; os direitos continuam pertencendo ao autor ou a outros titulares.
+
+**Pinterest:** trate as imagens encontradas lá como referência visual, não como banco gratuito de imagens. O próprio Pinterest informa que você mantém os direitos sobre o conteúdo que publica, e que usos não autorizados podem violar direitos autorais, marcas e outras leis. A permissão para usar a plataforma não equivale à permissão para copiar, imprimir ou vender as imagens. <citation src="5"></citation>
+
+**Civitai:** verifique a licença específica na página da imagem, do modelo e, quando aplicável, dos recursos usados para gerá-la. Existem modelos com permissões comerciais e outros que proíbem comercialização ou impõem condições adicionais. Os próprios termos da plataforma distinguem licenças e preservam a responsabilidade do usuário sobre o conteúdo e seu uso. <citation src="2,3"></citation>
+
+## Sobre Creative Commons
+
+Creative Commons não significa automaticamente “pode usar para vender”. As licenças são diferentes:
+
+- **CC0:** normalmente permite uso comercial, modificação e redistribuição, sem obrigação de atribuição.
+- **CC BY:** permite uso comercial e alterações, mas exige crédito ao autor.
+- **CC BY-SA:** permite uso comercial, exige crédito e determina que certas adaptações sejam compartilhadas sob licença igual ou compatível.
+- **CC BY-ND:** permite uso comercial, mas não permite distribuir versões adaptadas.
+- **CC BY-NC:** não permite uso comercial.
+- **CC BY-NC-SA:** não permite uso comercial e exige compartilhamento pela mesma licença.
+- **CC BY-NC-ND:** não permite uso comercial nem adaptações.
+
+Essas diferenças são expressamente previstas pela Creative Commons. <citation src="4"></citation>
+
+Para o seu caso, eu evitaria qualquer imagem marcada com **NC**, porque imprimir e vender o quadro é claramente uma atividade comercial. Também teria cautela com **ND**, pois transformar a imagem em composição, inserir elementos, modificar cores ou adaptá-la ao formato do quadro pode caracterizar adaptação.
+
+## Imagens geradas por IA
+
+Mesmo quando uma plataforma diz que o resultado pode ser usado comercialmente, ainda é necessário verificar:
+
+- licença do modelo utilizado;
+- licença de LoRAs, embeddings, estilos ou outros recursos;
+- regras sobre uso comercial do output;
+- presença de personagens, marcas, celebridades ou elementos reconhecíveis;
+- se a imagem é muito semelhante a uma obra ou artista específico;
+- se o autor da postagem concedeu uma licença válida.
+
+Uma licença do modelo não necessariamente resolve direitos de terceiros que apareçam no resultado. Por exemplo, uma imagem gerada com aparência de personagem famoso pode criar problema de marca, direito autoral ou direito de imagem, mesmo que o modelo permita uso comercial.
+
+Também não é seguro presumir que todo output de IA tenha proteção autoral exclusiva no Brasil. Para vender os quadros, o caminho mais seguro é agregar contribuição humana real: direção artística, composição, edição, montagem, tipografia, acabamento e elementos originais seus. Guarde os arquivos de trabalho para demonstrar esse processo.
+
+## Meu procedimento recomendado
+
+Para cada imagem que você quiser usar:
+
+1. **Não baixe do Pinterest para imprimir.** Use-o apenas para referência, ou localize a fonte original.
+2. **Encontre a publicação original** e identifique o autor.
+3. **Registre a licença**: faça captura da página e anote a data, URL, autor, modelo e recursos usados.
+4. **Confirme se a licença permite uso comercial.**
+5. **Confira se exige atribuição.**
+6. **Verifique se permite adaptação.**
+7. **Procure restrições sobre marcas, personagens e pessoas.**
+8. **Salve prompts, configurações e arquivos editáveis** quando for uma criação de IA.
+9. **Inclua crédito no verso, catálogo ou página do produto**, quando exigido.
+10. **Se não houver licença clara, peça autorização escrita ao autor.**
+
+Uma autorização simples poderia dizer:
+
+> “Autorizo [seu nome/marca] a reproduzir, adaptar, imprimir e comercializar a imagem [identificação da obra], inclusive em quadros físicos e materiais promocionais, no Brasil, mediante [gratuidade ou valor], com crédito de autoria como [nome].”
+
+Guarde a resposta, o arquivo original e a identificação do autor.
+
+Para sua marca, a política mais segura seria trabalhar prioritariamente com:
+
+- imagens criadas por você;
+- imagens encomendadas de artistas com cessão ou licença comercial escrita;
+- imagens em CC0;
+- imagens em CC BY, com atribuição correta;
+- outputs de IA produzidos por você usando modelos e recursos claramente autorizados para uso comercial.
+
+Minha recomendação direta: **não use imagens apenas porque encontrou no Pinterest; no Civitai, use somente quando a licença da imagem e de todos os componentes permitir claramente uso comercial**. Para uma linha vendida em lojas e condomínios, é melhor ter menos artes, mas com origem e licença documentadas.
