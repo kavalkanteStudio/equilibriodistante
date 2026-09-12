@@ -1,0 +1,84 @@
+import { useQuery } from '@tanstack/react-query'
+import { useParams, Link } from 'react-router-dom'
+import { supabase } from '@/lib/supabase'
+
+export default function CollectionDetail() {
+  const { slug } = useParams<{ slug: string }>()
+
+  const { data: collection, isLoading: collLoading, error: collError } = useQuery({
+    queryKey: ['collection', slug],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('collections')
+        .select('*')
+        .eq('slug', slug)
+        .single()
+
+      if (error) throw error
+      return data
+    },
+  })
+
+  const { data: artworks, isLoading: artLoading, error: artError } = useQuery({
+    queryKey: ['artworks', slug],
+    queryFn: async () => {
+      if (!collection) return []
+      const { data, error } = await supabase
+        .from('artworks')
+        .select('*')
+        .eq('collection_id', collection.id)
+        .eq('published', true)
+
+      if (error) throw error
+      return data
+    },
+    enabled: !!collection,
+  })
+
+  if (collLoading || artLoading) return <div className="flex min-h-screen items-center justify-center">Loading collection...</div>
+  if (collError || artError) return <div className="flex min-h-screen items-center justify-center text-red-500">Error loading collection.</div>
+  if (!collection) return <div className="flex min-h-screen items-center justify-center">Collection not found.</div>
+
+  return (
+    <div className="min-h-screen p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
+          ← Back to Collections
+        </Link>
+
+        <header className="mb-12 text-center">
+          <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">{collection.name}</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">{collection.description}</p>
+        </header>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {artworks?.length === 0 ? (
+            <p className="col-span-full text-center text-gray-500">No artworks published in this collection yet.</p>
+          ) : (
+            artworks?.map((art) => (
+              <div key={art.id} className="group relative overflow-hidden rounded-xl border bg-white transition-all hover:shadow-lg">
+                <div className="aspect-square w-full overflow-hidden bg-gray-100">
+                  <img
+                    src={art.final_image_url}
+                    alt={art.title}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-4">
+                  <h3 className="text-xl font-bold">{art.title}</h3>
+                  <p className="text-sm text-gray-500 mb-4">{art.source_model}</p>
+                  <Link
+                    to={`/artwork/${art.slug}`}
+                    className="block text-center py-2 px-4 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
+                  >
+                    View Details
+                  </Link>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
