@@ -2,10 +2,12 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams, Link } from 'react-router-dom'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
+import { useCart } from '@/context/CartContext'
 
 export default function ArtworkDetail() {
   const { slug } = useParams<{ slug: string }>()
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null)
+  const { addToCart } = useCart()
 
   // 1. Fetch Artwork
   const { data: artwork, isLoading: artLoading, error: artError } = useQuery({
@@ -50,6 +52,22 @@ export default function ArtworkDetail() {
   const currentVariant = products
     ?.flatMap(p => p.product_variants)
     .find(v => v.id === currentVariantId)
+
+  const handleAddToCart = () => {
+    if (!currentVariant) return
+
+    // Find the product this variant belongs to for the title
+    const product = products?.find(p => p.product_variants.some(v => v.id === currentVariant.id))
+
+    addToCart({
+      variantId: currentVariant.id,
+      title: product?.title || 'Artwork',
+      size: currentVariant.size,
+      price: currentVariant.price,
+      imageUrl: artwork.final_image_url,
+      quantity: 1,
+    })
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white">
@@ -118,7 +136,7 @@ export default function ArtworkDetail() {
                     </div>
                     <button
                       className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-colors"
-                      onClick={() => alert('Added to cart! (Cart implementation coming in Phase 4)')}
+                      onClick={handleAddToCart}
                     >
                       Add to Cart
                     </button>
