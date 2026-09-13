@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import CollectionDetail from './pages/CollectionDetail'
 import ArtworkDetail from './pages/ArtworkDetail'
 import Checkout from './pages/Checkout'
+import OrderSuccess from './pages/OrderSuccess'
 import './App.css'
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
           <Route path="/collection/:slug" element={<CollectionDetail />} />
           <Route path="/artwork/:slug" element={<ArtworkDetail />} />
           <Route path="/checkout" element={<Checkout />} />
-          {/* Other routes will be added here as we implement them */}
+          <Route path="/order-success" element={<OrderSuccess />} />
         </Routes>
       </main>
     </CartProvider>
