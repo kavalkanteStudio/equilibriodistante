@@ -1,8 +1,85 @@
 import { useCart } from '@/context/CartContext'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+import { supabase } from '@/lib/supabase'
+import { Loader2 } from 'lucide-react'
+import { useState } from 'react'
+
+const checkoutSchema = z.object({
+  fullName: z.string().min(2, 'Full name is required'),
+  email: z.string().email('Invalid email address'),
+  address: z.string().min(5, 'Shipping address is required'),
+  city: z.string().min(2, 'City is required'),
+  zipCode: z.string().min(3, 'Zip code is required'),
+})
+
+type CheckoutFormValues = z.infer<typeof checkoutSchema>
 
 export default function Checkout() {
   const { cart, totalPrice, clearCart } = useCart()
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutSchema),
+  })
+
+  async function onPlaceOrder(data: CheckoutFormValues) {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      // 1. Create the order
+      // We store the customer details in shipping_reference as JSON since the schema is minimal
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .insert({
+          status: 'pending',
+          total_amount: totalPrice,
+          shipping_reference: JSON.stringify({
+            fullName: data.fullName,
+            email: data.email,
+            address: data.address,
+            city: data.city,
+            zipCode: data.zipCode,
+          }),
+        })
+        .select()
+        .single()
+
+      if (orderError) throw orderError
+
+      // 2. Create order items
+      const orderItems = cart.map((item) => ({
+        order_id: order.id,
+        product_variant_id: item.variantId,
+        quantity: item.quantity,
+        unit_price: item.price,
+      }))
+
+      const { error: itemsError } = await supabase
+        .from('order_items')
+        .insert(orderItems)
+
+      if (itemsError) throw itemsError
+
+      // 3. Success
+      clearCart()
+      navigate('/order-success')
+    } catch (err: any) {
+      console.error('Order error:', err)
+      setError(err.message || 'Something went wrong while placing your order. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white">
@@ -25,14 +102,54 @@ export default function Checkout() {
             <div className="md:col-span-2 space-y-6">
               <div className="p-6 border rounded-2xl">
                 <h2 className="text-xl font-bold mb-4">Shipping Information</h2>
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={handleSubmit(onPlaceOrder)}>
                   <div className="grid grid-cols-1 gap-4">
-                    <input type="text" placeholder="Full Name" className="w-full p-3 border rounded-lg" />
-                    <input type="email" placeholder="Email Address" className="w-full p-3 border rounded-lg" />
-                    <input type="text" placeholder="Shipping Address" className="w-full p-3 border rounded-lg" />
+                    <div>
+                      <input
+                        {...register('fullName')}
+                        type="text"
+                        placeholder="Full Name"
+                        className={`w-full p-3 border rounded-lg ${errors.fullName ? 'border-red-500' : ''}`}
+                      />
+                      {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName.message}</p>}
+                    </div>
+                    <div>
+                      <input
+                        {...register('email')}
+                        type="email"
+                        placeholder="Email Address"
+                        className={`w-full p-3 border rounded-lg ${errors.email ? 'border-red-500' : ''}`}
+                      />
+                      {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                    </div>
+                    <div>
+                      <input
+                        {...register('address')}
+                        type="text"
+                        placeholder="Shipping Address"
+                        className={`w-full p-3 border rounded-lg ${errors.address ? 'border-red-500' : ''}`}
+                      />
+                      {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <input type="text" placeholder="City" className="w-full p-3 border rounded-lg" />
-                      <input type="text" placeholder="Zip Code" className="w-full p-3 border rounded-lg" />
+                      <div>
+                        <input
+                          {...register('city')}
+                          type="text"
+                          placeholder="City"
+                          className={`w-full p-3 border rounded-lg ${errors.city ? 'border-red-500' : ''}`}
+                        />
+                        {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
+                      </div>
+                      <div>
+                        <input
+                          {...register('zipCode')}
+                          type="text"
+                          placeholder="Zip Code"
+                          className={`w-full p-3 border rounded-lg ${errors.zipCode ? 'border-red-500' : ''}`}
+                        />
+                        {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode.message}</p>}
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -53,14 +170,26 @@ export default function Checkout() {
                 <span className="font-bold">Total</span>
                 <span className="text-2xl font-bold text-brand-primary">${totalPrice.toFixed(2)}</span>
               </div>
+
+              {error && (
+                <div className="mb-4 p-3 bg-red-100 text-red-700 text-sm rounded-lg">
+                  {error}
+                </div>
+              )}
+
               <button
-                className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-all"
-                onClick={() => {
-                  alert('Payment integration coming next! Your order has been simulated.')
-                  clearCart()
-                }}
+                disabled={isLoading}
+                className="w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                onClick={handleSubmit(onPlaceOrder)}
               >
-                Pay Now
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  'Confirm Order'
+                )}
               </button>
             </div>
           </div>

@@ -23,59 +23,57 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 
 ## 📋 Development Roadmap
 
-### Phase 1: Foundation & Setup
-- [ ] **Project Initialization**:
-  - [ ] Verify Vite + React + TS installation.
-  - [ ] Configure ESLint and Prettier.
-  - [ ] Setup `.gitignore` and `.env.example` (ensuring no secrets are committed).
-- [ ] **UI Base**:
-  - [ ] Install and configure Tailwind CSS.
-  - [ ] Initialize shadcn/ui.
-  - [ ] Setup global CSS and Tailwind theme (colors, spacing).
-- [ ] **Typography Integration**:
-  - [ ] Import and configure `Bricolage Grotesque`, `Oswald`, and `Six Caps`.
-  - [ ] Define typography scales in Tailwind config.
+### Phase 1: Foundation & Setup ✅
+- [x] **Project Initialization**:
+  - [x] Verify Vite + React + TS installation.
+  - [x] Configure ESLint and Prettier.
+  - [x] Setup `.gitignore` and `.env.example` (ensuring no secrets are committed).
+- [x] **UI Base**:
+  - [x] Install and configure Tailwind CSS.
+  - [x] Initialize shadcn/ui.
+  - [x] Setup global CSS and Tailwind theme (colors, spacing).
+- [x] **Typography Integration**:
+  - [x] Import and configure `Bricolage Grotesque`, `Oswald`, and `Six Caps`.
+  - [x] Define typography scales in Tailwind config.
 
-### Phase 2: Database Modeling & Security (Supabase)
-- [ ] **Schema Design**:
-  - [ ] Create `collections` table (id, slug, name, description, cover_image, status, published_at).
-  - [ ] Create `artworks` table (id, collection_id, title, slug, prompt_summary, workflow_description, civitai_url, leonardo_url, license_notes, source_model, final_image_url, published).
-  - [ ] Create `products` table (id, artwork_id, product_type, title, description, base_price, active).
-  - [ ] Create `product_variants` table (id, product_id, size, color, sku, stock_quantity, price).
-  - [ ] Create `orders` table (id, customer_id, status, total_amount, payment_reference, shipping_reference).
-  - [ ] Create `order_items` table (id, order_id, product_variant_id, quantity, unit_price).
-- [ ] **Security & RLS**:
-  - [ ] Enable Row Level Security (RLS) on all tables.
-  - [ ] Create "Public Read" policy for `collections`, `artworks`, and `products` (where `active = true` or `published = true`).
-  - [ ] Create "User Own" policy for `orders` (where `customer_id = auth.uid()`).
-- [ ] **Storage**:
-  - [ ] Configure Supabase Storage buckets for artwork images and product previews.
-  - [ ] Setup public access policies for these buckets.
+### Phase 2: Database Modeling & Security (Supabase) ✅
+- [x] **Schema Design**:
+  - [x] Create `collections` table (id, slug, name, description, cover_image, status, published_at).
+  - [x] Create `artworks` table (id, collection_id, title, slug, prompt_summary, workflow_description, civitai_url, leonardo_url, license_notes, source_model, final_image_url, published).
+  - [x] Create `products` table (id, artwork_id, product_type, title, description, base_price, active).
+  - [x] Create `product_variants` table (id, product_id, size, color, sku, stock_quantity, price).
+  - [x] Create `orders` table (id, customer_id, status, total_amount, payment_reference, shipping_reference).
+  - [x] Create `order_items` table (id, order_id, product_variant_id, quantity, unit_price).
+- [x] **Security & RLS**:
+  - [x] Enable Row Level Security (RLS) on all tables.
+  - [x] Create "Public Read" policy for `collections`, `artworks`, and `products` (where `active = true` or `published = true`).
+  - [x] Create "User Own" policy for `orders` (where `customer_id = auth.uid()`).
+- [x] **Storage**:
+  - [x] Configure Supabase Storage buckets for artwork images and product previews.
+  - [x] Setup public access policies for these buckets.
 
-### Phase 3: Core Feature - Public Catalog
-- [ ] **Catalog Routing**:
-  - [ ] Implement React Router for main pages: Home, Collections, Artwork Detail, Product Detail.
-- [ ] **Collection Gallery**:
-  - [ ] Build a page to list all active collections.
-  - [ ] Implement a a "Collection Detail" page showing all artworks in a collection.
-- [ ] **Artwork/Product Display**:
-  - [ ] Build a high-quality image gallery for artworks.
-  - [ ] Implement product selection (variants: size, color).
-  - [ ] Create a "Product Detail" view with pricing and description.
-- [ ] **State Management**:
-  - [ ] Integrate TanStack Query for efficient data fetching from Supabase.
+### Phase 3: Core Feature - Public Catalog ✅
+- [x] **Catalog Routing**:
+  - [x] Implement React Router for main pages: Home, Collections, Artwork Detail, Product Detail.
+- [x] **Collection Gallery**:
+  - [x] Build a page to list all active collections.
+  - [x] Implement a a "Collection Detail" page showing all artworks in a collection.
+- [x] **Artwork/Product Display**:
+  - [x] Build a high-quality image gallery for artworks.
+  - [x] Implement product selection (variants: size, color).
+  - [x] Create a "Product Detail" view with pricing and description.
+- [x] **State Management**:
+  - [x] Integrate TanStack Query for efficient data fetching from Supabase.
 
-### Phase 4: Order Management & Integration
-- [ ] **Shopping Cart**:
-  - [ ] Implement a local state-based shopping cart (LocalStorage/Context).
-  - [ ] Build cart UI with shadcn/ui components.
+### Phase 4 (Revised): Order Capture System
+- [ ] **Order Logic**:
+  - [ ] Implement the "Place Order" logic: save the cart items into the `orders` and `order_items` tables in Supabase.
+  - [ ] Add a "Order Confirmed" success page.
+  - [ ] Ensure RLS policies allow users to create their own orders.
+  - [ ] (Optional) A simple admin view to see incoming orders.
 - [ ] **Checkout Flow**:
   - [ ] Create a checkout form with validation (Zod + React Hook Form).
-  - [ ] Implement an Edge Function to handle payment session creation (e.g., Stripe/PayPal).
-  - [ ] Implement a webhook handler for payment confirmation to update `orders` table.
-- [ ] **Admin/Backoffice**:
-  - [ ] Setup Supabase Auth for administrator access.
-  - [ ] Create a basic admin dashboard to manage products and orders.
+  - [ ] Update "Pay Now" button to "Confirm Order".
 
 ### Phase 5: PWA & Optimization
 - [ ] **PWA Implementation**:
@@ -97,3 +95,6 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 - [ ] **Documentation**:
   - [ ] Finalize project README.
   - [ ] Document Supabase schema and Edge Function logic.
+
+### Phase 7 (New/Optional): Automated Payments
+- [ ] Integrate Stripe/PayPal for those who want instant checkout.
