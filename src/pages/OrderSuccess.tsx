@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { CheckCircle2 } from 'lucide-react'
+import SEO from '@/components/SEO'
 
 export default function OrderSuccess() {
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white flex items-center justify-center">
+      <SEO title="Order Confirmed" description="Thank you for your order! We will contact you soon." />
       <div className="max-w-md w-full text-center space-y-6 p-8 border rounded-3xl bg-gray-50">
         <div className="flex justify-center">
           <CheckCircle2 className="w-16 h-16 text-green-500" />

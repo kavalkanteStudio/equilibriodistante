@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
+import SEO from '@/components/SEO'
 
 export default function CollectionDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -41,6 +42,7 @@ export default function CollectionDetail() {
 
   return (
     <div className="min-h-screen p-4 md:p-8">
+      <SEO title={collection.name} description={collection.description} />
       <div className="max-w-6xl mx-auto">
         <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
           ← Back to Collections

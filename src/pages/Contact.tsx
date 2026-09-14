@@ -1,8 +1,10 @@
 import { Mail, Phone, MapPin } from 'lucide-react'
+import SEO from '@/components/SEO'
 
 export default function Contact() {
   return (
     <div className="container mx-auto px-4 py-20 max-w-5xl">
+      <SEO title="Contact Us" description="Get in touch with SKOPPOVIC for inquiries or custom decorative art requests." />
       <div className="text-center mb-16 space-y-4">
         <h1 className="text-5xl font-display font-bold text-gray-900">Contact Us</h1>
         <div className="w-20 h-1 bg-brand-primary mx-auto" />

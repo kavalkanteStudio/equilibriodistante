@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
+import SEO from '@/components/SEO'
 
 export default function About() {
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">
+      <SEO title="About Us" description="Discover the vision and philosophy behind SKOPPOVIC's digital art curation." />
       <div className="text-center mb-16 space-y-4">
         <h1 className="text-5xl font-display font-bold text-gray-900">Our Vision</h1>
         <div className="w-20 h-1 bg-brand-primary mx-auto" />

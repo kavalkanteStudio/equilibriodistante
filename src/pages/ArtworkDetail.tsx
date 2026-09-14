@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useCart } from '@/context/CartContext'
+import SEO from '@/components/SEO'
 
 export default function ArtworkDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -71,6 +72,7 @@ export default function ArtworkDetail() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white">
+      <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
         <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
           ← Back to Home
