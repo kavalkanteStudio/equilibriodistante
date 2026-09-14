@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import Hero from '@/components/Hero'
+import SEO from '@/components/SEO'
 
 export default function Home() {
   const { data: collections, isLoading, error } = useQuery({
@@ -19,6 +20,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full">
+      <SEO title="Home" description="Explore the curated digital art collections of SKOPPOVIC." />
       <Hero />
 
       <div className="container mx-auto px-4 py-20">

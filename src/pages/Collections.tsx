@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import { ArrowRight } from 'lucide-react'
+import SEO from '@/components/SEO'
 
 export default function Collections() {
   const { data: collections, isLoading, error } = useQuery({
@@ -20,6 +21,7 @@ export default function Collections() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO title="Collections" description="Browse through our curated chapters of digital artistry." />
       {/* Page Header */}
       <div className="bg-gray-50 py-20 border-b">
         <div className="container mx-auto px-4 text-center space-y-4">
@@ -89,6 +91,44 @@ export default function Collections() {
             )}
           </div>
         )}
+        {
+          (
+            collections?.map((c) => (
+              <Link
+                key={c.id}
+                to={`/collection/${c.slug}`}
+                className="group relative flex flex-col md:flex-row gap-8 items-center bg-white border rounded-3xl overflow-hidden transition-all hover:shadow-2xl hover:border-brand-primary/30"
+              >
+                <div className="w-full md:w-2/5 aspect-square overflow-hidden bg-gray-100">
+                  {c.cover_image ? (
+                    <img
+                      src={c.cover_image}
+                      alt={c.name}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-gray-400">
+                      No cover image
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-8 md:p-10 flex-1 space-y-4">
+                  <h3 className="text-3xl font-display font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
+                    {c.name}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed font-light line-clamp-3">
+                    {c.description}
+                  </p>
+                  <div className="pt-4 flex items-center gap-2 text-brand-primary font-bold group-hover:gap-4 transition-all">
+                    Explore Collection
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
+                </div>
+              </Link>
+            ))
+          )
+        }
       </div>
     </div>
   )

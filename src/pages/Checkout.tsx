@@ -6,6 +6,7 @@ import * as z from 'zod'
 import { supabase } from '@/lib/supabase'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
+import SEO from '@/components/SEO'
 
 const checkoutSchema = z.object({
   fullName: z.string().min(2, 'Full name is required'),
@@ -83,6 +84,7 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white">
+      <SEO title="Checkout" description="Complete your order and secure your piece of digital art." />
       <div className="max-w-3xl mx-auto">
         <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
           ← Back to Store
