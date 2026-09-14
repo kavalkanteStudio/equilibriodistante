@@ -20,13 +20,13 @@ function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/collections" element={<Collections />} />
-            <Route path="/collection/:slug" element={<CollectionDetail />} />
-            <Route path="/artwork/:slug" element={<ArtworkDetail />} />
+            <Route path="/coleções" element={<Collections />} />
+            <Route path="/coleção/:slug" element={<CollectionDetail />} />
+            <Route path="/obra/:slug" element={<ArtworkDetail />} />
             <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order-success" element={<OrderSuccess />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/pedido-sucesso" element={<OrderSuccess />} />
+            <Route path="/sobre" element={<About />} />
+            <Route path="/contato" element={<Contact />} />
           </Route>
         </Routes>
       </main>

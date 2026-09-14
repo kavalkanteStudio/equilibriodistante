@@ -36,26 +36,26 @@ export default function CollectionDetail() {
     enabled: !!collection,
   })
 
-  if (collLoading || artLoading) return <div className="flex min-h-screen items-center justify-center">Loading collection...</div>
-  if (collError || artError) return <div className="flex min-h-screen items-center justify-center text-red-500">Error loading collection.</div>
-  if (!collection) return <div className="flex min-h-screen items-center justify-center">Collection not found.</div>
+  if (collLoading || artLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Coleção...</div>
+  if (collError || artError) return <div className="flex min-h-screen items-center justify-center text-red-500">Erro ao carregar a Coleção.</div>
+  if (!collection) return <div className="flex min-h-screen items-center justify-center">Coleção não encontrada.</div>
 
   return (
     <div className="min-h-screen p-4 md:p-8">
       <SEO title={collection.name} description={collection.description} />
       <div className="max-w-6xl mx-auto">
-        <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
-          ← Back to Collections
+        <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block">
+          ← Coleções
         </Link>
 
-        <header className="mb-12 text-center">
+        <header className="mb-12 flex flex-col items-center justify-center">
           <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">{collection.name}</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">{collection.description}</p>
         </header>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {artworks?.length === 0 ? (
-            <p className="col-span-full text-center text-gray-500">No artworks published in this collection yet.</p>
+            <p className="col-span-full text-center text-gray-500">Sem obras publicadas nesta coleção.</p>
           ) : (
             artworks?.map((art) => (
               <div key={art.id} className="group relative overflow-hidden rounded-xl border bg-white transition-all hover:shadow-lg">
@@ -70,10 +70,10 @@ export default function CollectionDetail() {
                   <h3 className="text-xl font-bold">{art.title}</h3>
                   <p className="text-sm text-gray-500 mb-4">{art.source_model}</p>
                   <Link
-                    to={`/artwork/${art.slug}`}
+                    to={`/obra/${art.slug}`}
                     className="block text-center py-2 px-4 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
                   >
-                    View Details
+                    Mais Detalhes
                   </Link>
                 </div>
               </div>

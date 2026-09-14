@@ -42,9 +42,29 @@ export default function ArtworkDetail() {
     enabled: !!artwork,
   })
 
-  if (artLoading || prodLoading) return <div className="flex min-h-screen items-center justify-center">Loading masterpiece...</div>
-  if (artError || prodError) return <div className="flex min-h-screen items-center justify-center text-red-500">Error loading artwork.</div>
-  if (!artwork) return <div className="flex min-h-screen items-center justify-center">Artwork not found.</div>
+  // 3. Fetch collection by collection_id
+  const { data: collection, isLoading: collLoading, error: collError } = useQuery({
+    queryKey: ['collection', artwork?.collection_id],
+    queryFn: async () => {
+      if (!artwork) return null
+      const { data, error } = await supabase
+        .from('collections')
+        .select('*')
+        .eq('id', artwork?.collection_id)
+        .single()
+
+      if (error) throw error
+      return data
+    },
+    enabled: !!artwork,
+  })
+
+  if (artLoading || prodLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Obra...</div>
+  if (artError || prodError) return <div className="flex min-h-screen items-center justify-center text-red-500">Erro ao carregar obra.</div>
+  if (!artwork) return <div className="flex min-h-screen items-center justify-center">Obra não encontrada.</div>
+  if (collLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Coleção...</div>
+  if (collError) return <div className="flex min-h-screen items-center justify-center text-red-500">Erro ao carregar coleção.</div>
+
 
   // Find the first variant of the first product as default
   const defaultVariant = products?.[0]?.product_variants?.[0]?.id
@@ -62,7 +82,7 @@ export default function ArtworkDetail() {
 
     addToCart({
       variantId: currentVariant.id,
-      title: product?.title || 'Artwork',
+      title: product?.title || 'Obra',
       size: currentVariant.size,
       price: currentVariant.price,
       imageUrl: artwork.final_image_url,
@@ -74,8 +94,8 @@ export default function ArtworkDetail() {
     <div className="min-h-screen p-4 md:p-8 bg-white">
       <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
-        <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
-          ← Back to Home
+        <Link to={`/coleção/${collection?.slug}`} className="text-brand-primary hover:underline mb-8 inline-block">
+          ← Coleção
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -103,7 +123,7 @@ export default function ArtworkDetail() {
               <p className="text-gray-500 italic">This piece is currently not available for purchase.</p>
             ) : (
               <div className="space-y-8">
-                {products.map((product) => (
+                {products?.map((product) => (
                   <div key={product.id} className="p-6 border rounded-2xl bg-white shadow-sm">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-xl font-bold">{product.title}</h3>
@@ -133,14 +153,14 @@ export default function ArtworkDetail() {
                 {currentVariant && (
                   <div className="flex items-center justify-between p-6 bg-gray-900 text-white rounded-2xl shadow-xl">
                     <div>
-                      <p className="text-sm opacity-70 uppercase tracking-widest">Total Price</p>
+                      <p className="text-sm opacity-70 uppercase tracking-widest">Valor</p>
                       <p className="text-3xl font-bold">${currentVariant.price}</p>
                     </div>
                     <button
                       className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-colors"
                       onClick={handleAddToCart}
                     >
-                      Add to Cart
+                      Adicionar ao Pacote
                     </button>
                   </div>
                 )}

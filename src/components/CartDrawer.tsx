@@ -1,4 +1,3 @@
-import React from 'react'
 import { useCart } from '@/context/CartContext'
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -40,7 +39,7 @@ export default function CartDrawer() {
           {/* Drawer Content */}
           <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="p-6 border-b flex items-center justify-between">
-              <h2 className="text-2xl font-display font-bold">Your Cart</h2>
+              <h2 className="text-2xl">Itens do Pacote</h2>
               <button onClick={() => setCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <X size={24} />
               </button>
@@ -50,9 +49,9 @@ export default function CartDrawer() {
               {cart.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center text-gray-500">
                   <ShoppingBag size={64} className="mb-4 opacity-20" />
-                  <p className="text-lg">Your cart is empty</p>
+                  <p className="text-lg">Seu pacote está vazio</p>
                   <Link to="/" className="mt-4 text-brand-primary font-bold hover:underline">
-                    Start exploring art
+                    Navegue e adicione itens
                   </Link>
                 </div>
               ) : (
@@ -102,7 +101,7 @@ export default function CartDrawer() {
                   onClick={() => setCartOpen(false)}
                   className="block w-full py-4 bg-brand-primary text-white text-center font-bold rounded-xl hover:bg-brand-secondary transition-all shadow-lg"
                 >
-                  Proceed to Checkout
+                  Finalizar Pedido
                 </Link>
               </div>
             )}

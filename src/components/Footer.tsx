@@ -9,8 +9,7 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <h3 className="font-display font-bold text-xl">SKOPPOVIC</h3>
             <p className="text-gray-600">
-              Curating a unique intersection of digital innovation and traditional aesthetics.
-              Exquisite decorative art for the modern space.
+              A coleção de arte decorativa e artesanato de baixo custo. Centenas de imagens selecionadas para você explorar.
             </p>
             <div className="flex mt-4 justify-self-center gap-4 text-gray-400">
               <a href="#" className="hover:text-brand-primary transition-colors">
@@ -26,26 +25,26 @@ export default function Footer() {
           <div>
             <h4 className="font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link to="/" className="hover:text-brand-primary transition-colors">Gallery</Link></li>
-              <li><Link to="/collections" className="hover:text-brand-primary transition-colors">Collections</Link></li>
-              <li><Link to="/about" className="hover:text-brand-primary transition-colors">About</Link></li>
-              <li><Link to="/contact" className="hover:text-brand-primary transition-colors">Contact</Link></li>
+              <li><Link to="/" className="hover:text-brand-primary transition-colors">Home</Link></li>
+              <li><Link to="/coleções" className="hover:text-brand-primary transition-colors">Coleções</Link></li>
+              <li><Link to="/sobre" className="hover:text-brand-primary transition-colors">Sobre</Link></li>
+              <li><Link to="/contato" className="hover:text-brand-primary transition-colors">Contato</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm text-gray-600">
-              <li><Link to="/shipping" className="hover:text-brand-primary transition-colors">Shipping & Returns</Link></li>
-              <li><Link to="/privacy" className="hover:text-brand-primary transition-colors">Privacy Policy</Link></li>
-              <li><Link to="/terms" className="hover:text-brand-primary transition-colors">Terms of Service</Link></li>
+              <li><Link to="/entregas" className="hover:text-brand-primary transition-colors">As Entregas</Link></li>
+              <li><Link to="/privacidade" className="hover:text-brand-primary transition-colors">Sua Privacidade</Link></li>
+              <li><Link to="/acordos" className="hover:text-brand-primary transition-colors">Acordos Comerciais</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-          <p>© {new Date().getFullYear()} SKOPPOVIC. All rights reserved.</p>
-          <p>Crafted with precision and art.</p>
+          <p>© {new Date().getFullYear()} CC BY SKOPPOVIC. Licença livre para uso pessoal.</p>
+          <p>Artesanato e Arte Digital.</p>
         </div>
       </div>
     </footer>
