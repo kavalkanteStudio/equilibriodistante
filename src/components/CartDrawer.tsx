@@ -1,17 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useCart } from '@/context/CartContext'
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 export default function CartDrawer() {
-  const [isOpen, setIsOpen] = useState(false)
-  const { cart, removeFromCart, updateQuantity, totalPrice, totalItems } = useCart()
+  const {
+    cart,
+    removeFromCart,
+    updateQuantity,
+    totalPrice,
+    totalItems,
+    isCartOpen,
+    setCartOpen
+  } = useCart()
 
   return (
     <>
-      {/* Cart Trigger Button */}
+      {/* Cart Trigger Button - Fixed floating button */}
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => setCartOpen(true)}
         className="fixed bottom-6 right-6 z-50 p-4 bg-brand-primary text-white rounded-full shadow-2xl hover:bg-brand-secondary transition-all hover:scale-110 group"
       >
         <ShoppingBag size={24} />
@@ -23,18 +30,18 @@ export default function CartDrawer() {
       </button>
 
       {/* Drawer Overlay */}
-      {isOpen && (
+      {isCartOpen && (
         <div className="fixed inset-0 z-50 flex justify-end">
           <div
             className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
-            onClick={() => setIsOpen(false)}
+            onClick={() => setCartOpen(false)}
           />
 
           {/* Drawer Content */}
           <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="p-6 border-b flex items-center justify-between">
               <h2 className="text-2xl font-display font-bold">Your Cart</h2>
-              <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+              <button onClick={() => setCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <X size={24} />
               </button>
             </div>
@@ -92,7 +99,7 @@ export default function CartDrawer() {
                 </div>
                 <Link
                   to="/checkout"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => setCartOpen(false)}
                   className="block w-full py-4 bg-brand-primary text-white text-center font-bold rounded-xl hover:bg-brand-secondary transition-all shadow-lg"
                 >
                   Proceed to Checkout

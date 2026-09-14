@@ -65,15 +65,27 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 - [x] **State Management**:
   - [x] Integrate TanStack Query for efficient data fetching from Supabase.
 
-### Phase 4 (Revised): Order Capture System
-- [ ] **Order Logic**:
-  - [ ] Implement the "Place Order" logic: save the cart items into the `orders` and `order_items` tables in Supabase.
-  - [ ] Add a "Order Confirmed" success page.
-  - [ ] Ensure RLS policies allow users to create their own orders.
-  - [ ] (Optional) A simple admin view to see incoming orders.
-- [ ] **Checkout Flow**:
-  - [ ] Create a checkout form with validation (Zod + React Hook Form).
-  - [ ] Update "Pay Now" button to "Confirm Order".
+### Phase 4 (Revised): Order Capture System ✅
+- [x] **Order Logic**:
+  - [x] Implement the "Place Order" logic: save the cart items into the `orders` and `order_items` tables in Supabase.
+  - [x] Add a "Order Confirmed" success page.
+  - [x] Ensure RLS policies allow users to create their own orders.
+  - [x] (Optional) A simple admin view to see incoming orders.
+- [x] **Checkout Flow**:
+  - [x] Create a checkout form with validation (Zod + React Hook Form).
+  - [x] Update "Pay Now" button to "Confirm Order".
+
+### Phase 4.1: UI/UX Polishing & Branding
+- [ ] **Global Layout**:
+  - [ ] Create `Header` component (Top Bar) with Logo, Navigation, and Cart Count.
+  - [ ] Create `Footer` component with professional links and copyright.
+  - [ ] Implement a `Layout` wrapper for all pages.
+- [ ] **Landing Page Experience**:
+  - [ ] Build a high-impact `Hero` section for the Home page.
+  - [ ] Refine Home page layout for luxury feel.
+- [ ] **Supporting Pages**:
+  - [ ] Create a minimal `About` page.
+  - [ ] Create a minimal `Contact` page.
 
 ### Phase 5: PWA & Optimization
 - [ ] **PWA Implementation**:
