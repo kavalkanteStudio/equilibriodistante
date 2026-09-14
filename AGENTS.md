@@ -75,17 +75,18 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [x] Create a checkout form with validation (Zod + React Hook Form).
   - [x] Update "Pay Now" button to "Confirm Order".
 
-### Phase 4.1: UI/UX Polishing & Branding
-- [ ] **Global Layout**:
-  - [ ] Create `Header` component (Top Bar) with Logo, Navigation, and Cart Count.
-  - [ ] Create `Footer` component with professional links and copyright.
-  - [ ] Implement a `Layout` wrapper for all pages.
-- [ ] **Landing Page Experience**:
-  - [ ] Build a high-impact `Hero` section for the Home page.
-  - [ ] Refine Home page layout for luxury feel.
-- [ ] **Supporting Pages**:
-  - [ ] Create a minimal `About` page.
-  - [ ] Create a minimal `Contact` page.
+### Phase 4.1: UI/UX Polishing & Branding ✅
+- [x] **Global Layout**:
+  - [x] Create `Header` component (Top Bar) with Logo, Navigation, and Cart Count.
+  - [x] Create `Footer` component with professional links and copyright.
+  - [x] Implement a `Layout` wrapper for all pages.
+- [x] **Landing Page Experience**:
+  - [x] Build a high-impact `Hero` section for the Home page.
+  - [x] Refine Home page layout for luxury feel.
+- [x] **Supporting Pages**:
+  - [x] Create a minimal `About` page.
+  - [x] Create a minimal `Contact` page.
+  - [x] Create a curated `Collections` gallery page.
 
 ### Phase 5: PWA & Optimization
 - [ ] **PWA Implementation**:
