@@ -78,7 +78,7 @@ export default function ArtworkDetail() {
     if (!currentVariant) return
 
     // Find the product this variant belongs to for the title
-    const product = products?.find(p => p.product_variants.some(v => v.id === currentVariant.id))
+    const product = products?.find(p => p.product_variants.some((v: any) => v.id === currentVariant.id))
 
     addToCart({
       variantId: currentVariant.id,
@@ -111,7 +111,7 @@ export default function ArtworkDetail() {
           {/* Right: Details & Purchasing */}
           <div className="flex flex-col">
             <header className="mb-8">
-              <h1 className="text-4xl md:text-5xl font-display font-bold mb-2">{artwork.title}</h1>
+              <h1 className="text-4xl md:text-5xl mb-2">{artwork.title}</h1>
               <p className="text-lg text-gray-500 font-medium mb-4">{artwork.source_model}</p>
               <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Artist's Note</h3>
@@ -120,7 +120,7 @@ export default function ArtworkDetail() {
             </header>
 
             {products?.length === 0 ? (
-              <p className="text-gray-500 italic">This piece is currently not available for purchase.</p>
+              <p className="text-gray-500 italic">Obra não disponível para compra.</p>
             ) : (
               <div className="space-y-8">
                 {products?.map((product) => (
@@ -132,7 +132,7 @@ export default function ArtworkDetail() {
                     <p className="text-gray-600 mb-6">{product.description}</p>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
-                      {product.product_variants.map((variant) => (
+                      {product.product_variants.map((variant: any) => (
                         <button
                           key={variant.id}
                           onClick={() => setSelectedVariantId(variant.id)}
