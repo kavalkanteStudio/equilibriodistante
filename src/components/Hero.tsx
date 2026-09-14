@@ -15,11 +15,11 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center space-y-8">
-        <h1 className="text-black text-4xl md:text-5xl max-w-4xl mx-auto">
+        <h1 className="text-black text-5xl md:text-6xl max-w-4xl mx-auto">
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
         </h1>
         <p className="text-lg md:text-xl max-w-prose mx-auto font-light">
-          A coleção de arte decorativa e artesanato de baixo custo. Centenas de imagens selecionadas para você explorar.
+          A coleção de arte decorativa e artesanato de baixo custo. São centenas de imagens selecionadas para você explorar.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link

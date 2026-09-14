@@ -7,9 +7,9 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <h3 className="font-display font-bold text-xl">SKOPPOVIC</h3>
+            <h3 className="font-display text-xl">SKOPPOVIC</h3>
             <p className="text-gray-600">
-              A coleção de arte decorativa e artesanato de baixo custo. Centenas de imagens selecionadas para você explorar.
+              A coleção de arte decorativa e artesanato de baixo custo. São centenas de imagens selecionadas para você explorar.
             </p>
             <div className="flex mt-4 justify-self-center gap-4 text-gray-400">
               <a href="#" className="hover:text-brand-primary transition-colors">
@@ -23,7 +23,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="font-bold mb-4">Quick Links</h4>
+            <h4 className="font-bold mb-4">Links</h4>
             <ul className="space-y-2 text-sm text-gray-600">
               <li><Link to="/" className="hover:text-brand-primary transition-colors">Home</Link></li>
               <li><Link to="/coleções" className="hover:text-brand-primary transition-colors">Coleções</Link></li>

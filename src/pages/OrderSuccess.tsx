@@ -10,16 +10,16 @@ export default function OrderSuccess() {
         <div className="flex justify-center">
           <CheckCircle2 className="w-16 h-16 text-green-500" />
         </div>
-        <h1 className="text-4xl font-display font-bold">Order Confirmed!</h1>
+        <h1 className="text-4xl font-display font-bold">Pedido Confirmado!</h1>
         <p className="text-lg text-gray-600">
-          Thank you for your request. We have received your order and will contact you shortly via email to confirm details and arrange payment.
+          Agradecemos seu tempo para fazer o pedido! Em breve, entraremos em contato para confirmar os detalhes. O pagamento é realizado na entrega.
         </p>
         <div className="pt-8">
           <Link
             to="/"
             className="inline-block w-full py-4 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-all"
           >
-            Return to Gallery
+            ← Home
           </Link>
         </div>
       </div>

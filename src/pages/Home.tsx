@@ -29,9 +29,9 @@ export default function Home() {
 
       <div className="container mx-auto px-4 py-20">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl">Coleções</h2>
+          <h2 className="text-4xl md:text-5xl">Coleções</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Uma curadoria de de obras imaginadas e re-imaginadas, uma proposta única e uma decoração sofisticada para seu espaço.
+            Encontre obras imaginadas e re-imaginadas, uma proposta única e uma decoração sofisticada para seu espaço.
           </p>
         </div>
 

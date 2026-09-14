@@ -39,7 +39,7 @@ export default function CartDrawer() {
           {/* Drawer Content */}
           <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="p-6 border-b flex items-center justify-between">
-              <h2 className="text-2xl">Itens do Pacote</h2>
+              <h2 className="text-4xl">Itens do Pacote</h2>
               <button onClick={() => setCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                 <X size={24} />
               </button>
