@@ -5,7 +5,11 @@ import { ArrowRight } from 'lucide-react'
 import SEO from '@/components/SEO'
 
 export default function Collections() {
-  const { data: collections, isLoading, error } = useQuery({
+  const {
+    data: collections,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['collections'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -21,17 +25,18 @@ export default function Collections() {
 
   return (
     <div className="min-h-screen bg-white">
-      <SEO title="Collections" description="Browse through our curated chapters of digital artistry." />
+      <SEO
+        title="Coleções"
+        description="Uma curadoria de centenas de imagens de obras imaginadas e re-imaginadas, cada uma projetada para trazer uma atmosfera única e uma energia sofisticada ao seu espaço."
+      />
       {/* Page Header */}
       <div className="bg-gray-50 py-20 border-b">
         <div className="container mx-auto px-4 text-center space-y-4">
-          <h1 className="text-5xl md:text-6xl font-display font-bold text-gray-900">
-            Our Collections
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900">Coleções</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-            Each collection represents a different exploration of form, light, and emotion.
-            Step into our curated chapters of digital artistry.
+            Cada coleção representa uma exploração diferente de forma, luz e emoção. Conheça as
+            coleções e explore o mundo digital.
           </p>
         </div>
       </div>
@@ -45,90 +50,55 @@ export default function Collections() {
 
         {error && (
           <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center max-w-2xl mx-auto">
-            <p>Error loading collections: {error instanceof Error ? error.message : 'Unknown error'}</p>
+            <p>
+              Erro ao carregar coleções: {error instanceof Error ? error.message : 'Unknown error'}
+            </p>
           </div>
         )}
 
         {!isLoading && !error && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="w-full max-w-6xl mx-auto">
             {collections?.length === 0 ? (
-              <p className="text-center text-muted-foreground py-12 col-span-full">No published collections found.</p>
+              <p className="text-center text-muted-foreground py-12">
+                Sem coleções publicadas por enquanto.
+              </p>
             ) : (
-              collections?.map((c) => (
-                <Link
-                  key={c.id}
-                  to={`/collection/${c.slug}`}
-                  className="group relative flex flex-col md:flex-row gap-8 items-center bg-white border rounded-3xl overflow-hidden transition-all hover:shadow-2xl hover:border-brand-primary/30"
-                >
-                  <div className="w-full md:w-2/5 aspect-square overflow-hidden bg-gray-100">
-                    {c.cover_image ? (
-                      <img
-                        src={c.cover_image}
-                        alt={c.name}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-gray-400">
-                        No cover image
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="p-8 md:p-10 flex-1 space-y-4">
-                    <h3 className="text-3xl font-display font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
-                      {c.name}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed font-light line-clamp-3">
-                      {c.description}
-                    </p>
-                    <div className="pt-4 flex items-center gap-2 text-brand-primary font-bold group-hover:gap-4 transition-all">
-                      Explore Collection
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {collections?.map((c) => (
+                  <Link
+                    key={c.id}
+                    to={`/coleção/${c.slug}`}
+                    className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2"
+                  >
+                    <div className="aspect-4/3 w-full overflow-hidden bg-gray-100">
+                      {c.cover_image ? (
+                        <img
+                          src={c.cover_image}
+                          alt={c.name}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-gray-400">
+                          No cover image
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-6 text-left">
+                      <h3 className="text-2xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
+                        {c.name}
+                      </h3>
+                      <p className="text-sm text-gray-600 line-clamp-2 mt-2">{c.description}</p>
+                    </div>
+                    <div className="p-6 flex items-center gap-2 text-brand-primary group-hover:gap-4 transition-all">
+                      Explore a Coleção
                       <ArrowRight className="w-5 h-5" />
                     </div>
-                  </div>
-                </Link>
-              ))
+                  </Link>
+                ))}
+              </div>
             )}
           </div>
         )}
-        {
-          (
-            collections?.map((c) => (
-              <Link
-                key={c.id}
-                to={`/collection/${c.slug}`}
-                className="group relative flex flex-col md:flex-row gap-8 items-center bg-white border rounded-3xl overflow-hidden transition-all hover:shadow-2xl hover:border-brand-primary/30"
-              >
-                <div className="w-full md:w-2/5 aspect-square overflow-hidden bg-gray-100">
-                  {c.cover_image ? (
-                    <img
-                      src={c.cover_image}
-                      alt={c.name}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-gray-400">
-                      No cover image
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-8 md:p-10 flex-1 space-y-4">
-                  <h3 className="text-3xl font-display font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
-                    {c.name}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed font-light line-clamp-3">
-                    {c.description}
-                  </p>
-                  <div className="pt-4 flex items-center gap-2 text-brand-primary font-bold group-hover:gap-4 transition-all">
-                    Explore Collection
-                    <ArrowRight className="w-5 h-5" />
-                  </div>
-                </div>
-              </Link>
-            ))
-          )
-        }
       </div>
     </div>
   )

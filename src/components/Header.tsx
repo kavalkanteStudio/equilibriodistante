@@ -10,15 +10,15 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link to="/" className="font-display font-bold text-xl tracking-tight">
+          <Link to="/" className="font-display text-black text-xl tracking-tight">
             SKOPPOVIC
           </Link>
 
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-            <Link to="/" className="hover:text-brand-primary transition-colors">Gallery</Link>
-            <Link to="/collections" className="hover:text-brand-primary transition-colors">Collections</Link>
-            <Link to="/about" className="hover:text-brand-primary transition-colors">About</Link>
-            <Link to="/contact" className="hover:text-brand-primary transition-colors">Contact</Link>
+            <Link to="/" className="hover:text-brand-primary transition-colors">Home</Link>
+            <Link to="/coleções" className="hover:text-brand-primary transition-colors">Coleções</Link>
+            <Link to="/sobre" className="hover:text-brand-primary transition-colors">Sobre</Link>
+            <Link to="/contato" className="hover:text-brand-primary transition-colors">Contato</Link>
           </nav>
         </div>
 

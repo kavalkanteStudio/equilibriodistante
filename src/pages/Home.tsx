@@ -5,7 +5,11 @@ import Hero from '@/components/Hero'
 import SEO from '@/components/SEO'
 
 export default function Home() {
-  const { data: collections, isLoading, error } = useQuery({
+  const {
+    data: collections,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['collections'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -20,16 +24,14 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full">
-      <SEO title="Home" description="Explore the curated digital art collections of SKOPPOVIC." />
+      <SEO title="Home" description="SKOPPOVIC CoLLeCCiOone. A coleção de arte decorativa e artesanato de baixo custo. Centenas de imagens selecionadas para você explorar." />
       <Hero />
 
       <div className="container mx-auto px-4 py-20">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl font-display font-bold text-gray-900">
-            Our Collections
-          </h2>
+          <h2 className="text-4xl">Coleções</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Explore our curated series of artworks, each designed to bring a unique atmosphere and sophisticated energy to your interior.
+            Uma curadoria de de obras imaginadas e re-imaginadas, uma proposta única e uma decoração sofisticada para seu espaço.
           </p>
         </div>
 
@@ -41,23 +43,27 @@ export default function Home() {
 
         {error && (
           <div className="bg-red-100 text-red-700 p-4 rounded-lg text-center max-w-2xl mx-auto">
-            <p>Error loading collections: {error instanceof Error ? error.message : 'Unknown error'}</p>
+            <p>
+              Erro ao carregar coleções: {error instanceof Error ? error.message : 'Unknown error'}
+            </p>
           </div>
         )}
 
         {!isLoading && !error && (
           <div className="w-full max-w-6xl mx-auto">
             {collections?.length === 0 ? (
-              <p className="text-center text-muted-foreground py-12">No published collections found. Let's add some!</p>
+              <p className="text-center text-muted-foreground py-12">
+                Sem coleções publicadas por enquanto.
+              </p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {collections?.map((c) => (
                   <Link
                     key={c.id}
-                    to={`/collection/${c.slug}`}
+                    to={`/coleção/${c.slug}`}
                     className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2"
                   >
-                    <div className="aspect-[4/3] w-full overflow-hidden bg-gray-100">
+                    <div className="aspect-4/3 w-full overflow-hidden bg-gray-100">
                       {c.cover_image ? (
                         <img
                           src={c.cover_image}
@@ -74,9 +80,7 @@ export default function Home() {
                       <h3 className="text-2xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
                         {c.name}
                       </h3>
-                      <p className="text-sm text-gray-600 line-clamp-2 mt-2">
-                        {c.description}
-                      </p>
+                      <p className="text-sm text-gray-600 line-clamp-2 mt-2">{c.description}</p>
                     </div>
                   </Link>
                 ))}
