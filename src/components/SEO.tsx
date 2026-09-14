@@ -8,7 +8,7 @@ interface SEOProps {
 
 export default function SEO({ title, description, image }: SEOProps) {
   const siteTitle = 'SKOPPOVIC | Decorative Art'
-  const siteDescription = 'Curating a unique intersection of digital innovation and traditional aesthetics. Exquisite decorative art for the modern space.'
+  const siteDescription = 'A coleção de arte decorativa e artesanato de baixo custo. São centenas de imagens selecionadas para você explorar.'
   const siteUrl = 'https://skoppovic.art' // Placeholder URL
 
   return (

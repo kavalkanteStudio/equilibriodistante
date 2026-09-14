@@ -9,11 +9,11 @@ import { useState } from 'react'
 import SEO from '@/components/SEO'
 
 const checkoutSchema = z.object({
-  fullName: z.string().min(2, 'Full name is required'),
-  email: z.string().email('Invalid email address'),
-  address: z.string().min(5, 'Shipping address is required'),
-  city: z.string().min(2, 'City is required'),
-  zipCode: z.string().min(3, 'Zip code is required'),
+  fullName: z.string().min(2, 'Nome é indispensável'),
+  email: z.string().email('Email inválido'),
+  address: z.string().min(5, 'Endereço é indispensável'),
+  city: z.string().min(2, 'Cidade é indispensável'),
+  zipCode: z.string().min(3, 'CEP é indispensável'),
 })
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>
@@ -76,7 +76,7 @@ export default function Checkout() {
       navigate('/order-success')
     } catch (err: any) {
       console.error('Order error:', err)
-      setError(err.message || 'Something went wrong while placing your order. Please try again.')
+      setError(err.message || 'Algo deu errado ao tentar salvar o pedido. Pode ser conexão. Tente novamente.')
     } finally {
       setIsLoading(false)
     }
@@ -84,17 +84,17 @@ export default function Checkout() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white">
-      <SEO title="Checkout" description="Complete your order and secure your piece of digital art." />
+      <SEO title="Checkout" description="Complete seu pedido e garanta sua peça de arte digital." />
       <div className="max-w-3xl mx-auto">
         <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
-          ← Back to Store
+          ← Home
         </Link>
 
         <h1 className="text-4xl font-display font-bold mb-8">Checkout</h1>
 
         {cart.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-lg text-gray-500 mb-4">Your cart is empty</p>
+            <p className="text-lg text-gray-500 mb-4">Seu pacote está vazio</p>
             <Link to="/" className="text-brand-primary font-bold hover:underline">
               Return to Gallery
             </Link>
@@ -103,14 +103,14 @@ export default function Checkout() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-2 space-y-6">
               <div className="p-6 border rounded-2xl">
-                <h2 className="text-xl font-bold mb-4">Shipping Information</h2>
+                <h2 className="text-xl font-bold mb-4">Informações de Envio</h2>
                 <form className="space-y-4" onSubmit={handleSubmit(onPlaceOrder)}>
                   <div className="grid grid-cols-1 gap-4">
                     <div>
                       <input
                         {...register('fullName')}
                         type="text"
-                        placeholder="Full Name"
+                        placeholder="Nome"
                         className={`w-full p-3 border rounded-lg ${errors.fullName ? 'border-red-500' : ''}`}
                       />
                       {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName.message}</p>}
@@ -119,7 +119,7 @@ export default function Checkout() {
                       <input
                         {...register('email')}
                         type="email"
-                        placeholder="Email Address"
+                        placeholder="Email"
                         className={`w-full p-3 border rounded-lg ${errors.email ? 'border-red-500' : ''}`}
                       />
                       {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
@@ -128,7 +128,7 @@ export default function Checkout() {
                       <input
                         {...register('address')}
                         type="text"
-                        placeholder="Shipping Address"
+                        placeholder="Endereço"
                         className={`w-full p-3 border rounded-lg ${errors.address ? 'border-red-500' : ''}`}
                       />
                       {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
@@ -138,7 +138,7 @@ export default function Checkout() {
                         <input
                           {...register('city')}
                           type="text"
-                          placeholder="City"
+                          placeholder="Cidade"
                           className={`w-full p-3 border rounded-lg ${errors.city ? 'border-red-500' : ''}`}
                         />
                         {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
@@ -147,7 +147,7 @@ export default function Checkout() {
                         <input
                           {...register('zipCode')}
                           type="text"
-                          placeholder="Zip Code"
+                          placeholder="CEP"
                           className={`w-full p-3 border rounded-lg ${errors.zipCode ? 'border-red-500' : ''}`}
                         />
                         {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode.message}</p>}
@@ -159,7 +159,7 @@ export default function Checkout() {
             </div>
 
             <div className="p-6 border rounded-2xl bg-gray-50 h-fit">
-              <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+              <h2 className="text-xl font-bold mb-4">Resumo do Pedido</h2>
               <div className="space-y-3 mb-6">
                 {cart.map((item) => (
                   <div key={item.variantId} className="flex justify-between text-sm">
@@ -187,10 +187,10 @@ export default function Checkout() {
                 {isLoading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    Processing...
+                    Processando...
                   </>
                 ) : (
-                  'Confirm Order'
+                  'Confirmar Pedido'
                 )}
               </button>
             </div>

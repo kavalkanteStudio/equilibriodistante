@@ -49,7 +49,7 @@ export default function CollectionDetail() {
         </Link>
 
         <header className="mb-12 flex flex-col items-center justify-center">
-          <h1 className="text-4xl md:text-6xl font-display font-bold mb-4">{collection.name}</h1>
+          <h1 className="text-4xl md:text-6xl mb-4">{collection.name}</h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">{collection.description}</p>
         </header>
 

@@ -32,11 +32,10 @@ export default function Collections() {
       {/* Page Header */}
       <div className="bg-gray-50 py-20 border-b">
         <div className="container mx-auto px-4 text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-gray-900">Coleções</h1>
+          <h1 className="text-4xl md:text-5xl">Coleções</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-            Cada coleção representa uma exploração diferente de forma, luz e emoção. Conheça as
-            coleções e explore o mundo digital.
+            Descubra obras digitais interessantes. Em cada coleção, você encontra imagens que capturam formas, luz e emoção.
           </p>
         </div>
       </div>
@@ -44,7 +43,7 @@ export default function Collections() {
       <div className="container mx-auto px-4 py-20">
         {isLoading && (
           <div className="flex justify-center py-12">
-            <p className="text-lg text-gray-500 animate-pulse">Curating collections...</p>
+            <p className="text-lg text-gray-500 animate-pulse">Carregado as coleções...</p>
           </div>
         )}
 
@@ -90,7 +89,7 @@ export default function Collections() {
                       <p className="text-sm text-gray-600 line-clamp-2 mt-2">{c.description}</p>
                     </div>
                     <div className="p-6 flex items-center gap-2 text-brand-primary group-hover:gap-4 transition-all">
-                      Explore a Coleção
+                      Ver a Coleção
                       <ArrowRight className="w-5 h-5" />
                     </div>
                   </Link>
