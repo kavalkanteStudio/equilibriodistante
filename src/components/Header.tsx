@@ -1,13 +1,19 @@
 import { Link } from 'react-router-dom'
 import { ShoppingBag, Menu } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
+import { useState } from 'react'
 
 export default function Header() {
   const { cart, setCartOpen } = useCart()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0)
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-md">
+    <header onMouseLeave={toggleMenu} className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/" className="font-display text-black text-xl tracking-tight">
@@ -34,11 +40,19 @@ export default function Header() {
               </span>
             )}
           </button>
-          <button className="md:hidden p-2 text-gray-600">
+          <button onClick={toggleMenu} className="md:hidden p-2 text-gray-600">
             <Menu className="w-6 h-6" />
           </button>
         </div>
       </div>
+      {isMenuOpen &&
+        <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg p-4">
+          <Link to="/" className="block py-2 text-brand-primary hover:text-brand-primary transition-colors">Home</Link>
+          <Link to="/coleções" className="block py-2 text-brand-primary hover:text-brand-primary transition-colors">Coleções</Link>
+          <Link to="/sobre" className="block py-2 text-brand-primary hover:text-brand-primary transition-colors">Sobre</Link>
+          <Link to="/contato" className="block py-2 text-brand-primary hover:text-brand-primary transition-colors">Contato</Link>
+        </div>
+      }
     </header>
   )
 }
