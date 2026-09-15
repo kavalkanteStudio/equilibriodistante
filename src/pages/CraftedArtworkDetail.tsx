@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tanstack/react-query'
 import { useParams, Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, type Key } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useCart } from '@/context/CartContext'
 import SEO from '@/components/SEO'
@@ -79,7 +79,6 @@ export default function ArtworkDetail() {
     if (!currentVariant) return
 
     // Find the product this variant belongs to for the title
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const product = products?.find(p => p.product_variants.some((v: any) => v.id === currentVariant.id))
 
     addToCart({
@@ -102,12 +101,62 @@ export default function ArtworkDetail() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Left: Artwork Image */}
-          <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl">
-            <img
-              src={artwork.final_image_url}
-              alt={artwork.title}
-              className="h-full w-full object-cover"
-            />
+          <div>
+            <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl">
+              <img
+                src={artwork.final_image_url}
+                alt={artwork.title}
+                className="h-full w-full object-cover"
+              />
+            </div>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+
+              {artwork.additional_images?.map((imgUrl: string | undefined, index: Key | number) => (
+                <div key={index} className="w-24 h-24 overflow-hidden rounded-lg border border-gray-200">
+                  <img
+                    src={imgUrl}
+                    alt={`${artwork.title} - Additional ${`{index: typeof index === 'number' ? index + 1 : 'Unknown'}`}`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="w-full overflow-hidden rounded-lg border border-gray-200">
+              <div className="p-2 bg-gray-50 text-gray-500 text-sm font-medium">AI Generated Image</div>
+              <div
+                className="relative mx-auto w-full overflow-hidden rounded-b-lg bg-gray-100 shadow-inner"
+                style={{ aspectRatio: '1123 / 1587', maxWidth: '1123px' }}
+              >
+                <img
+                  src="/images/A3-moldura.png"
+                  alt="A3 Moldura"
+                  className="absolute inset-0 h-full w-full object-fill"
+                />
+                <div
+                  className="absolute overflow-hidden"
+                  style={{
+                    left: '16.3%',
+                    top: '12%',
+                    width: '67.3%',
+                    height: '76.2%',
+                  }}
+                >
+                  <img
+                    src={artwork.final_image_url}
+                    alt={`${artwork.title} emoldurada`}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* <img
+                src="/images/leonardoai/lucid-origin_A_solitary_woman_in_her_early_thirties_wearing_a_long_burnt-sienna_coat_seated_q-0.jpg"
+                alt="lucid-origin A solitary woman in her early thirties wearing a long burnt-sienna coat seated q-0"
+                className="h-full w-full object-cover"
+              /> */}
+            </div>
           </div>
 
           {/* Right: Details & Purchasing */}
@@ -134,17 +183,16 @@ export default function ArtworkDetail() {
                     <p className="text-gray-600 mb-6">{product.description}</p>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
-                      
+
                       // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       {product.product_variants.map((variant: any) => (
                         <button
                           key={variant.id}
                           onClick={() => setSelectedVariantId(variant.id)}
-                          className={`p-3 text-sm rounded-lg border transition-all ${
-                            currentVariantId === variant.id
-                              ? 'border-brand-primary bg-brand-primary/10 text-brand-primary ring-2 ring-brand-primary/20'
-                              : 'border-gray-200 hover:border-gray-300 text-gray-600'
-                          }`}
+                          className={`p-3 text-sm rounded-lg border transition-all ${currentVariantId === variant.id
+                            ? 'border-brand-primary bg-brand-primary/10 text-brand-primary ring-2 ring-brand-primary/20'
+                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                            }`}
                         >
                           <div className="font-bold">{variant.size}</div>
                           <div className="text-xs opacity-70">${variant.price}</div>
