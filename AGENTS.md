@@ -88,13 +88,37 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [x] Create a minimal `Contact` page.
   - [x] Create a curated `Collections` gallery page.
 
+### Phase 4.2: Catalog Admin Foundation 🚧
+- [x] **Admin Authentication**:
+  - [x] Add Supabase Auth session handling for password and GitHub login.
+  - [x] Protect `/admin` with `app_metadata.role = 'admin'`.
+  - [x] Add `/admin/login` and `/admin` routes.
+- [x] **Admin Security & Storage**:
+  - [x] Add `supabase/migrations/0002_admin_cms.sql` with `is_admin()`, admin CRUD policies, and the `artworks` bucket.
+  - [x] Keep Storage writes restricted to administrators and public reads limited to catalog assets.
+- [x] **Collections CRUD**:
+  - [x] Create, list, edit, publish/unpublish, and delete collections from the admin area.
+- [x] **Manual Image Upload**:
+  - [x] Add drag-and-drop/file-picker upload with Lucide icon and preview.
+  - [x] Accept JPEG, PNG, and WebP up to 12 MB per file.
+  - [x] Upload directly from the browser to Supabase Storage; keep direct image URLs as fallback.
+- [x] **Remote Import Preparation**:
+  - [x] Add `supabase/functions/import-artwork-image/index.ts` for public HTTPS image URLs.
+  - [x] Validate administrator access, MIME type, private hosts, redirects, and a 12 MB download limit.
+- [ ] **Next CMS Slice**:
+  - [ ] Add CRUD for artworks, including `A3 vertical` and `A3 wide` orientation.
+  - [ ] Add products and variants with the real `30x45` and `45x30` formats.
+  - [ ] Connect manual upload and remote import to artwork records.
+  - [ ] Add Storage cleanup when replacing or deleting catalog assets.
+
 ### Phase 5: PWA & Optimization
 - [ ] **PWA Implementation**:
   - [ ] Configure `vite-plugin-pwa`.
   - [ ] Create `manifest.json` and add app icons.
   - [ ] Implement service worker for offline caching of catalog.
 - [ ] **Performance**:
-  - [ ] Optimize image loading (lazy loading, WebP).
+  - [ ] Optimize image loading (lazy loading, client-side resize/compression, WebP).
+  - [ ] Monitor Supabase Storage quota and per-file limits before catalog expansion.
   - [ ] Implement basic SEO meta tags.
 - [ ] **Deployment**:
   - [ ] Connect GitHub repo to Vercel.
@@ -107,7 +131,17 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Add license attribution to product pages/back-of-frame metadata.
 - [ ] **Documentation**:
   - [ ] Finalize project README.
-  - [ ] Document Supabase schema and Edge Function logic.
+  - [ ] Document Supabase schema, admin Auth/RLS, Storage, and Edge Function logic.
+
+## 🧭 Next Session Handoff
+- Current working admin route: `/admin/login` and `/admin`.
+- Admin role is read from Supabase Auth `app_metadata.role`; do not use `user_metadata` for authorization.
+- Apply `supabase/migrations/0002_admin_cms.sql` in the Supabase SQL Editor before testing Storage or CRUD.
+- The current upload field is [src/components/ImageUploadField.tsx](src/components/ImageUploadField.tsx); it uploads directly to the public `artworks` bucket and caps files at 12 MB.
+- The remote importer is [supabase/functions/import-artwork-image/index.ts](supabase/functions/import-artwork-image/index.ts), but it is not yet invoked by the frontend.
+- Next implementation order: artworks CRUD, orientation and variants, then connect upload/import to artwork records.
+- Storage decision: no local/web toggle for now. Web upload is the normal path; local Node remains an optional batch/recovery tool.
+- The Supabase 50 MB limit is not currently a blocker because the UI and Edge Function accept at most 12 MB per image. Before scaling the catalog, add client-side WebP resizing/compression and review total quota versus paid Storage.
 
 ### Phase 7 (New/Optional): Automated Payments
 - [ ] Integrate Stripe/PayPal for those who want instant checkout.

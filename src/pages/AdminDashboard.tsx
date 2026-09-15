@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
+import ImageUploadField from '@/components/ImageUploadField'
 
 type Collection = {
   id: string
@@ -132,7 +133,17 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">Nome<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} required /></label>
               <label className="block text-sm font-medium">Slug<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={form.slug} onChange={(event) => setForm({ ...form, slug: event.target.value })} pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required /></label>
               <label className="block text-sm font-medium">Descrição<textarea className="mt-1 w-full rounded-lg border border-gray-300 p-3" rows={4} value={form.description || ''} onChange={(event) => setForm({ ...form, description: event.target.value })} /></label>
-              <label className="block text-sm font-medium">URL da capa<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" type="url" value={form.cover_image || ''} onChange={(event) => setForm({ ...form, cover_image: event.target.value })} /></label>
+              <div>
+                <p className="mb-2 block text-sm font-medium">Capa da coleção</p>
+                <ImageUploadField
+                  value={form.cover_image || ''}
+                  onChange={(coverImage) => setForm({ ...form, cover_image: coverImage })}
+                  pathPrefix={`collections/${editingId || 'pending'}`}
+                  disabled={!editingId}
+                />
+                {!editingId && <p className="mt-2 text-xs text-gray-500">Salve a coleção primeiro para habilitar o upload.</p>}
+                <label className="mt-3 block text-sm font-medium">Ou cole uma URL direta<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" type="url" value={form.cover_image || ''} onChange={(event) => setForm({ ...form, cover_image: event.target.value })} /></label>
+              </div>
               <label className="block text-sm font-medium">Status<select className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={form.status} onChange={(event) => setForm({ ...form, status: event.target.value })}><option value="draft">Rascunho</option><option value="published">Publicado</option></select></label>
               {error && <p className="text-sm text-red-600">{error}</p>}
               <div className="flex gap-3">
