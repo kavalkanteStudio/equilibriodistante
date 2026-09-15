@@ -206,7 +206,7 @@ export default function ArtworkDetail() {
                   <div className="flex items-center justify-between p-6 bg-gray-900 text-white rounded-2xl shadow-xl">
                     <div>
                       <p className="text-sm opacity-70 uppercase tracking-widest">Valor</p>
-                      <p className="text-3xl font-bold">${currentVariant.price}</p>
+                      <p className="text-3xl font-bold">R${currentVariant.price}</p>
                     </div>
                     <button
                       className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-colors"
