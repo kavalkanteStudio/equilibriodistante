@@ -14,7 +14,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-white" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 text-center space-y-8">
+      <div className="relative z-10 container mx-auto px-4 text-center space-y-8 flex flex-col items-center justify-center">
         <h1 className="text-black text-5xl md:text-6xl max-w-4xl mx-auto">
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
         </h1>
