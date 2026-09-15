@@ -183,8 +183,6 @@ export default function ArtworkDetail() {
                     <p className="text-gray-600 mb-6">{product.description}</p>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
-
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       {product.product_variants.map((variant: any) => (
                         <button
                           key={variant.id}
