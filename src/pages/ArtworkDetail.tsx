@@ -79,7 +79,6 @@ export default function ArtworkDetail() {
     if (!currentVariant) return
 
     // Find the product this variant belongs to for the title
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const product = products?.find(p => p.product_variants.some((v: any) => v.id === currentVariant.id))
 
     addToCart({
@@ -133,9 +132,7 @@ export default function ArtworkDetail() {
                     </div>
                     <p className="text-gray-600 mb-6">{product.description}</p>
 
-                    <div className="grid grid-cols-2 gap-3 mb-6">
-                      
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    <div className="grid grid-cols-2 gap-3 mb-6">                      
                       {product.product_variants.map((variant: any) => (
                         <button
                           key={variant.id}
