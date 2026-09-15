@@ -10,6 +10,9 @@ import OrderSuccess from './pages/OrderSuccess'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Collections from './pages/Collections'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminRoute from './components/AdminRoute'
 import './App.css'
 
 function App() {
@@ -27,6 +30,12 @@ function App() {
             <Route path="/pedido-sucesso" element={<OrderSuccess />} />
             <Route path="/sobre" element={<About />} />
             <Route path="/contato" element={<Contact />} />
+          </Route>
+        </Routes>
+        <Routes>
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
           </Route>
         </Routes>
       </main>
