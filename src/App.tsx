@@ -4,7 +4,7 @@ import CartDrawer from '@/components/CartDrawer'
 import Layout from '@/components/Layout'
 import Home from './pages/Home'
 import CollectionDetail from './pages/CollectionDetail'
-import ArtworkDetail from './pages/ArtworkDetail'
+import CraftedArtworkDetail from './pages/CraftedArtworkDetail'
 import Checkout from './pages/Checkout'
 import OrderSuccess from './pages/OrderSuccess'
 import About from './pages/About'
@@ -22,7 +22,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/coleções" element={<Collections />} />
             <Route path="/coleção/:slug" element={<CollectionDetail />} />
-            <Route path="/obra/:slug" element={<ArtworkDetail />} />
+            <Route path="/obra/:slug" element={<CraftedArtworkDetail />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/pedido-sucesso" element={<OrderSuccess />} />
             <Route path="/sobre" element={<About />} />
