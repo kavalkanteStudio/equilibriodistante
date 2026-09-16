@@ -46,15 +46,15 @@ BEGIN
 
     -- 4. SEED PRODUCT VARIANTS
     -- Variants for Fine Art Print (Emerald Fern)
-    INSERT INTO public.product_variants (product_id, size, sku, stock_quantity, price)
+    INSERT INTO public.product_variants (product_id, name, sku, stock_quantity)
     VALUES
-    (prod_print_id, 'A4', 'EF-PRINT-A4', 50, 49.99),
-    (prod_print_id, 'A3', 'EF-PRINT-A3', 30, 79.99);
+    (prod_print_id, 'A4', 'EF-PRINT-A4', 50),
+    (prod_print_id, 'A3', 'EF-PRINT-A3', 30);
 
     -- Variants for Canvas Print (Prism Shift)
-    INSERT INTO public.product_variants (product_id, size, sku, stock_quantity, price)
+    INSERT INTO public.product_variants (product_id, name, sku, stock_quantity)
     VALUES
-    (prod_canvas_id, 'Medium (40x60)', 'PS-CANVAS-M', 20, 89.99),
-    (prod_canvas_id, 'Large (60x90)', 'PS-CANVAS-L', 10, 149.99);
+    (prod_canvas_id, 'Medium (40x60)', 'PS-CANVAS-M', 20),
+    (prod_canvas_id, 'Large (60x90)', 'PS-CANVAS-L', 10);
 
 END $$;

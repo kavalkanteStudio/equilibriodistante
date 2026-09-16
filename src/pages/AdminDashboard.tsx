@@ -42,11 +42,9 @@ type ArtworkForm = Omit<Artwork, 'id'>
 
 type ProductVariant = {
   id?: string
-  size: string
-  color: string
+  name: string
   sku: string
   stock_quantity: number
-  price: number
 }
 
 type Product = {
@@ -60,7 +58,7 @@ type Product = {
   product_variants: ProductVariant[]
 }
 
-type ProductForm = Omit<Product, 'id' | 'product_variants'> & { product_variants: ProductVariant[] }
+type ProductForm = Omit<Product, 'id' | 'base_price' | 'product_variants'> & { base_price: string; product_variants: ProductVariant[] }
 
 const emptyForm: CollectionForm = {
   slug: '',
@@ -98,12 +96,9 @@ const emptyProductForm: ProductForm = {
   product_type: 'print',
   title: '',
   description: '',
-  base_price: 0,
+  base_price: '0',
   active: true,
-  product_variants: [
-    { size: '30x45', color: '', sku: '', stock_quantity: 0, price: 0 },
-    { size: '45x30', color: '', sku: '', stock_quantity: 0, price: 0 },
-  ],
+  product_variants: [{ name: '', sku: '', stock_quantity: 0 }],
 }
 
 export default function AdminDashboard() {
@@ -203,15 +198,13 @@ export default function AdminDashboard() {
       product_type: product.product_type,
       title: product.title,
       description: product.description || '',
-      base_price: Number(product.base_price),
+      base_price: String(product.base_price),
       active: product.active,
       product_variants: product.product_variants.map((variant) => ({
         id: variant.id,
-        size: variant.size,
-        color: variant.color || '',
+        name: variant.name,
         sku: variant.sku,
         stock_quantity: Number(variant.stock_quantity),
-        price: Number(variant.price),
       })),
     })
     setError(null)
@@ -312,12 +305,25 @@ export default function AdminDashboard() {
       return
     }
 
+    const price = Number(String(productForm.base_price).replace(',', '.'))
+    if (!Number.isFinite(price) || price < 0) {
+      setError('Informe um preço numérico válido para o produto.')
+      setIsSaving(false)
+      return
+    }
+
+    if (productForm.product_variants.length === 0 || productForm.product_variants.some((variant) => !variant.name.trim() || !variant.sku.trim() || variant.stock_quantity < 0)) {
+      setError('Cada variante precisa de nome, SKU e estoque válido.')
+      setIsSaving(false)
+      return
+    }
+
     const productPayload = {
       artwork_id: productForm.artwork_id,
       product_type: productForm.product_type,
       title: productForm.title,
       description: productForm.description || null,
-      base_price: productForm.base_price,
+      base_price: price,
       active: productForm.active,
     }
     const productResult = editingProductId
@@ -342,11 +348,9 @@ export default function AdminDashboard() {
 
     const variantsResult = await supabase.from('product_variants').insert(productForm.product_variants.map((variant) => ({
       product_id: productId,
-      size: variant.size,
-      color: variant.color || null,
+      name: variant.name.trim(),
       sku: variant.sku,
       stock_quantity: variant.stock_quantity,
-      price: variant.price,
     })))
 
     if (variantsResult.error) setError(variantsResult.error.message)
@@ -480,7 +484,7 @@ export default function AdminDashboard() {
               <h2 className="text-2xl font-display">Produtos</h2>
               <button className="text-sm font-bold text-brand-primary" onClick={resetProductForm} type="button">Novo produto</button>
             </div>
-            {products.length === 0 ? <p className="text-gray-500">Nenhum produto cadastrado.</p> : <div className="divide-y divide-gray-100">{products.map((product) => { const artwork = artworks.find((item) => item.id === product.artwork_id); return <article className="flex items-center justify-between gap-4 py-4" key={product.id}><div className="min-w-0"><h3 className="truncate font-bold">{product.title}</h3><p className="text-sm text-gray-500">{artwork?.title || 'Obra removida'} · {product.product_variants.map((variant) => variant.size).join(' / ')} · {product.active ? 'ativo' : 'inativo'}</p></div><div className="flex shrink-0 gap-3 text-sm"><button className="font-bold text-brand-primary" onClick={() => startEditingProduct(product)} type="button">Editar</button><button className="font-bold text-red-600" onClick={() => void deleteProduct(product.id)} type="button">Excluir</button></div></article> })}</div>}
+            {products.length === 0 ? <p className="text-gray-500">Nenhum produto cadastrado.</p> : <div className="divide-y divide-gray-100">{products.map((product) => { const artwork = artworks.find((item) => item.id === product.artwork_id); return <article className="flex items-center justify-between gap-4 py-4" key={product.id}><div className="min-w-0"><h3 className="truncate font-bold">{product.title}</h3><p className="text-sm text-gray-500">{artwork?.title || 'Obra removida'} · {product.product_variants.map((variant) => variant.name).join(' / ')} · {product.active ? 'ativo' : 'inativo'}</p></div><div className="flex shrink-0 gap-3 text-sm"><button className="font-bold text-brand-primary" onClick={() => startEditingProduct(product)} type="button">Editar</button><button className="font-bold text-red-600" onClick={() => void deleteProduct(product.id)} type="button">Excluir</button></div></article> })}</div>}
           </div>
 
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -490,8 +494,8 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">Título<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={productForm.title} onChange={(event) => setProductForm({ ...productForm, title: event.target.value })} required /></label>
               <label className="block text-sm font-medium">Tipo<select className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={productForm.product_type} onChange={(event) => setProductForm({ ...productForm, product_type: event.target.value })}><option value="print">Impressão</option><option value="canvas">Tela</option><option value="poster">Pôster</option></select></label>
               <label className="block text-sm font-medium">Descrição<textarea className="mt-1 w-full rounded-lg border border-gray-300 p-3" rows={3} value={productForm.description || ''} onChange={(event) => setProductForm({ ...productForm, description: event.target.value })} /></label>
-              <label className="block text-sm font-medium">Preço base<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" min="0" step="0.01" type="number" value={productForm.base_price} onChange={(event) => setProductForm({ ...productForm, base_price: Number(event.target.value) })} required /></label>
-              <div className="space-y-3"><p className="text-sm font-bold">Variantes</p>{productForm.product_variants.map((variant, index) => <div className="rounded-lg border border-gray-200 p-3" key={variant.id || variant.size}><p className="mb-2 font-bold">{variant.size}</p><div className="grid gap-2"><input className="w-full rounded-lg border border-gray-300 p-2" placeholder="SKU" value={variant.sku} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, sku: event.target.value } : item) })} required /><input className="w-full rounded-lg border border-gray-300 p-2" min="0" type="number" placeholder="Estoque" value={variant.stock_quantity} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, stock_quantity: Number(event.target.value) } : item) })} required /><input className="w-full rounded-lg border border-gray-300 p-2" min="0" step="0.01" type="number" placeholder="Preço" value={variant.price} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, price: Number(event.target.value) } : item) })} required /></div></div>)}</div>
+              <label className="block text-sm font-medium">Preço<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" inputMode="decimal" value={productForm.base_price} onChange={(event) => setProductForm({ ...productForm, base_price: event.target.value })} placeholder="79,90" required /></label>
+              <div className="space-y-3"><div className="flex items-center justify-between"><p className="text-sm font-bold">Variantes</p><button className="text-sm font-bold text-brand-primary" onClick={() => setProductForm({ ...productForm, product_variants: [...productForm.product_variants, { name: '', sku: '', stock_quantity: 0 }] })} type="button">Adicionar variante</button></div>{productForm.product_variants.map((variant, index) => <div className="rounded-lg border border-gray-200 p-3" key={variant.id || `new-${index}`}><div className="mb-2 flex items-center justify-between"><p className="font-bold">Variante {index + 1}</p>{productForm.product_variants.length > 1 && <button className="text-sm font-bold text-red-600" onClick={() => setProductForm({ ...productForm, product_variants: productForm.product_variants.filter((_, itemIndex) => itemIndex !== index) })} type="button">Remover</button>}</div><div className="grid gap-2"><input className="w-full rounded-lg border border-gray-300 p-2" placeholder="Nome da variante (ex.: A3 vertical 30x45 aprox.)" value={variant.name} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, name: event.target.value } : item) })} required /><input className="w-full rounded-lg border border-gray-300 p-2" placeholder="SKU (ex.: SKU-0001A3V)" value={variant.sku} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, sku: event.target.value } : item) })} required /><input className="w-full rounded-lg border border-gray-300 p-2" min="0" type="number" placeholder="Estoque" value={variant.stock_quantity} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, stock_quantity: Number(event.target.value) } : item) })} required /></div></div>)}</div>
               <label className="flex items-center gap-2 text-sm font-medium"><input checked={productForm.active} onChange={(event) => setProductForm({ ...productForm, active: event.target.checked })} type="checkbox" /> Produto ativo</label>
               <div className="flex gap-3"><button className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50" disabled={isSaving} type="submit">{isSaving ? 'Salvando...' : 'Salvar produto'}</button>{editingProductId && <button className="rounded-lg border border-gray-300 px-4 py-3 font-bold" onClick={resetProductForm} type="button">Cancelar</button>}</div>
             </form>

@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react'
 interface CartItem {
   variantId: string
   title: string
-  size: string
+  variantName: string
   price: number
   quantity: number
   imageUrl: string

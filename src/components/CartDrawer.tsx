@@ -65,7 +65,7 @@ export default function CartDrawer() {
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      <p className="text-sm text-gray-500 mb-2">Size: {item.size}</p>
+                      <p className="text-sm text-gray-500 mb-2">Opção: {item.variantName}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center border rounded-lg overflow-hidden">
                           <button

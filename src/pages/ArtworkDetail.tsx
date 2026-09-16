@@ -71,21 +71,18 @@ export default function ArtworkDetail() {
   const defaultVariant = products?.[0]?.product_variants?.[0]?.id
   const currentVariantId = selectedVariantId || defaultVariant
 
-  const currentVariant = products
-    ?.flatMap(p => p.product_variants)
-    .find(v => v.id === currentVariantId)
+  const currentProduct = products?.find(p => p.product_variants.some((v: any) => v.id === currentVariantId))
+  const currentVariant = currentProduct?.product_variants.find((v: any) => v.id === currentVariantId)
 
   const handleAddToCart = () => {
     if (!currentVariant) return
 
     // Find the product this variant belongs to for the title
-    const product = products?.find(p => p.product_variants.some((v: any) => v.id === currentVariant.id))
-
     addToCart({
       variantId: currentVariant.id,
-      title: product?.title || 'Obra',
-      size: currentVariant.size,
-      price: currentVariant.price,
+      title: currentProduct?.title || 'Obra',
+      variantName: currentVariant.name,
+      price: Number(currentProduct?.base_price || 0),
       imageUrl: artwork.final_image_url,
       quantity: 1,
     })
@@ -136,15 +133,16 @@ export default function ArtworkDetail() {
                       {product.product_variants.map((variant: any) => (
                         <button
                           key={variant.id}
+                          disabled={variant.stock_quantity <= 0}
                           onClick={() => setSelectedVariantId(variant.id)}
-                          className={`p-3 text-sm rounded-lg border transition-all ${
+                          className={`p-3 text-sm rounded-lg border transition-all disabled:cursor-not-allowed disabled:opacity-40 ${
                             currentVariantId === variant.id
                               ? 'border-brand-primary bg-brand-primary/10 text-brand-primary ring-2 ring-brand-primary/20'
                               : 'border-gray-200 hover:border-gray-300 text-gray-600'
                           }`}
                         >
-                          <div className="font-bold">{variant.size}</div>
-                          <div className="text-xs opacity-70">${variant.price}</div>
+                          <div className="font-bold">{variant.name}</div>
+                          <div className="text-xs opacity-70">{variant.stock_quantity > 0 ? `${variant.stock_quantity} em estoque` : 'Esgotado'}</div>
                         </button>
                       ))}
                     </div>
@@ -155,10 +153,11 @@ export default function ArtworkDetail() {
                   <div className="flex items-center justify-between p-6 bg-gray-900 text-white rounded-2xl shadow-xl">
                     <div>
                       <p className="text-sm opacity-70 uppercase tracking-widest">Valor</p>
-                      <p className="text-3xl font-bold">${currentVariant.price}</p>
+                      <p className="text-3xl font-bold">${Number(currentProduct?.base_price || 0).toFixed(2)}</p>
                     </div>
                     <button
                       className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-colors"
+                      disabled={currentVariant.stock_quantity <= 0}
                       onClick={handleAddToCart}
                     >
                       Adicionar ao Pacote
