@@ -30,6 +30,7 @@ type Artwork = {
   license_status: 'pending' | 'approved' | 'rejected'
   license_type: string | null
   license_source_url: string | null
+  license_verified_at: string | null
   credit_required: boolean
   credit_text: string | null
   orientation: 'a3-vertical' | 'a3-wide'
@@ -62,6 +63,7 @@ const emptyArtworkForm: ArtworkForm = {
   license_status: 'pending',
   license_type: '',
   license_source_url: '',
+  license_verified_at: null,
   credit_required: false,
   credit_text: '',
   orientation: 'a3-vertical',
@@ -134,6 +136,7 @@ export default function AdminDashboard() {
       license_status: artwork.license_status,
       license_type: artwork.license_type || '',
       license_source_url: artwork.license_source_url || '',
+      license_verified_at: artwork.license_verified_at,
       credit_required: artwork.credit_required,
       credit_text: artwork.credit_text || '',
       orientation: artwork.orientation,
@@ -203,6 +206,7 @@ export default function AdminDashboard() {
       source_plan: artworkForm.source_plan || null,
       license_type: artworkForm.license_type || null,
       license_source_url: artworkForm.license_source_url || null,
+      license_verified_at: artworkForm.license_status === 'approved' ? (artworkForm.license_verified_at || new Date().toISOString()) : null,
       credit_text: artworkForm.credit_text || null,
       final_image_url: artworkForm.final_image_url || null,
       published: artworkForm.published && artworkForm.license_status === 'approved',
