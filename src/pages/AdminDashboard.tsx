@@ -40,6 +40,28 @@ type Artwork = {
 
 type ArtworkForm = Omit<Artwork, 'id'>
 
+type ProductVariant = {
+  id?: string
+  size: string
+  color: string
+  sku: string
+  stock_quantity: number
+  price: number
+}
+
+type Product = {
+  id: string
+  artwork_id: string
+  product_type: string
+  title: string
+  description: string | null
+  base_price: number
+  active: boolean
+  product_variants: ProductVariant[]
+}
+
+type ProductForm = Omit<Product, 'id' | 'product_variants'> & { product_variants: ProductVariant[] }
+
 const emptyForm: CollectionForm = {
   slug: '',
   name: '',
@@ -71,14 +93,30 @@ const emptyArtworkForm: ArtworkForm = {
   published: false,
 }
 
+const emptyProductForm: ProductForm = {
+  artwork_id: '',
+  product_type: 'print',
+  title: '',
+  description: '',
+  base_price: 0,
+  active: true,
+  product_variants: [
+    { size: '30x45', color: '', sku: '', stock_quantity: 0, price: 0 },
+    { size: '45x30', color: '', sku: '', stock_quantity: 0, price: 0 },
+  ],
+}
+
 export default function AdminDashboard() {
   const { session, signOut } = useAuth()
   const [collections, setCollections] = useState<Collection[]>([])
   const [artworks, setArtworks] = useState<Artwork[]>([])
+  const [products, setProducts] = useState<Product[]>([])
   const [form, setForm] = useState<CollectionForm>(emptyForm)
   const [artworkForm, setArtworkForm] = useState<ArtworkForm>(emptyArtworkForm)
+  const [productForm, setProductForm] = useState<ProductForm>(emptyProductForm)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingArtworkId, setEditingArtworkId] = useState<string | null>(null)
+  const [editingProductId, setEditingProductId] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -97,8 +135,14 @@ export default function AdminDashboard() {
     else setArtworks((data || []) as Artwork[])
   }
 
+  async function loadProducts() {
+    const { data, error: queryError } = await supabase.from('products').select('*, product_variants(*)').order('created_at', { ascending: false })
+    if (queryError) setError(queryError.message)
+    else setProducts((data || []) as Product[])
+  }
+
   useEffect(() => {
-    void Promise.resolve().then(() => Promise.all([loadCollections(), loadArtworks()]))
+    void Promise.resolve().then(() => Promise.all([loadCollections(), loadArtworks(), loadProducts()]))
   }, [])
 
   function startEditing(collection: Collection) {
@@ -149,6 +193,33 @@ export default function AdminDashboard() {
   function resetArtworkForm() {
     setEditingArtworkId(null)
     setArtworkForm(emptyArtworkForm)
+    setError(null)
+  }
+
+  function startEditingProduct(product: Product) {
+    setEditingProductId(product.id)
+    setProductForm({
+      artwork_id: product.artwork_id,
+      product_type: product.product_type,
+      title: product.title,
+      description: product.description || '',
+      base_price: Number(product.base_price),
+      active: product.active,
+      product_variants: product.product_variants.map((variant) => ({
+        id: variant.id,
+        size: variant.size,
+        color: variant.color || '',
+        sku: variant.sku,
+        stock_quantity: Number(variant.stock_quantity),
+        price: Number(variant.price),
+      })),
+    })
+    setError(null)
+  }
+
+  function resetProductForm() {
+    setEditingProductId(null)
+    setProductForm(emptyProductForm)
     setError(null)
   }
 
@@ -228,6 +299,69 @@ export default function AdminDashboard() {
     const { error: deleteError } = await supabase.from('artworks').delete().eq('id', id)
     if (deleteError) setError(deleteError.message)
     else await loadArtworks()
+  }
+
+  async function saveProduct(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setIsSaving(true)
+    setError(null)
+
+    if (!productForm.artwork_id) {
+      setError('Selecione uma obra para o produto.')
+      setIsSaving(false)
+      return
+    }
+
+    const productPayload = {
+      artwork_id: productForm.artwork_id,
+      product_type: productForm.product_type,
+      title: productForm.title,
+      description: productForm.description || null,
+      base_price: productForm.base_price,
+      active: productForm.active,
+    }
+    const productResult = editingProductId
+      ? await supabase.from('products').update(productPayload).eq('id', editingProductId).select('id').single()
+      : await supabase.from('products').insert(productPayload).select('id').single()
+
+    if (productResult.error || !productResult.data) {
+      setError(productResult.error?.message || 'Não foi possível salvar o produto.')
+      setIsSaving(false)
+      return
+    }
+
+    const productId = productResult.data.id
+    if (editingProductId) {
+      const { error: deleteVariantsError } = await supabase.from('product_variants').delete().eq('product_id', productId)
+      if (deleteVariantsError) {
+        setError(deleteVariantsError.message)
+        setIsSaving(false)
+        return
+      }
+    }
+
+    const variantsResult = await supabase.from('product_variants').insert(productForm.product_variants.map((variant) => ({
+      product_id: productId,
+      size: variant.size,
+      color: variant.color || null,
+      sku: variant.sku,
+      stock_quantity: variant.stock_quantity,
+      price: variant.price,
+    })))
+
+    if (variantsResult.error) setError(variantsResult.error.message)
+    else {
+      resetProductForm()
+      await loadProducts()
+    }
+    setIsSaving(false)
+  }
+
+  async function deleteProduct(id: string) {
+    if (!window.confirm('Excluir este produto e suas variantes?')) return
+    const { error: deleteError } = await supabase.from('products').delete().eq('id', id)
+    if (deleteError) setError(deleteError.message)
+    else await loadProducts()
   }
 
   return (
@@ -338,6 +472,30 @@ export default function AdminDashboard() {
             <button className="text-sm font-bold text-brand-primary" onClick={resetArtworkForm} type="button">Nova obra</button>
           </div>
           {artworks.length === 0 ? <p className="text-gray-500">Nenhuma obra cadastrada.</p> : <div className="divide-y divide-gray-100">{artworks.map((artwork) => <article className="flex items-center justify-between gap-4 py-4" key={artwork.id}><div className="flex min-w-0 items-center gap-4"><div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">{artwork.final_image_url && <img className="h-full w-full object-cover" src={artwork.final_image_url} alt="" />}</div><div className="min-w-0"><h3 className="truncate font-bold">{artwork.title}</h3><p className="text-sm text-gray-500">/{artwork.slug} · {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}</p></div></div><div className="flex shrink-0 gap-3 text-sm"><button className="font-bold text-brand-primary" onClick={() => startEditingArtwork(artwork)} type="button">Editar</button><button className="font-bold text-red-600" onClick={() => void deleteArtwork(artwork.id)} type="button">Excluir</button></div></article>)}</div>}
+        </section>
+
+        <section className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-2xl font-display">Produtos</h2>
+              <button className="text-sm font-bold text-brand-primary" onClick={resetProductForm} type="button">Novo produto</button>
+            </div>
+            {products.length === 0 ? <p className="text-gray-500">Nenhum produto cadastrado.</p> : <div className="divide-y divide-gray-100">{products.map((product) => { const artwork = artworks.find((item) => item.id === product.artwork_id); return <article className="flex items-center justify-between gap-4 py-4" key={product.id}><div className="min-w-0"><h3 className="truncate font-bold">{product.title}</h3><p className="text-sm text-gray-500">{artwork?.title || 'Obra removida'} · {product.product_variants.map((variant) => variant.size).join(' / ')} · {product.active ? 'ativo' : 'inativo'}</p></div><div className="flex shrink-0 gap-3 text-sm"><button className="font-bold text-brand-primary" onClick={() => startEditingProduct(product)} type="button">Editar</button><button className="font-bold text-red-600" onClick={() => void deleteProduct(product.id)} type="button">Excluir</button></div></article> })}</div>}
+          </div>
+
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="mb-5 text-2xl font-display">{editingProductId ? 'Editar produto' : 'Novo produto'}</h2>
+            <form className="space-y-4" onSubmit={saveProduct}>
+              <label className="block text-sm font-medium">Obra<select className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={productForm.artwork_id} onChange={(event) => setProductForm({ ...productForm, artwork_id: event.target.value })} required><option value="">Selecione uma obra</option>{artworks.filter((artwork) => artwork.published).map((artwork) => <option key={artwork.id} value={artwork.id}>{artwork.title}</option>)}</select></label>
+              <label className="block text-sm font-medium">Título<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={productForm.title} onChange={(event) => setProductForm({ ...productForm, title: event.target.value })} required /></label>
+              <label className="block text-sm font-medium">Tipo<select className="mt-1 w-full rounded-lg border border-gray-300 p-3" value={productForm.product_type} onChange={(event) => setProductForm({ ...productForm, product_type: event.target.value })}><option value="print">Fine art print</option><option value="canvas">Canvas</option><option value="poster">Pôster</option></select></label>
+              <label className="block text-sm font-medium">Descrição<textarea className="mt-1 w-full rounded-lg border border-gray-300 p-3" rows={3} value={productForm.description || ''} onChange={(event) => setProductForm({ ...productForm, description: event.target.value })} /></label>
+              <label className="block text-sm font-medium">Preço base<input className="mt-1 w-full rounded-lg border border-gray-300 p-3" min="0" step="0.01" type="number" value={productForm.base_price} onChange={(event) => setProductForm({ ...productForm, base_price: Number(event.target.value) })} required /></label>
+              <div className="space-y-3"><p className="text-sm font-bold">Variantes</p>{productForm.product_variants.map((variant, index) => <div className="rounded-lg border border-gray-200 p-3" key={variant.id || variant.size}><p className="mb-2 font-bold">{variant.size}</p><div className="grid gap-2"><input className="w-full rounded-lg border border-gray-300 p-2" placeholder="SKU" value={variant.sku} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, sku: event.target.value } : item) })} required /><input className="w-full rounded-lg border border-gray-300 p-2" min="0" type="number" placeholder="Estoque" value={variant.stock_quantity} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, stock_quantity: Number(event.target.value) } : item) })} required /><input className="w-full rounded-lg border border-gray-300 p-2" min="0" step="0.01" type="number" placeholder="Preço" value={variant.price} onChange={(event) => setProductForm({ ...productForm, product_variants: productForm.product_variants.map((item, itemIndex) => itemIndex === index ? { ...item, price: Number(event.target.value) } : item) })} required /></div></div>)}</div>
+              <label className="flex items-center gap-2 text-sm font-medium"><input checked={productForm.active} onChange={(event) => setProductForm({ ...productForm, active: event.target.checked })} type="checkbox" /> Produto ativo</label>
+              <div className="flex gap-3"><button className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50" disabled={isSaving} type="submit">{isSaving ? 'Salvando...' : 'Salvar produto'}</button>{editingProductId && <button className="rounded-lg border border-gray-300 px-4 py-3 font-bold" onClick={resetProductForm} type="button">Cancelar</button>}</div>
+            </form>
+          </div>
         </section>
       </div>
     </main>
