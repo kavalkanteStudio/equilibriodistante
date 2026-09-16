@@ -107,8 +107,10 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [x] Validate administrator access, MIME type, private hosts, redirects, and a 12 MB download limit.
 - [x] **Artwork Provenance Schema Preparation**:
   - [x] Add `supabase/migrations/0003_artwork_provenance.sql` with A3 orientation and license review fields.
-- [ ] **Next CMS Slice**:
-  - [ ] Add CRUD for artworks, including `A3 vertical` and `A3 wide` orientation.
+- [x] **Artwork CRUD and Provenance**:
+  - [x] Add CRUD for artworks, including `A3 vertical` and `A3 wide` orientation.
+  - [x] Require approved license status before public publication.
+  - [x] Record license verification timestamp when an artwork is approved.
   - [x] Add products and variants with the real `30x45` and `45x30` formats.
   - [ ] Connect manual upload and remote import to artwork records.
   - [ ] Add Storage cleanup when replacing or deleting catalog assets.
@@ -138,10 +140,11 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 ## 🧭 Next Session Handoff
 - Current working admin route: `/admin/login` and `/admin`.
 - Admin role is read from Supabase Auth `app_metadata.role`; do not use `user_metadata` for authorization.
-- Apply `supabase/migrations/0002_admin_cms.sql` in the Supabase SQL Editor before testing Storage or CRUD.
+- Migrations `0002_admin_cms.sql` and `0003_artwork_provenance.sql` have been applied in Supabase.
 - The current upload field is [src/components/ImageUploadField.tsx](src/components/ImageUploadField.tsx); it uploads directly to the public `artworks` bucket and caps files at 12 MB.
 - The remote importer is [supabase/functions/import-artwork-image/index.ts](supabase/functions/import-artwork-image/index.ts), but it is not yet invoked by the frontend.
-- Next implementation order: artworks CRUD, orientation and variants, then connect upload/import to artwork records.
+- The admin now supports artworks, license review, products, and `30x45`/`45x30` variants.
+- Next implementation order: test the public artwork route and cart, then connect upload/import to artwork records and add Storage cleanup.
 - Storage decision: no local/web toggle for now. Web upload is the normal path; local Node remains an optional batch/recovery tool.
 - The Supabase 50 MB limit is not currently a blocker because the UI and Edge Function accept at most 12 MB per image. Before scaling the catalog, add client-side WebP resizing/compression and review total quota versus paid Storage.
 
