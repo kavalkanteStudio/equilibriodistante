@@ -561,6 +561,67 @@ export default function AdminDashboard() {
           </section>
 
           <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <div className="mb-5 flex items-center justify-between">
+              <h2 className="text-2xl font-display">Obras</h2>
+              <button
+                className="text-sm font-bold text-brand-primary"
+                onClick={resetArtworkForm}
+                type="button"
+              >
+                Nova obra
+              </button>
+            </div>
+            {artworks.length === 0 ? (
+              <p className="text-gray-500">Nenhuma obra cadastrada.</p>
+            ) : (
+              <div className="divide-y divide-gray-100">
+                {artworks.map((artwork) => (
+                  <article
+                    className="flex items-center justify-between gap-4 py-4"
+                    key={artwork.id}
+                  >
+                    <div className="flex min-w-0 items-center gap-4">
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                        {artwork.final_image_url && (
+                          <img
+                            className="h-full w-full object-cover"
+                            src={artwork.final_image_url}
+                            alt=""
+                          />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="truncate font-bold">{artwork.title}</h3>
+                        <p className="text-sm text-gray-500">
+                          /{artwork.slug} ·{' '}
+                          {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
+                          {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 gap-3 text-sm">
+                      <button
+                        className="font-bold text-brand-primary"
+                        onClick={() => startEditingArtwork(artwork)}
+                        type="button"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="font-bold text-red-600"
+                        onClick={() => void deleteArtwork(artwork.id)}
+                        type="button"
+                      >
+                        Excluir
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+
+          <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="mb-5 text-2xl font-display">
               {editingArtworkId ? 'Editar obra' : 'Nova obra'}
             </h2>
@@ -827,319 +888,266 @@ export default function AdminDashboard() {
               </div>
             </form>
           </section>
-        </div>
 
-        <section className="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-2xl font-display">Obras</h2>
-            <button
-              className="text-sm font-bold text-brand-primary"
-              onClick={resetArtworkForm}
-              type="button"
-            >
-              Nova obra
-            </button>
-          </div>
-          {artworks.length === 0 ? (
-            <p className="text-gray-500">Nenhuma obra cadastrada.</p>
-          ) : (
-            <div className="divide-y divide-gray-100">
-              {artworks.map((artwork) => (
-                <article className="flex items-center justify-between gap-4 py-4" key={artwork.id}>
-                  <div className="flex min-w-0 items-center gap-4">
-                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
-                      {artwork.final_image_url && (
-                        <img
-                          className="h-full w-full object-cover"
-                          src={artwork.final_image_url}
-                          alt=""
-                        />
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="truncate font-bold">{artwork.title}</h3>
-                      <p className="text-sm text-gray-500">
-                        /{artwork.slug} ·{' '}
-                        {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
-                        {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex shrink-0 gap-3 text-sm">
-                    <button
-                      className="font-bold text-brand-primary"
-                      onClick={() => startEditingArtwork(artwork)}
-                      type="button"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="font-bold text-red-600"
-                      onClick={() => void deleteArtwork(artwork.id)}
-                      type="button"
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-2xl font-display">Produtos</h2>
-              <button
-                className="text-sm font-bold text-brand-primary"
-                onClick={resetProductForm}
-                type="button"
-              >
-                Novo produto
-              </button>
-            </div>
-            {products.length === 0 ? (
-              <p className="text-gray-500">Nenhum produto cadastrado.</p>
-            ) : (
-              <div className="divide-y divide-gray-100">
-                {products.map((product) => {
-                  const artwork = artworks.find((item) => item.id === product.artwork_id)
-                  return (
-                    <article
-                      className="flex items-center justify-between gap-4 py-4"
-                      key={product.id}
-                    >
-                      <div className="min-w-0">
-                        <h3 className="truncate font-bold">{product.title}</h3>
-                        <p className="text-sm text-gray-500">
-                          {artwork?.title || 'Obra removida'} ·{' '}
-                          {product.product_variants.map((variant) => variant.name).join(' / ')} ·{' '}
-                          {product.active ? 'ativo' : 'inativo'}
-                        </p>
-                      </div>
-                      <div className="flex shrink-0 gap-3 text-sm">
-                        <button
-                          className="font-bold text-brand-primary"
-                          onClick={() => startEditingProduct(product)}
-                          type="button"
-                        >
-                          Editar
-                        </button>
-                        <button
-                          className="font-bold text-red-600"
-                          onClick={() => void deleteProduct(product.id)}
-                          type="button"
-                        >
-                          Excluir
-                        </button>
-                      </div>
-                    </article>
-                  )
-                })}
+          <section className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-2xl font-display">Produtos</h2>
+                <button
+                  className="text-sm font-bold text-brand-primary"
+                  onClick={resetProductForm}
+                  type="button"
+                >
+                  Novo produto
+                </button>
               </div>
-            )}
-          </div>
-
-          <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-5 text-2xl font-display">
-              {editingProductId ? 'Editar produto' : 'Novo produto'}
-            </h2>
-            <form className="space-y-4" onSubmit={saveProduct}>
-              <label className="block text-sm font-medium">
-                Obra
-                <select
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  value={productForm.artwork_id}
-                  onChange={(event) =>
-                    setProductForm({ ...productForm, artwork_id: event.target.value })
-                  }
-                  required
-                >
-                  <option value="">Selecione uma obra</option>
-                  {artworks
-                    .filter((artwork) => artwork.published)
-                    .map((artwork) => (
-                      <option key={artwork.id} value={artwork.id}>
-                        {artwork.title}
-                      </option>
-                    ))}
-                </select>
-              </label>
-              <label className="block text-sm font-medium">
-                Título
-                <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  value={productForm.title}
-                  onChange={(event) =>
-                    setProductForm({ ...productForm, title: event.target.value })
-                  }
-                  required
-                />
-              </label>
-              <label className="block text-sm font-medium">
-                Tipo
-                <select
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  value={productForm.product_type}
-                  onChange={(event) =>
-                    setProductForm({ ...productForm, product_type: event.target.value })
-                  }
-                >
-                  <option value="print">Impressão</option>
-                  <option value="canvas">Tela</option>
-                  <option value="poster">Pôster</option>
-                </select>
-              </label>
-              <label className="block text-sm font-medium">
-                Descrição
-                <textarea
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  rows={3}
-                  value={productForm.description || ''}
-                  onChange={(event) =>
-                    setProductForm({ ...productForm, description: event.target.value })
-                  }
-                />
-              </label>
-              <label className="block text-sm font-medium">
-                Preço
-                <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  inputMode="decimal"
-                  value={productForm.base_price}
-                  onChange={(event) =>
-                    setProductForm({ ...productForm, base_price: event.target.value })
-                  }
-                  placeholder="79,90"
-                  required
-                />
-              </label>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-bold">Variantes</p>
-                  <button
-                    className="text-sm font-bold text-brand-primary"
-                    onClick={() =>
-                      setProductForm({
-                        ...productForm,
-                        product_variants: [
-                          ...productForm.product_variants,
-                          { name: '', sku: '', stock_quantity: 0 },
-                        ],
-                      })
-                    }
-                    type="button"
-                  >
-                    Adicionar variante
-                  </button>
+              {products.length === 0 ? (
+                <p className="text-gray-500">Nenhum produto cadastrado.</p>
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {products.map((product) => {
+                    const artwork = artworks.find((item) => item.id === product.artwork_id)
+                    return (
+                      <article
+                        className="flex items-center justify-between gap-4 py-4"
+                        key={product.id}
+                      >
+                        <div className="min-w-0">
+                          <h3 className="truncate font-bold">{product.title}</h3>
+                          <p className="text-sm text-gray-500">
+                            {artwork?.title || 'Obra removida'} ·{' '}
+                            {product.product_variants.map((variant) => variant.name).join(' / ')} ·{' '}
+                            {product.active ? 'ativo' : 'inativo'}
+                          </p>
+                        </div>
+                        <div className="flex shrink-0 gap-3 text-sm">
+                          <button
+                            className="font-bold text-brand-primary"
+                            onClick={() => startEditingProduct(product)}
+                            type="button"
+                          >
+                            Editar
+                          </button>
+                          <button
+                            className="font-bold text-red-600"
+                            onClick={() => void deleteProduct(product.id)}
+                            type="button"
+                          >
+                            Excluir
+                          </button>
+                        </div>
+                      </article>
+                    )
+                  })}
                 </div>
-                {productForm.product_variants.map((variant, index) => (
-                  <div
-                    className="rounded-lg border border-gray-200 p-3"
-                    key={variant.id || `new-${index}`}
+              )}
+            </div>
+
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="mb-5 text-2xl font-display">
+                {editingProductId ? 'Editar produto' : 'Novo produto'}
+              </h2>
+              <form className="space-y-4" onSubmit={saveProduct}>
+                <label className="block text-sm font-medium">
+                  Obra
+                  <select
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    value={productForm.artwork_id}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, artwork_id: event.target.value })
+                    }
+                    required
                   >
-                    <div className="mb-2 flex items-center justify-between">
-                      <p className="font-bold">Variante {index + 1}</p>
-                      {productForm.product_variants.length > 1 && (
-                        <button
-                          className="text-sm font-bold text-red-600"
-                          onClick={() =>
+                    <option value="">Selecione uma obra</option>
+                    {artworks
+                      .filter((artwork) => artwork.published)
+                      .map((artwork) => (
+                        <option key={artwork.id} value={artwork.id}>
+                          {artwork.title}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+                <label className="block text-sm font-medium">
+                  Título
+                  <input
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    value={productForm.title}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, title: event.target.value })
+                    }
+                    required
+                  />
+                </label>
+                <label className="block text-sm font-medium">
+                  Tipo
+                  <select
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    value={productForm.product_type}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, product_type: event.target.value })
+                    }
+                  >
+                    <option value="print">Impressão</option>
+                    <option value="canvas">Tela</option>
+                    <option value="poster">Pôster</option>
+                  </select>
+                </label>
+                <label className="block text-sm font-medium">
+                  Descrição
+                  <textarea
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    rows={3}
+                    value={productForm.description || ''}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, description: event.target.value })
+                    }
+                  />
+                </label>
+                <label className="block text-sm font-medium">
+                  Preço
+                  <input
+                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    inputMode="decimal"
+                    value={productForm.base_price}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, base_price: event.target.value })
+                    }
+                    placeholder="79,90"
+                    required
+                  />
+                </label>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-bold">Variantes</p>
+                    <button
+                      className="text-sm font-bold text-brand-primary"
+                      onClick={() =>
+                        setProductForm({
+                          ...productForm,
+                          product_variants: [
+                            ...productForm.product_variants,
+                            { name: '', sku: '', stock_quantity: 0 },
+                          ],
+                        })
+                      }
+                      type="button"
+                    >
+                      Adicionar variante
+                    </button>
+                  </div>
+                  {productForm.product_variants.map((variant, index) => (
+                    <div
+                      className="rounded-lg border border-gray-200 p-3"
+                      key={variant.id || `new-${index}`}
+                    >
+                      <div className="mb-2 flex items-center justify-between">
+                        <p className="font-bold">Variante {index + 1}</p>
+                        {productForm.product_variants.length > 1 && (
+                          <button
+                            className="text-sm font-bold text-red-600"
+                            onClick={() =>
+                              setProductForm({
+                                ...productForm,
+                                product_variants: productForm.product_variants.filter(
+                                  (_, itemIndex) => itemIndex !== index,
+                                ),
+                              })
+                            }
+                            type="button"
+                          >
+                            Remover
+                          </button>
+                        )}
+                      </div>
+                      <div className="grid gap-2">
+                        <input
+                          className="w-full rounded-lg border border-gray-300 p-2"
+                          placeholder="Nome da variante (ex.: A3 vertical 30x45 aprox.)"
+                          value={variant.name}
+                          onChange={(event) =>
                             setProductForm({
                               ...productForm,
-                              product_variants: productForm.product_variants.filter(
-                                (_, itemIndex) => itemIndex !== index,
+                              product_variants: productForm.product_variants.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index
+                                    ? { ...item, name: event.target.value }
+                                    : item,
                               ),
                             })
                           }
-                          type="button"
-                        >
-                          Remover
-                        </button>
-                      )}
+                          required
+                        />
+                        <input
+                          className="w-full rounded-lg border border-gray-300 p-2"
+                          placeholder="SKU (ex.: SKU-0001A3V)"
+                          value={variant.sku}
+                          onChange={(event) =>
+                            setProductForm({
+                              ...productForm,
+                              product_variants: productForm.product_variants.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index ? { ...item, sku: event.target.value } : item,
+                              ),
+                            })
+                          }
+                          required
+                        />
+                        <input
+                          className="w-full rounded-lg border border-gray-300 p-2"
+                          min="0"
+                          type="number"
+                          placeholder="Estoque"
+                          value={variant.stock_quantity}
+                          onChange={(event) =>
+                            setProductForm({
+                              ...productForm,
+                              product_variants: productForm.product_variants.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index
+                                    ? { ...item, stock_quantity: Number(event.target.value) }
+                                    : item,
+                              ),
+                            })
+                          }
+                          required
+                        />
+                      </div>
                     </div>
-                    <div className="grid gap-2">
-                      <input
-                        className="w-full rounded-lg border border-gray-300 p-2"
-                        placeholder="Nome da variante (ex.: A3 vertical 30x45 aprox.)"
-                        value={variant.name}
-                        onChange={(event) =>
-                          setProductForm({
-                            ...productForm,
-                            product_variants: productForm.product_variants.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, name: event.target.value } : item,
-                            ),
-                          })
-                        }
-                        required
-                      />
-                      <input
-                        className="w-full rounded-lg border border-gray-300 p-2"
-                        placeholder="SKU (ex.: SKU-0001A3V)"
-                        value={variant.sku}
-                        onChange={(event) =>
-                          setProductForm({
-                            ...productForm,
-                            product_variants: productForm.product_variants.map((item, itemIndex) =>
-                              itemIndex === index ? { ...item, sku: event.target.value } : item,
-                            ),
-                          })
-                        }
-                        required
-                      />
-                      <input
-                        className="w-full rounded-lg border border-gray-300 p-2"
-                        min="0"
-                        type="number"
-                        placeholder="Estoque"
-                        value={variant.stock_quantity}
-                        onChange={(event) =>
-                          setProductForm({
-                            ...productForm,
-                            product_variants: productForm.product_variants.map((item, itemIndex) =>
-                              itemIndex === index
-                                ? { ...item, stock_quantity: Number(event.target.value) }
-                                : item,
-                            ),
-                          })
-                        }
-                        required
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <label className="flex items-center gap-2 text-sm font-medium">
-                <input
-                  checked={productForm.active}
-                  onChange={(event) =>
-                    setProductForm({ ...productForm, active: event.target.checked })
-                  }
-                  type="checkbox"
-                />{' '}
-                Produto ativo
-              </label>
-              <div className="flex gap-3">
-                <button
-                  className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50"
-                  disabled={isSaving}
-                  type="submit"
-                >
-                  {isSaving ? 'Salvando...' : 'Salvar produto'}
-                </button>
-                {editingProductId && (
+                  ))}
+                </div>
+                <label className="flex items-center gap-2 text-sm font-medium">
+                  <input
+                    checked={productForm.active}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, active: event.target.checked })
+                    }
+                    type="checkbox"
+                  />{' '}
+                  Produto ativo
+                </label>
+                <div className="flex gap-3">
                   <button
-                    className="rounded-lg border border-gray-300 px-4 py-3 font-bold"
-                    onClick={resetProductForm}
-                    type="button"
+                    className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50"
+                    disabled={isSaving}
+                    type="submit"
                   >
-                    Cancelar
+                    {isSaving ? 'Salvando...' : 'Salvar produto'}
                   </button>
-                )}
-              </div>
-            </form>
-          </div>
-        </section>
+                  {editingProductId && (
+                    <button
+                      className="rounded-lg border border-gray-300 px-4 py-3 font-bold"
+                      onClick={resetProductForm}
+                      type="button"
+                    >
+                      Cancelar
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   )
