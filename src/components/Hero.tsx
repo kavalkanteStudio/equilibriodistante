@@ -19,7 +19,7 @@ export default function Hero() {
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
         </h1>
         <p className="text-lg md:text-xl max-w-prose mx-auto font-light">
-          A coleção de arte decorativa e artesanato de baixo custo. São centenas de imagens selecionadas para você explorar.
+          Curadoria de Arte Digital para explorar e adquirir.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
