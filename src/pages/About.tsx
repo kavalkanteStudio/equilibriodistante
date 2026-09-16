@@ -11,15 +11,21 @@ export default function About() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="h-full flex flex-col items-start justify-between text-lg text-gray-600 leading-relaxed">
-          <p>
-            A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual. Em cada peça reunimos emoção e conhecimento humano revelados no tempo. Nosso trabalho é combinar ideias, tecnologias e impressão artesanal com o uso massivo de Inteligência artificial, criando novas referências, encontros e possibilidades.
+        <div className="flex flex-col items-start h-full gap-8 text-gray-700">
+          <p className="text-left text-normal">
+            A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual.
           </p>
-          <p>
-            Nossa missão é proporcionar aos proprietários de casas, síndicos, arquitetos e designers uma arte decorativa de qualidade digital que dá um toque artístico e personalizado a qualquer espaço.
+          <p className="text-left text-normal">
+            Em cada peça reunimos emoção e conhecimento humano revelados no tempo.
           </p>
-          <p>
-            Cada obra é cuidadosamente curada, refinada e produzida para garantir um resultado prático, combinando precisão digital com toque artesanal.
+          <p className="text-left text-normal">
+            Nosso trabalho é combinar ideias, tecnologias e impressão artesanal com o uso massivo de Inteligência artificial, criando novas referências, encontros e possibilidades.
+          </p>
+          <p className="text-left text-normal">
+            São imagens digitais, selecionadas para inspirar e decorar espaços com arte acessível.
+          </p>
+          <p className="text-left text-normal">
+            Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.
           </p>
         </div>
         <div className="aspect-auto rounded-3xl overflow-hidden border relative">
