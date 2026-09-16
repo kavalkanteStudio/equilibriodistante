@@ -109,7 +109,7 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [x] Add `supabase/migrations/0003_artwork_provenance.sql` with A3 orientation and license review fields.
 - [ ] **Next CMS Slice**:
   - [ ] Add CRUD for artworks, including `A3 vertical` and `A3 wide` orientation.
-  - [ ] Add products and variants with the real `30x45` and `45x30` formats.
+  - [x] Add products and variants with the real `30x45` and `45x30` formats.
   - [ ] Connect manual upload and remote import to artwork records.
   - [ ] Add Storage cleanup when replacing or deleting catalog assets.
 
