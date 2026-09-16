@@ -105,6 +105,8 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 - [x] **Remote Import Preparation**:
   - [x] Add `supabase/functions/import-artwork-image/index.ts` for public HTTPS image URLs.
   - [x] Validate administrator access, MIME type, private hosts, redirects, and a 12 MB download limit.
+- [x] **Artwork Provenance Schema Preparation**:
+  - [x] Add `supabase/migrations/0003_artwork_provenance.sql` with A3 orientation and license review fields.
 - [ ] **Next CMS Slice**:
   - [ ] Add CRUD for artworks, including `A3 vertical` and `A3 wide` orientation.
   - [ ] Add products and variants with the real `30x45` and `45x30` formats.
