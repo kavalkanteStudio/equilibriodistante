@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 SUPABASE.md
 2026-*
+docs/samples

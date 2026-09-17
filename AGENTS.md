@@ -116,13 +116,11 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Add Storage cleanup when replacing or deleting catalog assets.
 
 ### Phase 4.3: Assisted Artwork Registration
-- [ ] **Local HTML context (primary path)**:
+- [ ] **Manual source context (current low-memory path)**:
   - [ ] Add a source URL field and a context textarea to the initial artwork form.
-  - [ ] Allow the admin to paste only the relevant HTML copied from an authenticated browser session.
-  - [ ] Parse the pasted fragment locally with the browser `DOMParser`, without Ollama, n8n, external APIs, or extra background processes.
-  - [ ] Extract only predictable fields such as title, description, prompt, source links, image URL, credits, license text, dimensions, and format.
-  - [ ] Compare Leonardo AI and Civitai HTML samples against `supabase/artworks_rows.json` before choosing selectors.
-  - [ ] Report missing, ambiguous, or unstable selectors instead of guessing silently.
+  - [ ] Allow the admin to paste selected text, HTML fragments, image URLs, prompts, and source links manually.
+  - [ ] Keep manual copy-and-paste as a valid first-class workflow, without requiring a parser or external service.
+  - [ ] Keep `license_notes`, `license_type`, and `license_source_url` outside manual source extraction; these fields use reviewed admin presets by source.
 - [ ] **Optional source-context check**:
   - [ ] Let the admin request a lightweight `curl` check for a trusted public source URL.
   - [ ] Verify status, redirects, content type, and whether expected page data is present.
@@ -137,14 +135,21 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Apply known default values without overwriting deliberate admin input.
   - [ ] Suggest orientation from the image aspect ratio when dimensions are available.
   - [ ] Validate required fields and basic URL, text, and format constraints.
+- [ ] **License presets by source**:
+  - [ ] Provide a reviewed Leonardo AI preset for `license_notes`, `license_type`, and `license_source_url`, preserving the Portuguese policy text used in the catalog.
+  - [ ] Provide a generic Civitai preset for the same trio without asserting commercial rights or approval automatically.
+  - [ ] Let the admin select or edit the preset before saving, and keep license approval as a separate manual decision.
 - [ ] **Assisted prefill**:
-  - [ ] Add an action to generate a draft artwork from an image or trusted source URL.
-  - [ ] Extract available image metadata, dimensions, and format.
-  - [ ] Suggest title, description, prompt summary, workflow, source tool/model, collection, and provenance fields without publishing automatically.
-  - [ ] Keep every suggestion editable and visibly distinguish suggested values from confirmed values.
+  - [ ] Add an action to apply a selected source preset and prepare a draft artwork without publishing automatically.
+  - [ ] Let the title generate the slug and preserve deliberate admin input.
+  - [ ] Keep every preset-applied value editable and visibly distinguish preset values from confirmed values.
+- [ ] **Future local parser (deferred)**:
+  - [ ] Parse pasted fragments locally with the browser `DOMParser`, only after manual field mapping proves repetitive.
+  - [ ] Compare Leonardo AI and Civitai samples against `supabase/artworks_rows.json` before choosing selectors.
+  - [ ] Extract only predictable fields and report missing, ambiguous, or unstable selectors instead of guessing silently.
 - [ ] **Low-memory operation**:
-  - [ ] Process one pasted HTML sample at a time in the current browser tab.
-  - [ ] Keep Ollama, n8n, Apify, MCP, Playwright, and Selenium optional rather than required dependencies.
+  - [ ] Process one artwork at a time in the current browser tab.
+  - [ ] Keep parser, Ollama, n8n, Apify, MCP, Playwright, and Selenium optional rather than required dependencies.
 - [ ] **Mandatory human review**:
   - [ ] Require manual confirmation of the final image, license status, credits, price, SKU, stock, and publication.
   - [ ] Never publish or mark a license approved from an automated suggestion alone.
