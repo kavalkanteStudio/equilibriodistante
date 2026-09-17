@@ -115,6 +115,43 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Connect manual upload and remote import to artwork records.
   - [ ] Add Storage cleanup when replacing or deleting catalog assets.
 
+### Phase 4.3: Assisted Artwork Registration
+- [ ] **Local HTML context (primary path)**:
+  - [ ] Add a source URL field and a context textarea to the initial artwork form.
+  - [ ] Allow the admin to paste only the relevant HTML copied from an authenticated browser session.
+  - [ ] Parse the pasted fragment locally with the browser `DOMParser`, without Ollama, n8n, external APIs, or extra background processes.
+  - [ ] Extract only predictable fields such as title, description, prompt, source links, image URL, credits, license text, dimensions, and format.
+  - [ ] Compare Leonardo AI and Civitai HTML samples against `supabase/artworks_rows.json` before choosing selectors.
+  - [ ] Report missing, ambiguous, or unstable selectors instead of guessing silently.
+- [ ] **Optional source-context check**:
+  - [ ] Let the admin request a lightweight `curl` check for a trusted public source URL.
+  - [ ] Verify status, redirects, content type, and whether expected page data is present.
+  - [ ] Classify the result as `static HTML`, `JavaScript-rendered`, unavailable, or requiring authentication.
+  - [ ] Avoid private credentials and unsafe/private-network redirects.
+- [ ] **Future browser automation fallback**:
+  - [ ] Consider Playwright or Selenium only if copied HTML cannot provide the required data and manual extraction is insufficient.
+  - [ ] Keep browser automation outside the public frontend and disabled by default for the low-memory workflow.
+  - [ ] Capture source URL, retrieval timestamp, extracted fields, and failures for auditability.
+- [ ] **Safe automatic preparation**:
+  - [ ] Generate a slug from the title.
+  - [ ] Apply known default values without overwriting deliberate admin input.
+  - [ ] Suggest orientation from the image aspect ratio when dimensions are available.
+  - [ ] Validate required fields and basic URL, text, and format constraints.
+- [ ] **Assisted prefill**:
+  - [ ] Add an action to generate a draft artwork from an image or trusted source URL.
+  - [ ] Extract available image metadata, dimensions, and format.
+  - [ ] Suggest title, description, prompt summary, workflow, source tool/model, collection, and provenance fields without publishing automatically.
+  - [ ] Keep every suggestion editable and visibly distinguish suggested values from confirmed values.
+- [ ] **Low-memory operation**:
+  - [ ] Process one pasted HTML sample at a time in the current browser tab.
+  - [ ] Keep Ollama, n8n, Apify, MCP, Playwright, and Selenium optional rather than required dependencies.
+- [ ] **Mandatory human review**:
+  - [ ] Require manual confirmation of the final image, license status, credits, price, SKU, stock, and publication.
+  - [ ] Never publish or mark a license approved from an automated suggestion alone.
+- [ ] **Product setup assistance**:
+  - [ ] Offer a product and one initial named variant as a draft after artwork review.
+  - [ ] Allow the admin to edit, add, or remove variants before saving.
+
 ### Phase 5: PWA & Optimization
 - [ ] **PWA Implementation**:
   - [ ] Configure `vite-plugin-pwa`.
@@ -145,6 +182,7 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 - The remote importer is [supabase/functions/import-artwork-image/index.ts](supabase/functions/import-artwork-image/index.ts), but it is not yet invoked by the frontend.
 - The admin now supports artworks, license review, products, and `30x45`/`45x30` variants.
 - Next implementation order: test the public artwork route and cart, then connect upload/import to artwork records and add Storage cleanup.
+- Next automation session: design the artwork prefill flow, starting with the `curl` source-page check; choose Playwright/Selenium only after confirming the source is static or JavaScript-rendered.
 - Storage decision: no local/web toggle for now. Web upload is the normal path; local Node remains an optional batch/recovery tool.
 - The Supabase 50 MB limit is not currently a blocker because the UI and Edge Function accept at most 12 MB per image. Before scaling the catalog, add client-side WebP resizing/compression and review total quota versus paid Storage.
 
