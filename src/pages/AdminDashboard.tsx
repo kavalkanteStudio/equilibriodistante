@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
+import { slugify } from '@/lib/utils'
 
 type Collection = {
   id: string
@@ -39,6 +40,35 @@ type Artwork = {
 }
 
 type ArtworkForm = Omit<Artwork, 'id'>
+
+type ArtworkOrigin = 'leonardo' | 'civitai'
+
+type LicensePreset = {
+  label: string
+  source_tool: string
+  license_type: string
+  license_source_url: string
+  license_notes: string
+}
+
+const licensePresets: Record<ArtworkOrigin, LicensePreset> = {
+  leonardo: {
+    label: 'Leonardo AI',
+    source_tool: 'Leonardo AI',
+    license_type: 'Royalty-Free - CreativeML OpenRAIL-M',
+    license_source_url: 'https://leonardo.ai/pricing',
+    license_notes:
+      'Derivada de Stable Diffusion (que usa CreativeML OpenRAIL-M), mas os fine-tunes e pesos do Leonardo são fechados. Regido pelo plano: pago → você detém propriedade intelectual total; gratuito → Leonardo detém os direitos e te dá uma licença não-exclusiva e royalty-free para uso comercial',
+  },
+  civitai: {
+    label: 'Civitai / Krea 2',
+    source_tool: 'Civitai',
+    license_type: 'Krea 2 Community License Agreement',
+    license_source_url: 'https://www.krea.ai/krea-2-licensing',
+    license_notes:
+      'Este registro considera um modelo base Krea 2 ou um LoRA derivado do Krea 2 obtido no Civitai. A licença aplicável é a Krea 2 Community License Agreement, não CreativeML ou Apache. O uso comercial é permitido somente enquanto a receita anual da empresa e afiliadas for inferior a US$ 1.000.000 e houver menos de 50 assentos; acima desses limites, é necessária uma Enterprise License da Krea. Os outputs pertencem ao usuário, sem reivindicação de propriedade intelectual pela Krea. É obrigatório implementar filtro de conteúdo ou processo de revisão equivalente. A distribuição de um LoRA derivado exige transmitir a licença aos receptores e manter o aviso de atribuição. Confirmar também as licenças separadas de VAE, CLIP e demais componentes antes de publicar.',
+  },
+}
 
 type ProductVariant = {
   id?: string
@@ -115,6 +145,8 @@ export default function AdminDashboard() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingArtworkId, setEditingArtworkId] = useState<string | null>(null)
   const [editingProductId, setEditingProductId] = useState<string | null>(null)
+  const [artworkOrigin, setArtworkOrigin] = useState<ArtworkOrigin>('leonardo')
+  const [artworkSlugTouched, setArtworkSlugTouched] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -174,6 +206,8 @@ export default function AdminDashboard() {
 
   function startEditingArtwork(artwork: Artwork) {
     setEditingArtworkId(artwork.id)
+    setArtworkSlugTouched(true)
+    setArtworkOrigin(artwork.source_tool?.toLowerCase().includes('civitai') ? 'civitai' : 'leonardo')
     setArtworkForm({
       collection_id: artwork.collection_id || '',
       title: artwork.title,
@@ -201,7 +235,23 @@ export default function AdminDashboard() {
 
   function resetArtworkForm() {
     setEditingArtworkId(null)
+    setArtworkSlugTouched(false)
+    setArtworkOrigin('leonardo')
     setArtworkForm(emptyArtworkForm)
+    setError(null)
+  }
+
+  function applyLicensePreset() {
+    const preset = licensePresets[artworkOrigin]
+    setArtworkForm({
+      ...artworkForm,
+      source_tool: preset.source_tool,
+      license_type: preset.license_type,
+      license_source_url: preset.license_source_url,
+      license_notes: preset.license_notes,
+      license_status: 'pending',
+      published: false,
+    })
     setError(null)
   }
 
@@ -627,7 +677,14 @@ export default function AdminDashboard() {
               <input
                 className="mt-1 w-full rounded-lg border border-gray-300 p-3"
                 value={artworkForm.title}
-                onChange={(event) => setArtworkForm({ ...artworkForm, title: event.target.value })}
+                onChange={(event) => {
+                  const title = event.target.value
+                  setArtworkForm({
+                    ...artworkForm,
+                    title,
+                    ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
+                  })
+                }}
                 required
               />
             </label>
@@ -636,7 +693,10 @@ export default function AdminDashboard() {
               <input
                 className="mt-1 w-full rounded-lg border border-gray-300 p-3"
                 value={artworkForm.slug}
-                onChange={(event) => setArtworkForm({ ...artworkForm, slug: event.target.value })}
+                onChange={(event) => {
+                  setArtworkSlugTouched(true)
+                  setArtworkForm({ ...artworkForm, slug: event.target.value })
+                }}
                 pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
                 required
               />
@@ -658,6 +718,34 @@ export default function AdminDashboard() {
                 ))}
               </select>
             </label>
+            <div className="rounded-xl border border-brand-primary/20 bg-brand-primary/5 p-4">
+              <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+                <label className="block text-sm font-medium">
+                  Origem do artwork
+                  <select
+                    className="mt-1 w-full rounded-lg border border-gray-300 bg-white p-3"
+                    value={artworkOrigin}
+                    onChange={(event) => setArtworkOrigin(event.target.value as ArtworkOrigin)}
+                  >
+                    {Object.entries(licensePresets).map(([origin, preset]) => (
+                      <option key={origin} value={origin}>
+                        {preset.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  className="rounded-lg border border-brand-primary px-4 py-3 font-bold text-brand-primary"
+                  onClick={applyLicensePreset}
+                  type="button"
+                >
+                  Aplicar preset de licença
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-gray-600">
+                Preenche ferramenta, tipo, fonte e notas da licença. Revise e edite os campos antes de salvar.
+              </p>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block text-sm font-medium">
                 Orientação

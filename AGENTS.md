@@ -116,6 +116,9 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Add Storage cleanup when replacing or deleting catalog assets.
 
 ### Phase 4.3: Assisted Artwork Registration
+- [x] **Artwork origin and license presets**:
+  - [x] Add an explicit Leonardo AI or Civitai origin choice to the artwork form.
+  - [x] Provide editable license presets for both origins without approving publication automatically.
 - [ ] **Manual source context (current low-memory path)**:
   - [ ] Add a source URL field and a context textarea to the initial artwork form.
   - [ ] Allow the admin to paste selected text, HTML fragments, image URLs, prompts, and source links manually.
@@ -136,9 +139,9 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Suggest orientation from the image aspect ratio when dimensions are available.
   - [ ] Validate required fields and basic URL, text, and format constraints.
 - [ ] **License presets by source**:
-  - [ ] Provide a reviewed Leonardo AI preset for `license_notes`, `license_type`, and `license_source_url`, preserving the Portuguese policy text used in the catalog.
-  - [ ] Provide a generic Civitai preset for the same trio without asserting commercial rights or approval automatically.
-  - [ ] Let the admin select or edit the preset before saving, and keep license approval as a separate manual decision.
+  - [x] Provide a reviewed Leonardo AI preset for `license_notes`, `license_type`, and `license_source_url`, preserving the Portuguese policy text used in the catalog.
+  - [x] Provide a generic Civitai preset for the same trio without asserting commercial rights or approval automatically.
+  - [x] Let the admin select or edit the preset before saving, and keep license approval as a separate manual decision.
 - [ ] **Assisted prefill**:
   - [ ] Add an action to apply a selected source preset and prepare a draft artwork without publishing automatically.
   - [ ] Let the title generate the slug and preserve deliberate admin input.
