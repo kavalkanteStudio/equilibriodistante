@@ -17,7 +17,7 @@ export default function ArtFrame({ orientation, imageUrl, alt }: ArtFrameProps) 
       <div className="art-frame__wood art-frame__wood--right" />
       <div className="art-frame__wood art-frame__wood--bottom" />
       <div className="art-frame__wood art-frame__wood--left" />
-
+      <div className="art-paper" />
       <div className="art-frame__mat" aria-hidden="true" />
       <div className="art-frame__art">
         <img src={imageUrl} alt={alt} />
