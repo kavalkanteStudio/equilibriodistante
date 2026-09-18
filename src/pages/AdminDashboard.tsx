@@ -93,6 +93,8 @@ type ProductForm = Omit<Product, 'id' | 'base_price' | 'product_variants'> & {
   product_variants: ProductVariant[]
 }
 
+type AdminTab = 'collections' | 'artworks' | 'products'
+
 const emptyForm: CollectionForm = {
   slug: '',
   name: '',
@@ -150,6 +152,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSaving, setIsSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<AdminTab>('artworks')
 
   async function loadCollections() {
     setIsLoading(true)
@@ -470,7 +473,42 @@ export default function AdminDashboard() {
           </button>
         </header>
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <nav
+          aria-label="Seções do catálogo"
+          className="grid grid-cols-3 rounded-xl border border-gray-200 bg-white p-1 shadow-sm"
+        >
+          {([
+            ['collections', 'Coleções', collections.length],
+            ['artworks', 'Obras', artworks.length],
+            ['products', 'Produtos', products.length],
+          ] as const).map(([tab, label, count]) => (
+            <button
+              aria-selected={activeTab === tab}
+              className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary ${
+                activeTab === tab
+                  ? 'bg-gray-900 text-white'
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+              }`}
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              role="tab"
+              type="button"
+            >
+              {label}
+              <span
+                className={`ml-2 rounded-full px-2 py-0.5 text-xs ${
+                  activeTab === tab ? 'bg-white/15 text-white' : 'bg-gray-100 text-gray-500'
+                }`}
+              >
+                {count}
+              </span>
+            </button>
+          ))}
+        </nav>
+
+        {activeTab === 'collections' && (
+          <>
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Coleções</h2>
             <button
@@ -518,9 +556,9 @@ export default function AdminDashboard() {
               ))}
             </div>
           )}
-        </section>
+            </section>
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="mb-5 text-2xl font-display">
             {editingId ? 'Editar coleção' : 'Nova coleção'}
           </h2>
@@ -607,9 +645,13 @@ export default function AdminDashboard() {
               )}
             </div>
           </form>
-        </section>
+            </section>
+          </>
+        )}
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        {activeTab === 'artworks' && (
+          <>
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Obras</h2>
             <button
@@ -665,9 +707,9 @@ export default function AdminDashboard() {
               ))}
             </div>
           )}
-        </section>
+            </section>
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="mb-5 text-2xl font-display">
             {editingArtworkId ? 'Editar obra' : 'Nova obra'}
           </h2>
@@ -969,9 +1011,13 @@ export default function AdminDashboard() {
               )}
             </div>
           </form>
-        </section>
+            </section>
+          </>
+        )}
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        {activeTab === 'products' && (
+          <>
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Produtos</h2>
             <button
@@ -1022,9 +1068,9 @@ export default function AdminDashboard() {
               })}
             </div>
           )}
-        </section>
+            </section>
 
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <h2 className="mb-5 text-2xl font-display">
             {editingProductId ? 'Editar produto' : 'Novo produto'}
           </h2>
@@ -1220,7 +1266,9 @@ export default function AdminDashboard() {
               )}
             </div>
           </form>
-        </section>
+            </section>
+          </>
+        )}
       </div>
     </main>
   )
