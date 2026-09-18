@@ -129,53 +129,60 @@ export default function ArtworkDetail() {
                 }`}
               >
                 <div
-                  className={`drop-shadow-[0_14px_16px_rgba(0,0,0,0.40)] ${
+                  className={`${
                     isWideArtwork
-                      ? 'h-full w-full'
-                      : 'h-full w-full'
-                  }`}
-                >
-                <div
-                  className={`h-full w-full overflow-hidden rounded-lg border border-gray-200 ${
-                    isWideArtwork ? 'flex items-center justify-center' : ''
+                      ? 'h-full w-full drop-shadow-[16px_-14px_26px_rgba(0,0,0,0.40)]'
+                      : 'h-full w-full drop-shadow-[16px_14px_26px_rgba(0,0,0,0.40)]'
                   }`}
                 >
                   <div
-                    className={isWideArtwork ? 'w-full aspect-[1123/1587] rotate-90 scale-[0.707]' : 'h-full w-full'}
+                    className={`relative h-full w-full overflow-hidden rounded-lg border border-gray-200 ${
+                      isWideArtwork ? 'flex items-center justify-center' : ''
+                    }`}
                   >
-                  <div
-                    className="relative mx-auto w-full overflow-hidden rounded-b-lg bg-gray-100 shadow-inner"
-                    style={{ aspectRatio: '1123 / 1587', maxWidth: '1123px' }}
-                  >
-                    <img
-                      src="/images/A3-moldura.png"
-                      alt="A3 Moldura"
-                      className="absolute inset-0 h-full w-full object-fill"
-                    />
+
                     <div
-                      className="absolute overflow-hidden"
+                      className={
+                        isWideArtwork
+                          ? 'w-full aspect-[1123/1587] -rotate-90 scale-[0.707]'
+                          : 'h-full w-full'
+                      }
+                    >
+                      <div
+                        className="mx-auto w-full overflow-hidden rounded-b-lg bg-gray-100 shadow-inner"
+                        style={{ aspectRatio: '1123 / 1587', maxWidth: '1123px' }}
+                      >
+                        <img
+                          src="/images/A3-moldura.png"
+                          alt="A3 Moldura"
+                          className="absolute inset-0 h-full w-full object-fill"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      className="absolute mx-auto w-full overflow-hidden"
                       style={{
-                        left: '16.3%',
-                        top: '12%',
-                        width: '67.3%',
-                        height: '76.2%',
+                        left: '12%',
+                        top: '15%',
+                        width: '76%',
+                        height: '68%',
                       }}
                     >
-                      <img
-                        src={artwork.final_image_url}
-                        alt={`${artwork.title} emoldurada`}
-                        className="h-full w-full object-cover"
-                      />
+                      <div className="w-full h-full">
+                        <img
+                          src={artwork.final_image_url}
+                          alt={`${artwork.title} emoldurada`}
+                          className="h-full object-fit"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  </div>
-
-                  {/* <img
+                    {/* <img
                 src="/images/leonardoai/lucid-origin_A_solitary_woman_in_her_early_thirties_wearing_a_long_burnt-sienna_coat_seated_q-0.jpg"
                 alt="lucid-origin A solitary woman in her early thirties wearing a long burnt-sienna coat seated q-0"
                 className="h-full w-full object-cover"
               /> */}
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -192,10 +199,8 @@ export default function ArtworkDetail() {
               </div>
             </header>
 
-            <section className="mb-8 border-y border-gray-200 py-6">
-              <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-gray-400">
-                Ficha da obra
-              </h2>
+            <section className="mb-8 border-y border-gray-200 py-6 text-left">
+              <h3 className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-gray-400 text-center">Ficha da obra</h3>
               <dl className="grid gap-x-6 gap-y-4 text-xs leading-relaxed sm:grid-cols-2">
                 <div>
                   <dt className="font-bold uppercase tracking-wider text-gray-400">Formato</dt>
@@ -256,39 +261,39 @@ export default function ArtworkDetail() {
               <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs">
                 {artwork.leonardo_url && (
                   <a
-                    className="font-medium text-brand-primary hover:underline"
+                    className="font-medium text-gray-600 hover:underline"
                     href={artwork.leonardo_url}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    Ver origem no Leonardo AI
+                    Link Oficial
                   </a>
                 )}
                 {artwork.civitai_url && (
                   <a
-                    className="font-medium text-brand-primary hover:underline"
+                    className="font-medium text-gray-600 hover:underline"
                     href={artwork.civitai_url}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    Ver origem no Civitai
+                    Link Oficial
                   </a>
                 )}
                 {artwork.license_source_url && (
                   <a
-                    className="font-medium text-brand-primary hover:underline"
+                    className="font-medium text-gray-600 hover:underline"
                     href={artwork.license_source_url}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    Consultar termos da licença
+                    Ver Licença
                   </a>
                 )}
               </div>
             </section>
 
             {products?.length === 0 ? (
-              <p className="text-gray-500 italic">Obra não disponível para compra.</p>
+              <p className="text-gray-500 text-xl text-left">Obra não disponível para compra.</p>
             ) : (
               <div className="space-y-8">
                 {products?.map((product) => (
