@@ -27,12 +27,12 @@ export default function Collections() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Coleções"
-        description="Uma curadoria de centenas de imagens de obras imaginadas e re-imaginadas, cada uma projetada para trazer uma atmosfera única e uma energia sofisticada ao seu espaço."
+        description="Uma curadoria de dezenas de imagens de obras imaginadas e re-imaginadas, cada uma projetada para trazer uma atmosfera única e uma energia sofisticada ao seu espaço."
       />
       {/* Page Header */}
       <div className="bg-gray-50 py-20 border-b">
-        <div className="container mx-auto px-4 text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl">Coleções</h1>
+        <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
+          <h1 className="text-2xl md:text-4xl">Coleções</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
             Descubra obras digitais interessantes. Em cada coleção, você encontra imagens que capturam formas, luz e emoção.
