@@ -3,6 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
 import { slugify } from '@/lib/utils'
+import { Pencil, Trash2 } from 'lucide-react'
 
 type Collection = {
   id: string
@@ -189,6 +190,12 @@ export default function AdminDashboard() {
     )
   }, [])
 
+  function scrollToForm(id: string) {
+    window.requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
+
   function startEditing(collection: Collection) {
     setEditingId(collection.id)
     setForm({
@@ -199,6 +206,7 @@ export default function AdminDashboard() {
       status: collection.status,
     })
     setError(null)
+    scrollToForm('collection-form')
   }
 
   function resetForm() {
@@ -234,6 +242,7 @@ export default function AdminDashboard() {
       published: artwork.published,
     })
     setError(null)
+    scrollToForm('artwork-form')
   }
 
   function resetArtworkForm() {
@@ -275,6 +284,7 @@ export default function AdminDashboard() {
       })),
     })
     setError(null)
+    scrollToForm('product-form')
   }
 
   function resetProductForm() {
@@ -513,7 +523,10 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-display">Coleções</h2>
             <button
               className="text-sm font-bold text-brand-primary"
-              onClick={resetForm}
+              onClick={() => {
+                resetForm()
+                scrollToForm('collection-form')
+              }}
               type="button"
             >
               Nova coleção
@@ -524,41 +537,56 @@ export default function AdminDashboard() {
           ) : collections.length === 0 ? (
             <p className="text-gray-500">Nenhuma coleção cadastrada.</p>
           ) : (
-            <div className="divide-y divide-gray-100">
+                <div className="grid gap-3 md:grid-cols-2">
               {collections.map((collection) => (
                 <article
-                  className="flex items-center justify-between gap-4 py-4"
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-gray-100 p-3"
                   key={collection.id}
                 >
-                  <div>
-                    <h3 className="font-bold">{collection.name}</h3>
-                    <p className="text-sm text-gray-500">
-                      /{collection.slug} · {collection.status}
-                    </p>
-                  </div>
-                  <div className="flex gap-3 text-sm">
-                    <button
-                      className="font-bold text-brand-primary"
-                      onClick={() => startEditing(collection)}
-                      type="button"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      className="font-bold text-red-600"
-                      onClick={() => void deleteCollection(collection.id)}
-                      type="button"
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                          {collection.cover_image && (
+                            <img
+                              className="h-full w-full object-cover"
+                              src={collection.cover_image}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="truncate text-sm font-bold">{collection.name}</h3>
+                          <p className="truncate text-xs text-gray-500">
+                          /{collection.slug} · {collection.status}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 gap-1">
+                        <button
+                          aria-label={`Editar coleção ${collection.name}`}
+                          className="rounded-md p-2 text-brand-primary hover:bg-brand-primary/10"
+                          onClick={() => startEditing(collection)}
+                          title="Editar coleção"
+                          type="button"
+                        >
+                          <Pencil aria-hidden="true" size={15} />
+                        </button>
+                        <button
+                          aria-label={`Excluir coleção ${collection.name}`}
+                          className="rounded-md p-2 text-red-600 hover:bg-red-50"
+                          onClick={() => void deleteCollection(collection.id)}
+                          title="Excluir coleção"
+                          type="button"
+                        >
+                          <Trash2 aria-hidden="true" size={15} />
+                        </button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
             </section>
 
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+                <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="collection-form">
           <h2 className="mb-5 text-2xl font-display">
             {editingId ? 'Editar coleção' : 'Nova coleção'}
           </h2>
@@ -656,7 +684,10 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-display">Obras</h2>
             <button
               className="text-sm font-bold text-brand-primary"
-              onClick={resetArtworkForm}
+              onClick={() => {
+                resetArtworkForm()
+                scrollToForm('artwork-form')
+              }}
               type="button"
             >
               Nova obra
@@ -665,11 +696,14 @@ export default function AdminDashboard() {
           {artworks.length === 0 ? (
             <p className="text-gray-500">Nenhuma obra cadastrada.</p>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="grid gap-3 md:grid-cols-2">
               {artworks.map((artwork) => (
-                <article className="flex items-center justify-between gap-4 py-4" key={artwork.id}>
-                  <div className="flex min-w-0 items-center gap-4">
-                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                <article
+                  className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-gray-100 p-3"
+                  key={artwork.id}
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100">
                       {artwork.final_image_url && (
                         <img
                           className="h-full w-full object-cover"
@@ -679,28 +713,32 @@ export default function AdminDashboard() {
                       )}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="truncate font-bold">{artwork.title}</h3>
-                      <p className="text-sm text-gray-500">
+                      <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
+                      <p className="truncate text-xs text-gray-500">
                         /{artwork.slug} ·{' '}
                         {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
                         {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
                       </p>
                     </div>
                   </div>
-                  <div className="flex shrink-0 gap-3 text-sm">
+                  <div className="flex shrink-0 gap-1">
                     <button
-                      className="font-bold text-brand-primary"
+                      aria-label={`Editar obra ${artwork.title}`}
+                      className="rounded-md p-2 text-brand-primary hover:bg-brand-primary/10"
                       onClick={() => startEditingArtwork(artwork)}
+                      title="Editar obra"
                       type="button"
                     >
-                      Editar
+                      <Pencil aria-hidden="true" size={15} />
                     </button>
                     <button
-                      className="font-bold text-red-600"
+                      aria-label={`Excluir obra ${artwork.title}`}
+                      className="rounded-md p-2 text-red-600 hover:bg-red-50"
                       onClick={() => void deleteArtwork(artwork.id)}
+                      title="Excluir obra"
                       type="button"
                     >
-                      Excluir
+                      <Trash2 aria-hidden="true" size={15} />
                     </button>
                   </div>
                 </article>
@@ -709,7 +747,7 @@ export default function AdminDashboard() {
           )}
             </section>
 
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="artwork-form">
           <h2 className="mb-5 text-2xl font-display">
             {editingArtworkId ? 'Editar obra' : 'Nova obra'}
           </h2>
@@ -1022,7 +1060,10 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-display">Produtos</h2>
             <button
               className="text-sm font-bold text-brand-primary"
-              onClick={resetProductForm}
+              onClick={() => {
+                resetProductForm()
+                scrollToForm('product-form')
+              }}
               type="button"
             >
               Novo produto
@@ -1031,36 +1072,51 @@ export default function AdminDashboard() {
           {products.length === 0 ? (
             <p className="text-gray-500">Nenhum produto cadastrado.</p>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="grid gap-3 md:grid-cols-2">
               {products.map((product) => {
                 const artwork = artworks.find((item) => item.id === product.artwork_id)
                 return (
                   <article
-                    className="flex items-center justify-between gap-4 py-4"
+                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-gray-100 p-3"
                     key={product.id}
                   >
-                    <div className="min-w-0">
-                      <h3 className="truncate font-bold">{product.title}</h3>
-                      <p className="text-sm text-gray-500">
-                        {artwork?.title || 'Obra removida'} ·{' '}
-                        {product.product_variants.map((variant) => variant.name).join(' / ')} ·{' '}
-                        {product.active ? 'ativo' : 'inativo'}
-                      </p>
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                        {artwork?.final_image_url && (
+                          <img
+                            className="h-full w-full object-cover"
+                            src={artwork.final_image_url}
+                            alt=""
+                          />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="truncate text-sm font-bold">{product.title}</h3>
+                        <p className="truncate text-xs text-gray-500">
+                          {artwork?.title || 'Obra removida'} ·{' '}
+                          {product.product_variants.map((variant) => variant.name).join(' / ')} ·{' '}
+                          {product.active ? 'ativo' : 'inativo'}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex shrink-0 gap-3 text-sm">
+                    <div className="flex shrink-0 gap-1">
                       <button
-                        className="font-bold text-brand-primary"
+                        aria-label={`Editar produto ${product.title}`}
+                        className="rounded-md p-2 text-brand-primary hover:bg-brand-primary/10"
                         onClick={() => startEditingProduct(product)}
+                        title="Editar produto"
                         type="button"
                       >
-                        Editar
+                        <Pencil aria-hidden="true" size={15} />
                       </button>
                       <button
-                        className="font-bold text-red-600"
+                        aria-label={`Excluir produto ${product.title}`}
+                        className="rounded-md p-2 text-red-600 hover:bg-red-50"
                         onClick={() => void deleteProduct(product.id)}
+                        title="Excluir produto"
                         type="button"
                       >
-                        Excluir
+                        <Trash2 aria-hidden="true" size={15} />
                       </button>
                     </div>
                   </article>
@@ -1070,7 +1126,7 @@ export default function AdminDashboard() {
           )}
             </section>
 
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="product-form">
           <h2 className="mb-5 text-2xl font-display">
             {editingProductId ? 'Editar produto' : 'Novo produto'}
           </h2>
