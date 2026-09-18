@@ -5,6 +5,7 @@ import { useState, type Key } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useCart } from '@/context/CartContext'
 import SEO from '@/components/SEO'
+import ArtFrame from '@/components/ArtFrame'
 
 export default function ArtworkDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -123,67 +124,12 @@ export default function ArtworkDetail() {
             </div>
 
             <div id="crafted-artwork-composition" className="p-8">
-              <div
-                className={`mx-auto w-full ${
-                  isWideArtwork ? 'aspect-[1587/1123]' : 'aspect-[1123/1587]'
-                }`}
-              >
-                <div
-                  className={`${
-                    isWideArtwork
-                      ? 'h-full w-full drop-shadow-[16px_-14px_26px_rgba(0,0,0,0.40)]'
-                      : 'h-full w-full drop-shadow-[16px_14px_26px_rgba(0,0,0,0.40)]'
-                  }`}
-                >
-                  <div
-                    className={`relative h-full w-full overflow-hidden rounded-lg border border-gray-200 ${
-                      isWideArtwork ? 'flex items-center justify-center' : ''
-                    }`}
-                  >
-
-                    <div
-                      className={
-                        isWideArtwork
-                          ? 'w-full aspect-[1123/1587] -rotate-90 scale-[0.707]'
-                          : 'h-full w-full'
-                      }
-                    >
-                      <div
-                        className="mx-auto w-full overflow-hidden rounded-b-lg bg-gray-100 shadow-inner"
-                        style={{ aspectRatio: '1123 / 1587', maxWidth: '1123px' }}
-                      >
-                        <img
-                          src="/images/A3-moldura.png"
-                          alt="A3 Moldura"
-                          className="absolute inset-0 h-full w-full object-fill"
-                        />
-                      </div>
-                    </div>
-
-                    <div
-                      className="absolute mx-auto w-full overflow-hidden"
-                      style={{
-                        left: '12%',
-                        top: '15%',
-                        width: '76%',
-                        height: '68%',
-                      }}
-                    >
-                      <div className="w-full h-full">
-                        <img
-                          src={artwork.final_image_url}
-                          alt={`${artwork.title} emoldurada`}
-                          className="h-full object-fit"
-                        />
-                      </div>
-                    </div>
-                    {/* <img
-                src="/images/leonardoai/lucid-origin_A_solitary_woman_in_her_early_thirties_wearing_a_long_burnt-sienna_coat_seated_q-0.jpg"
-                alt="lucid-origin A solitary woman in her early thirties wearing a long burnt-sienna coat seated q-0"
-                className="h-full w-full object-cover"
-              /> */}
-                  </div>
-                </div>
+              <div className="mx-auto w-full max-w-[760px]">
+                <ArtFrame
+                  orientation={artwork.orientation}
+                  imageUrl={artwork.final_image_url}
+                  alt={`${artwork.title} emoldurada`}
+                />
               </div>
             </div>
           </div>
