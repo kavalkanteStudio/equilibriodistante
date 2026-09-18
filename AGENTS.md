@@ -161,9 +161,9 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Allow the admin to edit, add, or remove variants before saving.
 
 ### Phase 5: PWA & Optimization
-- [ ] **PWA Implementation**:
-  - [ ] Configure `vite-plugin-pwa`.
-  - [ ] Create `manifest.json` and add app icons.
+- [x] **PWA Implementation**:
+  - [x] Configure `vite-plugin-pwa` with automatic service-worker updates.
+  - [x] Generate the web app manifest through the Vite configuration and add 192px, 512px, Apple touch, and favicon assets.
   - [ ] Implement service worker for offline caching of catalog.
 - [ ] **Performance**:
   - [ ] Optimize image loading (lazy loading, client-side resize/compression, WebP).
