@@ -149,10 +149,10 @@
 
 .art-frame--wide .art-frame__art {
   z-index: 3;
-  top: calc(var(--paper-y) + var(--print-inset-y) + 1.5%);
-  left: calc(var(--paper-x) + var(--print-inset-x) - 3.5%);
-  width: calc(var(--paper-width) + (2 * var(--print-inset-x)));
-  height: calc(var(--paper-height) - (3.5 * var(--print-inset-y)));
+  top: calc(var(--paper-y) + var(--print-inset-y) + 1%);
+  left: calc(var(--paper-x) + var(--print-inset-x) - 4.5%);
+  width: calc(var(--paper-width) + (3 * var(--print-inset-x)));
+  height: calc(var(--paper-height) - (3 * var(--print-inset-y)));
   background: #f5f1df;
   box-shadow:
     0 0 0 1px rgb(125 89 45 / 0.08),
