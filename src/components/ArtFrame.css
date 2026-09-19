@@ -139,7 +139,7 @@
   z-index: 3;
   top: calc(var(--paper-y) + var(--print-inset-y) - 0%);
   left: calc(var(--paper-x) + var(--print-inset-x));
-  width: calc(var(--paper-width) - (2 * var(--print-inset-x)));
+  width: calc(var(--paper-width) - (1.85 * var(--print-inset-x)));
   height: calc(var(--paper-height) - (2 * var(--print-inset-y)));
   background: #f5f1df;
   box-shadow:
