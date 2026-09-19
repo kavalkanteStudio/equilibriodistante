@@ -76,10 +76,10 @@
 .art-paper{
   position: absolute;
   z-index: 2;
-  width: var(--paper-width);
+  width: calc(var(--paper-width) + 2.5%);
   height: var(--paper-height);
   top: var(--paper-y);
-  left: var(--paper-x);
+  left: calc(var(--paper-x) - 1.25%);
   background: #ffffff;
   box-shadow: 0 0 0 1px rgb(125 89 45 / 0.08);
 }
@@ -137,10 +137,10 @@
 
 .art-frame__art {
   z-index: 3;
-  top: calc(var(--paper-y) + var(--print-inset-y) - 0.5%);
+  top: calc(var(--paper-y) + var(--print-inset-y) - 0%);
   left: calc(var(--paper-x) + var(--print-inset-x));
   width: calc(var(--paper-width) - (2 * var(--print-inset-x)));
-  height: calc(var(--paper-height) - (1.5 * var(--print-inset-y)));
+  height: calc(var(--paper-height) - (2 * var(--print-inset-y)));
   background: #f5f1df;
   box-shadow:
     0 0 0 1px rgb(125 89 45 / 0.08),
