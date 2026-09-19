@@ -4,17 +4,17 @@ import SEO from '@/components/SEO'
 export default function Contact() {
   return (
     <div className="min-h-screen bg-white">
-      <SEO title="Contact Us" description="Get in touch with SKOPPOVIC for inquiries or custom decorative art requests." />
+      <SEO title="Contato SKOPPOVIC" description="Fale com a SKOPPOVIC. Estamos aqui para ouvir você, inclusive secretamente. Retornamos emails durante as manhâs de segunda à sexta. Mande uma dúvida sobre uma peça ou faça uma encomenda ou solicitação personalizada." />
       {/* Page Header */}
-      <div className="py-20">
+      <div className="pt-20 pb-16">
         <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
           <h1 className="text-2xl md:text-4xl">Contato</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
-          <p className="text-lg text-gray-600 max-w-xl mx-auto font-light">
-            Retornamos emails durante as manhâs de segunda à sexta. 
+          <p className="text-lg text-gray-600 max-w-md mx-auto font-light">
+            Mande uma dúvida sobre uma peça ou faça uma encomenda e solicitação personalizada.
           </p>
-          <p className="text-lg text-gray-600 max-w-96 mx-auto font-light">
-            Mande uma dúvida sobre uma peça ou faça uma solicitação personalizada.  
+          <p className="mt-10! p-4 bg-red-50 border border-brand-primary rounded-2xl text-sm text-brand-primary max-w-xl mx-auto font-bold">
+            Retornamos Emails durante as Manhãs de Segunda à Sexta.
           </p>
         </div>
       </div>
@@ -24,7 +24,7 @@ export default function Contact() {
           <form className="container mx-auto" onSubmit={(e) => e.preventDefault()}>
             <div className="min-w-sm max-w-md flex-1 space-y-8">
               <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
-                <h3 className="text-xl md:text-3xl mb-0!">Mensagem</h3>
+                <h3 className="text-xl md:text-3xl font-bold">Fale<br/>com<br/>a<br/>SKOPPOVIC</h3>
                 <p className="max-w-96 text-lg text-gray-600 max-w-2xl mx-auto font-light mb-6!">
                   Estamos aqui para ouvir você, inclusive secretamente.
                 </p>
@@ -73,9 +73,9 @@ export default function Contact() {
                     <LucideSend className="w-6 h-6" />
                   </div>
                   <div className="w-full">
-                    <button className="bg-brand-primary hover:bg-brand-secondary px-4 py-2 rounded-full text-white text-lg w-full flex items-center gap-3">
+                    <button className="bg-brand-primary hover:bg-brand-secondary px-8 py-4 rounded-full text-white text-lg w-full flex items-center justify-center gap-3">
                       <LucideSend className="w-6 h-6" />
-                      <span className="font-bold">Enviar</span>
+                      <span className="font-bold md:text-xl">Mandar mensagem</span>
                     </button>
                   </div>
                 </div>
