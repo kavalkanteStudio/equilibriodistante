@@ -136,16 +136,17 @@ export default function ArtworkDetail() {
 
           {/* Right: Details & Purchasing */}
           <div className="flex flex-col">
-            <header className="mb-8">
+
+            <header className="mb-8 text-center">
               <h1 className="text-2xl md:text-4xl mb-2">{artwork.title}</h1>
               <p className="text-lg text-gray-500 font-medium mb-4">{artwork.source_model}</p>
               <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Artist's Note</h3>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Resumo do Prompt</h3>
                 <p className="text-gray-700 italic">"{artwork.prompt_summary}"</p>
               </div>
             </header>
 
-            <section className="mb-8 border-y border-gray-200 py-6 text-left">
+            <section className="mb-8 border-y border-gray-200 py-6">
               <h3 className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-gray-400 text-center">Ficha da obra</h3>
               <dl className="grid gap-x-6 gap-y-4 text-xs leading-relaxed sm:grid-cols-2">
                 <div>
