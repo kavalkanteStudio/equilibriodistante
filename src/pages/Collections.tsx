@@ -35,7 +35,7 @@ export default function Collections() {
           <h1 className="text-2xl md:text-4xl">Coleções</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
           <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
-            Descubra obras digitais interessantes. Em cada coleção, você encontra imagens que capturam formas, luz e emoção.
+            Em cada coleção, você encontra imagens que capturam formas, luz e emoção. Descubra obras digitais interessantes.
           </p>
         </div>
       </div>
