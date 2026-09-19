@@ -27,7 +27,7 @@ export default function Collections() {
     <div className="min-h-screen bg-white">
       <SEO
         title="Coleções"
-        description="Uma curadoria de dezenas de imagens de obras imaginadas e re-imaginadas, cada uma projetada para trazer uma atmosfera única e uma energia sofisticada ao seu espaço."
+        description="Coleção SKOPPOVIC CoLLeCCiOone. Em cada coleção, você encontra imagens que capturam formas, luz e emoção. Descubra obras digitais interessantes."
       />
       {/* Page Header */}
       <div className="bg-gray-50 py-20 border-b">
