@@ -91,27 +91,27 @@ export default function ArtworkDetail() {
     })
   }
 
+  const isWide = artwork.orientation === 'a3-wide'
+
   return (
     <div className="min-h-screen p-4 md:p-8 bg-white">
       <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
-        <Link to={`/coleção/${collection?.slug}`} className="text-brand-primary hover:underline mb-24 inline-block">
-          ← Coleção
+        <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block">
+          ← Coleção/{collection?.slug}
         </Link>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Left: Artwork Image */}
           <div>
-            <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl">
+            <div className={`${isWide? "aspect-16_9" : "aspect-9_16"} relative w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl`}>
               <img
                 src={artwork.final_image_url}
                 alt={artwork.title}
                 className="h-full w-full object-cover"
               />
             </div>
-
             <div className="mt-4 flex flex-wrap gap-2">
-
               {artwork.additional_images?.map((imgUrl: string | undefined, index: Key | number) => (
                 <div key={index} className="w-24 h-24 overflow-hidden rounded-lg border border-gray-200">
                   <img
@@ -122,64 +122,58 @@ export default function ArtworkDetail() {
                 </div>
               ))}
             </div>
-
-            <div id="crafted-artwork-composition" className="p-8">
-              <div className="mx-auto w-full max-w-[760px]">
-                <ArtFrame
-                  orientation={artwork.orientation}
-                  imageUrl={artwork.final_image_url}
-                  alt={`${artwork.title} emoldurada`}
-                />
-              </div>
-            </div>
           </div>
-
           {/* Right: Details & Purchasing */}
           <div className="flex flex-col">
 
-            <header className="mb-8 text-center">
-              <h1 className="text-2xl md:text-4xl mb-2">{artwork.title}</h1>
-              <p className="text-lg text-gray-500 font-medium mb-4">{artwork.source_model}</p>
-              <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Resumo do Prompt</h3>
-                <p className="text-gray-700 italic">"{artwork.prompt_summary}"</p>
-              </div>
-            </header>
-
-            <section className="mb-8 border-y border-gray-200 py-6">
-              <h3 className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-gray-400 text-center">Ficha da obra</h3>
+            {/* Page Header */}
+            <div className="pb-8">
+              <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
+                <h1 className="text-2xl md:text-4xl">{artwork.title}</h1>
+                <div className="w-24 h-1 bg-brand-secondary mx-auto" />
+                <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+                  {artwork.source_model}
+                </p>
+              </div>       
+            </div>
+            <div className="text-center p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-brand-secondary mb-2">Resumo do Prompt</h3>
+              <p className="text-gray-700 italic">"{artwork.prompt_summary}"</p>
+            </div>
+            <section className="my-8 border-y border-brand-secondary py-6">
+              <h3 className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-brand-secondary text-center">Ficha da obra</h3>
               <dl className="grid gap-x-6 gap-y-4 text-xs leading-relaxed sm:grid-cols-2">
                 <div>
-                  <dt className="font-bold uppercase tracking-wider text-gray-400">Formato</dt>
+                  <dt className="font-bold uppercase tracking-wider text-brand-secondary">Formato</dt>
                   <dd className="mt-1 text-gray-700">{orientationLabel}</dd>
                 </div>
                 {artwork.source_tool && (
                   <div>
-                    <dt className="font-bold uppercase tracking-wider text-gray-400">Origem</dt>
+                    <dt className="font-bold uppercase tracking-wider text-brand-secondary">Origem</dt>
                     <dd className="mt-1 text-gray-700">{artwork.source_tool}</dd>
                   </div>
                 )}
                 {artwork.source_model && (
                   <div>
-                    <dt className="font-bold uppercase tracking-wider text-gray-400">Modelo</dt>
+                    <dt className="font-bold uppercase tracking-wider text-brand-secondary">Modelo</dt>
                     <dd className="mt-1 text-gray-700">{artwork.source_model}</dd>
                   </div>
                 )}
                 {artwork.source_plan && (
                   <div>
-                    <dt className="font-bold uppercase tracking-wider text-gray-400">Plano</dt>
+                    <dt className="font-bold uppercase tracking-wider text-brand-secondary">Plano</dt>
                     <dd className="mt-1 text-gray-700">{artwork.source_plan}</dd>
                   </div>
                 )}
                 {artwork.license_type && (
                   <div>
-                    <dt className="font-bold uppercase tracking-wider text-gray-400">Licença</dt>
+                    <dt className="font-bold uppercase tracking-wider text-brand-secondary">Licença</dt>
                     <dd className="mt-1 text-gray-700">{artwork.license_type}</dd>
                   </div>
                 )}
                 {artwork.credit_required && artwork.credit_text && (
                   <div>
-                    <dt className="font-bold uppercase tracking-wider text-gray-400">Créditos</dt>
+                    <dt className="font-bold uppercase tracking-wider text-brand-secondary">Créditos</dt>
                     <dd className="mt-1 text-gray-700">{artwork.credit_text}</dd>
                   </div>
                 )}
@@ -187,7 +181,7 @@ export default function ArtworkDetail() {
 
               {artwork.workflow_description && (
                 <div className="mt-6 border-t border-gray-100 pt-5">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-brand-secondary">
                     Processo de criação
                   </h3>
                   <p className="mt-2 whitespace-pre-line text-xs leading-6 text-gray-600">
@@ -198,7 +192,7 @@ export default function ArtworkDetail() {
 
               {artwork.license_notes && (
                 <div className="mt-6 border-t border-gray-100 pt-5">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-brand-secondary">
                     Notas de licenciamento
                   </h3>
                   <p className="mt-2 text-xs leading-6 text-gray-600">{artwork.license_notes}</p>
@@ -287,9 +281,23 @@ export default function ArtworkDetail() {
                 )}
               </div>
             )}
+            </div>
           </div>
         </div>
-      </div>
+        
+        {/* Frame */}
+        <div className="w-full flex-1 items-center justify-center p-8 md:p-20">
+          <div id="crafted-artwork-composition" className="p-8">
+            <div className="mx-auto w-full max-w-[760px]">
+              <ArtFrame
+                orientation={artwork.orientation}
+                imageUrl={artwork.final_image_url}
+                alt={`${artwork.title} emoldurada`}
+              />
+            </div>
+          </div>
+          <p className="text-center text-sm md:text-base">Imagem ilustrativa</p>
+        </div>
     </div>
   )
 }

@@ -41,49 +41,56 @@ export default function CollectionDetail() {
   if (!collection) return <div className="flex min-h-screen items-center justify-center">Coleção não encontrada.</div>
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8 bg-white">
       <SEO title={collection.name} description={collection.description} />
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block">
           ← Coleções
         </Link>
+        {/* Page Header */}
+        <div className="pt-20 pb-16">
+          <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
+            <h1 className="text-2xl md:text-4xl">{collection.name}</h1>
+            <div className="w-24 h-1 bg-brand-secondary mx-auto" />
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+              {collection.description}
+            </p>
+          </div>
+        </div>
 
-        <header className="mb-12 flex flex-col items-center justify-center">
-          <h1 className="text-2xl md:text-4xl mb-4">{collection.name}</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">{collection.description}</p>
-        </header>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {artworks?.length === 0 ? (
-            <p className="col-span-full text-center text-gray-500">Sem obras publicadas nesta coleção.</p>
-          ) : (
-            artworks?.map((art) => (
-              <div key={art.id} className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2">
-                <div className="aspect-square w-full overflow-hidden bg-gray-100">
-                  <Link
-                    to={`/obra/${art.slug}`}
-                    className="h-full w-full"
-                  > 
-                    <img
-                      src={art.final_image_url}
-                      alt={art.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </Link>
+        <div className="flex flex-col items-center justify-center w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {artworks?.length === 0 ? (
+              <p className="col-span-full text-center text-gray-500">Sem obras publicadas nesta coleção.</p>
+            ) : (
+              artworks?.map((art) => (
+                <div key={art.id} className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2">
+                  <div className="aspect-square w-full overflow-hidden bg-gray-100">
+                    <Link
+                      to={`/obra/${art.slug}`}
+                      className="h-full w-full"
+                    > 
+                      <img
+                        src={art.final_image_url}
+                        alt={art.title}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </Link>
+                  </div>
+                  {/*<div className="p-4">
+                    <h3 className="text-xl font-bold">{art.title}</h3>
+                    <p className="text-sm text-gray-500 mb-4">{art.source_model}</p>
+                    <Link
+                      to={`/obra/${art.slug}`}
+                      className="block text-center py-2 px-4 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
+                    >
+                      Mais Detalhes
+                    </Link>
+                  </div>*/}
                 </div>
-                {/*<div className="p-4">
-                  <h3 className="text-xl font-bold">{art.title}</h3>
-                  <p className="text-sm text-gray-500 mb-4">{art.source_model}</p>
-                  <Link
-                    to={`/obra/${art.slug}`}
-                    className="block text-center py-2 px-4 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
-                  >
-                    Mais Detalhes
-                  </Link>
-                </div>*/}
-              </div>
-            ))
-          )}
+              ))
+            )}
+          </div>
         </div>
       </div>
     </div>
