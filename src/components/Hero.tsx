@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-[80vh] flex items-center justify-center overflow-hidden text-white">
+    <section className="relative w-full min-h-[100vh] flex items-center justify-center overflow-hidden text-white">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
@@ -14,11 +14,11 @@ export default function Hero() {
         <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-white" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 text-center space-y-8 flex flex-col items-center justify-center">
-        <h1 className="text-black text-5xl md:text-6xl max-w-4xl mx-auto">
+      <div className="relative z-10 container mx-auto px-4 text-center flex flex-col items-center justify-center">
+        <h1 className="text-black text-2xl md:text-4xl max-w-4xl mx-auto m-0!">
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
         </h1>
-        <p className="text-lg md:text-xl max-w-prose mx-auto font-light">
+        <p className="text-lg md:text-xl max-w-prose mx-auto">
           Curadoria de Arte Digital para explorar e adquirir.
         </p>
         <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
