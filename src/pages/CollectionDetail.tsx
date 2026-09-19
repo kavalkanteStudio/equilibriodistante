@@ -60,13 +60,18 @@ export default function CollectionDetail() {
             artworks?.map((art) => (
               <div key={art.id} className="group relative overflow-hidden rounded-xl border bg-white transition-all hover:shadow-lg">
                 <div className="aspect-square w-full overflow-hidden bg-gray-100">
-                  <img
-                    src={art.final_image_url}
-                    alt={art.title}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+                  <Link
+                    to={`/obra/${art.slug}`}
+                    className="h-full w-full"
+                  > 
+                    <img
+                      src={art.final_image_url}
+                      alt={art.title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </Link>
                 </div>
-                <div className="p-4">
+                {/*<div className="p-4">
                   <h3 className="text-xl font-bold">{art.title}</h3>
                   <p className="text-sm text-gray-500 mb-4">{art.source_model}</p>
                   <Link
@@ -75,7 +80,7 @@ export default function CollectionDetail() {
                   >
                     Mais Detalhes
                   </Link>
-                </div>
+                </div>*/}
               </div>
             ))
           )}

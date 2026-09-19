@@ -83,12 +83,12 @@ export default function Collections() {
                       )}
                     </div>
                     <div className="p-6 text-left">
-                      <h3 className="text-2xl font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
+                      <h3 className="text-base font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
                         {c.name}
                       </h3>
                       <p className="text-sm text-gray-600 line-clamp-2 mt-2">{c.description}</p>
                     </div>
-                    <div className="p-6 flex items-center gap-2 text-brand-primary group-hover:gap-4 transition-all">
+                    <div className="text-sm p-6 flex items-center gap-2 text-gray-600 hover:text-brand-primary group-hover:gap-4 transition-all">
                       Ver a Coleção
                       <ArrowRight className="w-5 h-5" />
                     </div>
