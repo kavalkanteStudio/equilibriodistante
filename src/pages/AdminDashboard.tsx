@@ -468,7 +468,7 @@ export default function AdminDashboard() {
       <div className="mx-auto max-w-7xl flex flex-col gap-8">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-primary">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-600">
               Skoppovic CMS
             </p>
             <h1 className="text-4xl font-display">Catálogo</h1>
@@ -494,7 +494,7 @@ export default function AdminDashboard() {
           ] as const).map(([tab, label, count]) => (
             <button
               aria-selected={activeTab === tab}
-              className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary ${
+              className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-600 ${
                 activeTab === tab
                   ? 'bg-gray-900 text-white'
                   : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
@@ -522,7 +522,7 @@ export default function AdminDashboard() {
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Coleções</h2>
             <button
-              className="text-sm font-bold text-brand-primary"
+              className="text-sm font-bold text-gray-600"
               onClick={() => {
                 resetForm()
                 scrollToForm('collection-form')
@@ -563,7 +563,7 @@ export default function AdminDashboard() {
                       <div className="flex shrink-0 gap-1">
                         <button
                           aria-label={`Editar coleção ${collection.name}`}
-                          className="rounded-md p-2 text-brand-primary hover:bg-brand-primary/10"
+                          className="rounded-md p-2 text-gray-600 hover:bg-gray-600/10"
                           onClick={() => startEditing(collection)}
                           title="Editar coleção"
                           type="button"
@@ -572,7 +572,7 @@ export default function AdminDashboard() {
                         </button>
                         <button
                           aria-label={`Excluir coleção ${collection.name}`}
-                          className="rounded-md p-2 text-red-600 hover:bg-red-50"
+                          className="rounded-md p-2 text-gray-600 hover:bg-gray-50"
                           onClick={() => void deleteCollection(collection.id)}
                           title="Excluir coleção"
                           type="button"
@@ -586,7 +586,7 @@ export default function AdminDashboard() {
               )}
             </section>
 
-                <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="collection-form">
+            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="collection-form">
           <h2 className="mb-5 text-2xl font-display">
             {editingId ? 'Editar coleção' : 'Nova coleção'}
           </h2>
@@ -653,7 +653,7 @@ export default function AdminDashboard() {
                 <option value="published">Publicado</option>
               </select>
             </label>
-            {error && <p className="text-sm text-red-600">{error}</p>}
+            {error && <p className="text-sm text-gray-600">{error}</p>}
             <div className="flex gap-3">
               <button
                 className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50"
@@ -683,7 +683,7 @@ export default function AdminDashboard() {
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Obras</h2>
             <button
-              className="text-sm font-bold text-brand-primary"
+              className="text-sm font-bold text-gray-600"
               onClick={() => {
                 resetArtworkForm()
                 scrollToForm('artwork-form')
@@ -724,7 +724,7 @@ export default function AdminDashboard() {
                   <div className="flex shrink-0 gap-1">
                     <button
                       aria-label={`Editar obra ${artwork.title}`}
-                      className="rounded-md p-2 text-brand-primary hover:bg-brand-primary/10"
+                      className="rounded-md p-2 text-gray-600 hover:bg-gray-600/10"
                       onClick={() => startEditingArtwork(artwork)}
                       title="Editar obra"
                       type="button"
@@ -733,7 +733,7 @@ export default function AdminDashboard() {
                     </button>
                     <button
                       aria-label={`Excluir obra ${artwork.title}`}
-                      className="rounded-md p-2 text-red-600 hover:bg-red-50"
+                      className="rounded-md p-2 text-gray-600 hover:bg-gray-50"
                       onClick={() => void deleteArtwork(artwork.id)}
                       title="Excluir obra"
                       type="button"
@@ -752,53 +752,7 @@ export default function AdminDashboard() {
             {editingArtworkId ? 'Editar obra' : 'Nova obra'}
           </h2>
           <form className="space-y-4" onSubmit={saveArtwork}>
-            <label className="block text-sm font-medium">
-              Título
-              <input
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                value={artworkForm.title}
-                onChange={(event) => {
-                  const title = event.target.value
-                  setArtworkForm({
-                    ...artworkForm,
-                    title,
-                    ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
-                  })
-                }}
-                required
-              />
-            </label>
-            <label className="block text-sm font-medium">
-              Slug
-              <input
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                value={artworkForm.slug}
-                onChange={(event) => {
-                  setArtworkSlugTouched(true)
-                  setArtworkForm({ ...artworkForm, slug: event.target.value })
-                }}
-                pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-                required
-              />
-            </label>
-            <label className="block text-sm font-medium">
-              Coleção
-              <select
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                value={artworkForm.collection_id || ''}
-                onChange={(event) =>
-                  setArtworkForm({ ...artworkForm, collection_id: event.target.value })
-                }
-              >
-                <option value="">Sem coleção</option>
-                {collections.map((collection) => (
-                  <option key={collection.id} value={collection.id}>
-                    {collection.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <div className="rounded-xl border border-brand-primary/20 bg-brand-primary/5 p-4">
+            <div className="rounded-xl border border-gray-600/20 bg-gray-600/5 p-4">
               <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
                 <label className="block text-sm font-medium">
                   Origem do artwork
@@ -815,7 +769,7 @@ export default function AdminDashboard() {
                   </select>
                 </label>
                 <button
-                  className="rounded-lg border border-brand-primary px-4 py-3 font-bold text-brand-primary"
+                  className="rounded-lg border border-gray-600 px-4 py-3 font-bold text-gray-600"
                   onClick={applyLicensePreset}
                   type="button"
                 >
@@ -825,42 +779,6 @@ export default function AdminDashboard() {
               <p className="mt-2 text-xs text-gray-600">
                 Preenche ferramenta, tipo, fonte e notas da licença. Revise e edite os campos antes de salvar.
               </p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="block text-sm font-medium">
-                Orientação
-                <select
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  value={artworkForm.orientation}
-                  onChange={(event) =>
-                    setArtworkForm({
-                      ...artworkForm,
-                      orientation: event.target.value as ArtworkForm['orientation'],
-                    })
-                  }
-                >
-                  <option value="a3-vertical">A3 vertical (30x45)</option>
-                  <option value="a3-wide">A3 wide (45x30)</option>
-                </select>
-              </label>
-              <label className="block text-sm font-medium">
-                Revisão da licença
-                <select
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  value={artworkForm.license_status}
-                  onChange={(event) =>
-                    setArtworkForm({
-                      ...artworkForm,
-                      license_status: event.target.value as ArtworkForm['license_status'],
-                      published: false,
-                    })
-                  }
-                >
-                  <option value="pending">Pendente</option>
-                  <option value="approved">Aprovada</option>
-                  <option value="rejected">Rejeitada</option>
-                </select>
-              </label>
             </div>
             <div>
               <p className="mb-2 block text-sm font-medium">Imagem final</p>
@@ -975,25 +893,63 @@ export default function AdminDashboard() {
                 }
               />
             </label>
+            
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block text-sm font-medium">
+                Orientação
+                <select
+                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  value={artworkForm.orientation}
+                  onChange={(event) =>
+                    setArtworkForm({
+                      ...artworkForm,
+                      orientation: event.target.value as ArtworkForm['orientation'],
+                    })
+                  }
+                >
+                  <option value="a3-vertical">A3 vertical (30x45)</option>
+                  <option value="a3-wide">A3 wide (45x30)</option>
+                </select>
+              </label>
+              <label className="block text-sm font-medium">
+                Revisão da licença
+                <select
+                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  value={artworkForm.license_status}
+                  onChange={(event) =>
+                    setArtworkForm({
+                      ...artworkForm,
+                      license_status: event.target.value as ArtworkForm['license_status'],
+                      published: false,
+                    })
+                  }
+                >
+                  <option value="pending">Pendente</option>
+                  <option value="approved">Aprovada</option>
+                  <option value="rejected">Rejeitada</option>
+                </select>
+              </label>
+            </div>            
             <label className="block text-sm font-medium">
-              Links de referência
+              Link da página oficial
               <input
                 className="mt-1 w-full rounded-lg border border-gray-300 p-3"
                 value={artworkForm.civitai_url || ''}
                 onChange={(event) =>
                   setArtworkForm({ ...artworkForm, civitai_url: event.target.value })
                 }
-                placeholder="URL Civitai"
+                placeholder="URL Civitai, pode ser nulo"
               />
             </label>
             <label className="block text-sm font-medium">
-              Link Leonardo
+              Link da página oficial
               <input
                 className="mt-1 w-full rounded-lg border border-gray-300 p-3"
                 value={artworkForm.leonardo_url || ''}
                 onChange={(event) =>
                   setArtworkForm({ ...artworkForm, leonardo_url: event.target.value })
                 }
+                placeholder="URL Leonardo, pode ser nulo"
               />
             </label>
             <label className="flex items-center gap-2 text-sm font-medium">
@@ -1011,7 +967,7 @@ export default function AdminDashboard() {
                 Texto do crédito
                 <input
                   className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                  value={artworkForm.credit_text || ''}
+                  value={artworkForm.credit_text || 'Créditos: Usuàrio @'}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, credit_text: event.target.value })
                   }
@@ -1019,6 +975,52 @@ export default function AdminDashboard() {
                 />
               </label>
             )}
+            <label className="block text-sm font-medium">
+              Título
+              <input
+                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                value={artworkForm.title}
+                onChange={(event) => {
+                  const title = event.target.value
+                  setArtworkForm({
+                    ...artworkForm,
+                    title,
+                    ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
+                  })
+                }}
+                required
+              />
+            </label>
+            <label className="block text-sm font-medium">
+              Slug
+              <input
+                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                value={artworkForm.slug}
+                onChange={(event) => {
+                  setArtworkSlugTouched(true)
+                  setArtworkForm({ ...artworkForm, slug: event.target.value })
+                }}
+                pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                required
+              />
+            </label>
+            <label className="block text-sm font-medium">
+              Coleção
+              <select
+                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                value={artworkForm.collection_id || ''}
+                onChange={(event) =>
+                  setArtworkForm({ ...artworkForm, collection_id: event.target.value })
+                }
+              >
+                <option value="">Sem coleção</option>
+                {collections.map((collection) => (
+                  <option key={collection.id} value={collection.id}>
+                    {collection.name}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label className="flex items-center gap-2 text-sm font-medium">
               <input
                 checked={artworkForm.published}
@@ -1059,7 +1061,7 @@ export default function AdminDashboard() {
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Produtos</h2>
             <button
-              className="text-sm font-bold text-brand-primary"
+              className="text-sm font-bold text-gray-600"
               onClick={() => {
                 resetProductForm()
                 scrollToForm('product-form')
@@ -1102,7 +1104,7 @@ export default function AdminDashboard() {
                     <div className="flex shrink-0 gap-1">
                       <button
                         aria-label={`Editar produto ${product.title}`}
-                        className="rounded-md p-2 text-brand-primary hover:bg-brand-primary/10"
+                        className="rounded-md p-2 text-gray-600 hover:bg-gray-600/10"
                         onClick={() => startEditingProduct(product)}
                         title="Editar produto"
                         type="button"
@@ -1111,7 +1113,7 @@ export default function AdminDashboard() {
                       </button>
                       <button
                         aria-label={`Excluir produto ${product.title}`}
-                        className="rounded-md p-2 text-red-600 hover:bg-red-50"
+                        className="rounded-md p-2 text-gray-600 hover:bg-gray-50"
                         onClick={() => void deleteProduct(product.id)}
                         title="Excluir produto"
                         type="button"
@@ -1202,7 +1204,7 @@ export default function AdminDashboard() {
               <div className="mt-16 flex items-center justify-between">
                 <p className="font-bold">Variantes</p>
                 <button
-                  className="text-sm font-bold text-brand-primary"
+                  className="text-sm font-bold text-gray-600"
                   onClick={() =>
                     setProductForm({
                       ...productForm,
@@ -1226,7 +1228,7 @@ export default function AdminDashboard() {
                     <p className="text-sm font-medium">Variante {index + 1}</p>
                     {productForm.product_variants.length > 1 && (
                       <button
-                        className="text-sm font-bold text-red-600"
+                        className="text-sm font-bold text-gray-600"
                         onClick={() =>
                           setProductForm({
                             ...productForm,
