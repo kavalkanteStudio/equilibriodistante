@@ -94,21 +94,21 @@
 .art-frame--wide .art-frame__wood--right {
   inset: 0 0 0 auto;
   width: 50%;
-  clip-path: polygon(100% 0, 100% 100%, 0 60%, 0 45%);
+  clip-path: polygon(100% 0, 100% 100%, 0 55%, 0 45%);
   background-position: center center;
 }
 
 .art-frame--wide .art-frame__wood--bottom {
   inset: auto 0 0;
   height: 50%;
-  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  clip-path: polygon(35% 0, 65% 0, 100% 100%, 0 100%);
   background-position: center bottom;
 }
 
 .art-frame--wide .art-frame__wood--left {
   inset: 0 auto 0 0;
   width: 50%;
-  clip-path: polygon(0 0, 100% 45%, 100% 60%, 0 100%);
+  clip-path: polygon(0 0, 100% 45%, 100% 55%, 0 100%);
   background-position: right center;
 }
 
@@ -116,8 +116,8 @@
   position: absolute;
   z-index: 2;
   width: calc(var(--paper-width) + 10%);
-  height: calc(var(--paper-height) - 1%);
-  top: calc(var(--paper-y) + 1.5%);
+  height: calc(var(--paper-height) - 1.5%);
+  top: calc(var(--paper-y) + 1%);
   left: calc(var(--paper-x) - 5%);
   background: #ffffff;
   box-shadow: 0 0 0 1px rgb(125 89 45 / 0.08);
@@ -149,10 +149,10 @@
 
 .art-frame--wide .art-frame__art {
   z-index: 3;
-  top: calc(var(--paper-y) + var(--print-inset-y) + 2%);
-  left: calc(var(--paper-x) + var(--print-inset-x) - 4.5%);
-  width: calc(var(--paper-width) + (3 * var(--print-inset-x)));
-  height: calc(var(--paper-height) - (3 * var(--print-inset-y)));
+  top: calc(var(--paper-y) + var(--print-inset-y) + 1.5%);
+  left: calc(var(--paper-x) + var(--print-inset-x) - 4.75%);
+  width: calc(var(--paper-width) + (3.25 * var(--print-inset-x)));
+  height: calc(var(--paper-height) - (3.5 * var(--print-inset-y)));
   background: #f5f1df;
   box-shadow:
     0 0 0 1px rgb(125 89 45 / 0.08),
