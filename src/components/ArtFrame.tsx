@@ -20,7 +20,7 @@ export default function ArtFrame({ orientation, imageUrl, alt }: ArtFrameProps) 
       <div className="art-paper" />
       <div className="art-frame__mat" aria-hidden="true" />
       <div className="art-frame__art">
-        <img className="object-contain" src={imageUrl} alt={alt} />
+        <img className="object-cover" src={imageUrl} alt={alt} />
       </div>
     </div>
   )
