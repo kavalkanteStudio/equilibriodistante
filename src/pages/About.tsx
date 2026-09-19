@@ -1,51 +1,53 @@
 import { Link } from 'react-router-dom'
 import SEO from '@/components/SEO'
+import { ArrowRight } from 'lucide-react'
 
 export default function About() {
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">
-      <SEO title="About Us" description="Discover the vision and philosophy behind SKOPPOVIC's digital art curation." />
+      <SEO title="Sobre" description="A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual." />
       <div className="text-center mb-16 space-y-4">
-        <h1 className="text-2xl md:text-4xl">Sobre</h1>
+        <h1 className="text-2xl md:text-4xl">Sobre Expressão e Cor</h1>
         <div className="w-20 h-1 bg-brand-primary mx-auto" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="flex flex-col items-start h-full gap-8 text-gray-700">
-          <p className="text-left text-normal">
+      <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-12 items-center">
+        <div className="h-full flex flex-col justify-around gap-4 text-gray-700 leading-8">
+          <p className="">
             A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual.
           </p>
-          <p className="text-left text-normal">
+          <p className="">
             Em cada peça reunimos emoção e conhecimento humano revelados no tempo.
           </p>
-          <p className="text-left text-normal">
+          <p className="">
             Nosso trabalho é combinar ideias, tecnologias e impressão artesanal com o uso massivo de Inteligência artificial, criando novas referências, encontros e possibilidades.
           </p>
-          <p className="text-left text-normal">
+          <p className="">
             São imagens digitais, selecionadas para inspirar e decorar espaços com arte acessível.
           </p>
-          <p className="text-left text-normal">
+          <p className="">
             Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.
           </p>
         </div>
-        <div className="aspect-auto rounded-3xl overflow-hidden border relative">
+        <div className="rounded-3xl overflow-hidden border relative">
           <img
             src="/images/hero02.jpg"
-            alt="Art Studio"
+            alt="Pôr do sol"
             className="w-full h-full object-cover opacity-80"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
         </div>
       </div>
 
-      <div className="mt-20 p-8 bg-gray-50 rounded-3xl border text-center space-y-4">
-        <h3 className="text-2xl font-bold">Pronto para transformar seu espaço?</h3>
-        <p className="text-gray-600">Encontre obras imaginadas e re-imaginadas.</p>
+      <div className="mt-20 p-8 bg-gray-50 rounded-3xl border flex flex-col items-center justify-center gap-4">
+        <h3 className="text-xl md:text-3xl font-bold">Pronto para transformar seu espaço?</h3>
+        <p className="text-gray-600 text-lg md:text-3xl">Arte para Exploraaaaaaaaaaaar e Adquirir.</p>
         <Link
-          to="/collections"
-          className="mt-4 inline-block px-8 py-3 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all"
+          to="/coleções"
+          className="text-xl px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
         >
-          Ver as coleções
+          Venha ver as coleções
+          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
     </div>
