@@ -471,7 +471,7 @@ export default function AdminDashboard() {
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-600">
               Skoppovic CMS
             </p>
-            <h1 className="text-4xl font-display">Catálogo</h1>
+            <h1 className="text-2xl md:text-4xl">Catálogo</h1>
             <p className="text-sm text-gray-500">{session?.user.email}</p>
           </div>
           <button
