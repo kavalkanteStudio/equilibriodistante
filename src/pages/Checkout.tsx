@@ -90,7 +90,7 @@ export default function Checkout() {
           ← Home
         </Link>
 
-        <h1 className="text-4xl font-display font-bold mb-8">Checkout</h1>
+        <h1 className="text-2xl md:text-4xl mb-8">Checkout</h1>
 
         {cart.length === 0 ? (
           <div className="text-center py-12">

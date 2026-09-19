@@ -6,7 +6,7 @@ export default function Contact() {
     <div className="container mx-auto px-4 py-20 max-w-5xl">
       <SEO title="Contact Us" description="Get in touch with SKOPPOVIC for inquiries or custom decorative art requests." />
       <div className="text-center mb-16 space-y-4">
-        <h1 className="text-4xl md:text-5xl">Contato</h1>
+        <h1 className="text-2xl md:text-4xl">Contato</h1>
         <div className="w-20 h-1 bg-brand-primary mx-auto" />
         <p className="text-lg text-gray-600">Estamos aqui para ouvir você. Seja uma dúvida sobre uma peça ou uma solicitação personalizada.</p>
       </div>
