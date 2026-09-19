@@ -137,7 +137,7 @@ export default function ArtworkDetail() {
           {/* Right: Details & Purchasing */}
           <div className="flex flex-col">
             <header className="mb-8">
-              <h1 className="text-4xl md:text-5xl mb-2">{artwork.title}</h1>
+              <h1 className="text-2xl md:text-4xl mb-2">{artwork.title}</h1>
               <p className="text-lg text-gray-500 font-medium mb-4">{artwork.source_model}</p>
               <div className="p-4 bg-gray-50 rounded-xl border border-gray-100">
                 <h3 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-2">Artist's Note</h3>
