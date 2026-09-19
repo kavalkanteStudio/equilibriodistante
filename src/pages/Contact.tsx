@@ -10,8 +10,10 @@ export default function Contact() {
         <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
           <h1 className="text-2xl md:text-4xl">Contato</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+          <p className="text-lg text-gray-600 max-w-xl mx-auto font-light">
             Retornamos emails durante as manhâs de segunda à sexta. 
+          </p>
+          <p className="text-lg text-gray-600 max-w-96 mx-auto font-light">
             Mande uma dúvida sobre uma peça ou faça uma solicitação personalizada.  
           </p>
         </div>
