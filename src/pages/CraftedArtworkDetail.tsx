@@ -95,7 +95,7 @@ export default function ArtworkDetail() {
     <div className="min-h-screen p-4 md:p-8 bg-white">
       <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
-        <Link to={`/coleção/${collection?.slug}`} className="text-brand-primary hover:underline mb-8 inline-block">
+        <Link to={`/coleção/${collection?.slug}`} className="text-brand-primary hover:underline mb-24 inline-block">
           ← Coleção
         </Link>
 
