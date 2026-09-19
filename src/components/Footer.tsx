@@ -9,9 +9,9 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-2">
             <h3 className="font-display text-xl text-black">SKOPPOVIC</h3>
             <p className="text-gray-600">
-              Artesanato e arte decorativa de baixo custo.
+              Arte Decorativa de Baixo Custo.
             </p>
-            <div className="flex mt-4 justify-self-center gap-4 text-gray-400">
+            <div className="flex mt-4 gap-4 text-gray-400">
               <a href="#" className="hover:text-brand-primary transition-colors">
                 <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
               </a>

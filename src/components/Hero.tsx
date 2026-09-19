@@ -11,17 +11,17 @@ export default function Hero() {
           alt="Featured Artwork"
           className="w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-linear-to-b from-black/40 via-black/20 to-white" />
+        <div className="absolute inset-0 bg-linear-to-b from-white/0 via-white/5 to-white" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center flex flex-col items-center justify-center">
-        <h1 className="text-black text-2xl md:text-4xl max-w-4xl mx-auto m-0!">
+        <h1 className="text-black text-3xl md:text-6xl max-w-4xl mx-auto m-0!">
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
         </h1>
-        <p className="text-lg md:text-xl max-w-prose mx-auto">
-          Curadoria de Arte Digital para explorar e adquirir.
+        <p className="text-xl md:text-3xl mb-8!">
+          Arte para Exploraaaaaaaaaaaar e Adquirir.
         </p>
-        <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/coleções"
             className="px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
