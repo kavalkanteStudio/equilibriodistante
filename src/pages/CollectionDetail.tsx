@@ -58,7 +58,7 @@ export default function CollectionDetail() {
             <p className="col-span-full text-center text-gray-500">Sem obras publicadas nesta coleção.</p>
           ) : (
             artworks?.map((art) => (
-              <div key={art.id} className="group relative overflow-hidden rounded-xl border bg-white transition-all hover:shadow-lg">
+              <div key={art.id} className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2">
                 <div className="aspect-square w-full overflow-hidden bg-gray-100">
                   <Link
                     to={`/obra/${art.slug}`}
