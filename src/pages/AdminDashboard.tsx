@@ -481,13 +481,23 @@ export default function AdminDashboard() {
             <h1 className="text-2xl md:text-4xl">Catálogo</h1>
             <p className="text-sm text-gray-500">{session?.user.email}</p>
           </div>
-          <button
-            className={buttonSecondary}
-            onClick={() => void signOut()}
-            type="button"
-          >
-            Sair
-          </button>
+          <span className="flex gap-1">
+            
+            <button
+              className={buttonSecondary}
+              onClick={() => window.location.href = "/"}
+              type="button"
+            >
+              Home
+            </button>
+            <button
+              className={buttonSecondary}
+              onClick={() => void signOut()}
+              type="button"
+            >
+              Logout
+            </button>
+        </span>
         </header>
 
         <nav
