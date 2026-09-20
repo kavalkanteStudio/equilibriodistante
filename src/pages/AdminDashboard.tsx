@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
 import { slugify } from '@/lib/utils'
-import { Pencil, Trash2 } from 'lucide-react'
+import { Pencil, Trash2, ClipboardPlus } from 'lucide-react'
 
 type Collection = {
   id: string
@@ -463,6 +463,13 @@ export default function AdminDashboard() {
     else await loadProducts()
   }
 
+  const buttonPrimary = "rounded-lg bg-brand-secondary hover:bg-brand-primary px-4 py-2 font-bold text-white/80 hover:text-white disabled:opacity-50 border border-transparent transition-colors"
+  const buttonSecondary = "rounded-lg border border-brand-secondary text-gray-900/50 hover:text-gray-900/70 hover:bg-brand-secondary/10 px-4 py-2 font-bold transition-colors"
+  const buttonNew = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
+  const buttonEdit = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
+  const buttonDelete = "rounded-md p-2 text-brand-secondary hover:bg-brand-secondary/10 transition-colors"
+  const inputs = "mt-1 w-full rounded-lg bg-white border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
+
   return (
     <main className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="mx-auto max-w-7xl flex flex-col gap-8">
@@ -475,7 +482,7 @@ export default function AdminDashboard() {
             <p className="text-sm text-gray-500">{session?.user.email}</p>
           </div>
           <button
-            className="rounded-lg border border-gray-300 bg-white hover:bg-gray-200 px-4 py-2 font-medium"
+            className={buttonSecondary}
             onClick={() => void signOut()}
             type="button"
           >
@@ -485,7 +492,7 @@ export default function AdminDashboard() {
 
         <nav
           aria-label="Seções do catálogo"
-          className="grid grid-cols-3 rounded-xl border border-gray-200 bg-white p-1 shadow-sm"
+          className="grid grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm"
         >
           {([
             ['collections', 'Coleções', collections.length],
@@ -497,7 +504,7 @@ export default function AdminDashboard() {
               className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-600 ${
                 activeTab === tab
                   ? 'bg-gray-900 text-white'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  : 'text-gray-900/50 hover:bg-brand-secondary/10 border border-transparent hover:border hover:border-brand-secondary hover:text-gray-900/70'
               }`}
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -507,7 +514,7 @@ export default function AdminDashboard() {
               {label}
               <span
                 className={`ml-2 rounded-full px-2 py-0.5 text-xs ${
-                  activeTab === tab ? 'bg-white/15 text-white' : 'bg-gray-100 text-gray-500'
+                  activeTab === tab ? 'bg-brand-primary text-white' : 'bg-gray-900/50 text-white'
                 }`}
               >
                 {count}
@@ -516,20 +523,21 @@ export default function AdminDashboard() {
           ))}
         </nav>
 
+        {/* Tab Coleções*/}
         {activeTab === 'collections' && (
         <>
           <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-2xl font-display">Coleções</h2>
               <button
-                className="text-sm font-bold text-gray-600"
+                className={buttonNew}
                 onClick={() => {
                   resetForm()
                   scrollToForm('collection-form')
                 }}
                 type="button"
               >
-                Nova coleção
+                <ClipboardPlus />
               </button>
             </div>
             {isLoading ? (
@@ -563,7 +571,7 @@ export default function AdminDashboard() {
                         <div className="flex shrink-0 gap-1">
                           <button
                             aria-label={`Editar coleção ${collection.name}`}
-                            className="rounded-md p-2 text-gray-600 hover:bg-gray-600/10"
+                            className={buttonEdit}
                             onClick={() => startEditing(collection)}
                             title="Editar coleção"
                             type="button"
@@ -572,7 +580,7 @@ export default function AdminDashboard() {
                           </button>
                           <button
                             aria-label={`Excluir coleção ${collection.name}`}
-                            className="rounded-md p-2 text-gray-600 hover:bg-gray-50"
+                            className={buttonDelete}
                             onClick={() => void deleteCollection(collection.id)}
                             title="Excluir coleção"
                             type="button"
@@ -586,111 +594,112 @@ export default function AdminDashboard() {
                 )}
           </section>
 
-            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="collection-form">
-              <h2 className="mb-5 text-2xl font-display">
-                {editingId ? 'Editar coleção' : 'Nova coleção'}
-              </h2>
-              <form className="space-y-4" onSubmit={saveCollection}>
-                <label className="block text-sm font-medium">
-                  Nome
+          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="collection-form">
+            <h2 className="mb-5 text-2xl font-display">
+              {editingId ? 'Editar coleção' : 'Nova coleção'}
+            </h2>
+            <form className="space-y-4" onSubmit={saveCollection}>
+              <label className="block text-sm font-medium">
+                Nome
+                <input
+                  className={inputs}
+                  value={form.name}
+                  onChange={(event) => setForm({ ...form, name: event.target.value })}
+                  required
+                />
+              </label>
+              <label className="block text-sm font-medium">
+                Slug
+                <input
+                  className={inputs}
+                  value={form.slug}
+                  onChange={(event) => setForm({ ...form, slug: event.target.value })}
+                  pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                  required
+                />
+              </label>
+              <label className="block text-sm font-medium">
+                Descrição
+                <textarea
+                  className={inputs}
+                  rows={4}
+                  value={form.description || ''}
+                  onChange={(event) => setForm({ ...form, description: event.target.value })}
+                />
+              </label>
+              <div>
+                <p className="mb-2 block text-sm font-medium">Capa da coleção</p>
+                <ImageUploadField
+                  value={form.cover_image || ''}
+                  onChange={(coverImage) => setForm({ ...form, cover_image: coverImage })}
+                  pathPrefix={`collections/${editingId || 'pending'}`}
+                  disabled={!editingId}
+                />
+                {!editingId && (
+                  <p className="mt-2 text-xs text-gray-500">
+                    Salve a coleção primeiro para habilitar o upload.
+                  </p>
+                )}
+                <label className="mt-3 block text-sm font-medium">
+                  Ou cole uma URL direta
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                    value={form.name}
-                    onChange={(event) => setForm({ ...form, name: event.target.value })}
-                    required
-                  />
-                </label>
-                <label className="block text-sm font-medium">
-                  Slug
-                  <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                    value={form.slug}
-                    onChange={(event) => setForm({ ...form, slug: event.target.value })}
-                    pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-                    required
-                  />
-                </label>
-                <label className="block text-sm font-medium">
-                  Descrição
-                  <textarea
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                    rows={4}
-                    value={form.description || ''}
-                    onChange={(event) => setForm({ ...form, description: event.target.value })}
-                  />
-                </label>
-                <div>
-                  <p className="mb-2 block text-sm font-medium">Capa da coleção</p>
-                  <ImageUploadField
+                    className={inputs}
+                    type="url"
                     value={form.cover_image || ''}
-                    onChange={(coverImage) => setForm({ ...form, cover_image: coverImage })}
-                    pathPrefix={`collections/${editingId || 'pending'}`}
-                    disabled={!editingId}
+                    onChange={(event) => setForm({ ...form, cover_image: event.target.value })}
                   />
-                  {!editingId && (
-                    <p className="mt-2 text-xs text-gray-500">
-                      Salve a coleção primeiro para habilitar o upload.
-                    </p>
-                  )}
-                  <label className="mt-3 block text-sm font-medium">
-                    Ou cole uma URL direta
-                    <input
-                      className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                      type="url"
-                      value={form.cover_image || ''}
-                      onChange={(event) => setForm({ ...form, cover_image: event.target.value })}
-                    />
-                  </label>
-                </div>
-                <label className="block text-sm font-medium">
-                  Status
-                  <select
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
-                    value={form.status}
-                    onChange={(event) => setForm({ ...form, status: event.target.value })}
-                  >
-                    <option value="draft">Rascunho</option>
-                    <option value="published">Publicado</option>
-                  </select>
                 </label>
-                {error && <p className="text-sm text-gray-600">{error}</p>}
-                <div className="flex gap-3">
+              </div>
+              <label className="block text-sm font-medium">
+                Status
+                <select
+                  className={inputs}
+                  value={form.status}
+                  onChange={(event) => setForm({ ...form, status: event.target.value })}
+                >
+                  <option value="draft">Rascunho</option>
+                  <option value="published">Publicado</option>
+                </select>
+              </label>
+              {error && <p className="text-sm text-gray-600">{error}</p>}
+              <div className="flex gap-3">
+                <button
+                  className={buttonPrimary}
+                  disabled={isSaving}
+                  type="submit"
+                >
+                  {isSaving ? 'Salvando...' : 'Salvar'}
+                </button>
+                {editingId && (
                   <button
-                    className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50"
-                    disabled={isSaving}
-                    type="submit"
+                    className={buttonSecondary}
+                    onClick={resetForm}
+                    type="button"
                   >
-                    {isSaving ? 'Salvando...' : 'Salvar'}
+                    Cancelar
                   </button>
-                  {editingId && (
-                    <button
-                      className="rounded-lg border border-gray-300 px-4 py-3 font-bold"
-                      onClick={resetForm}
-                      type="button"
-                    >
-                      Cancelar
-                    </button>
-                  )}
-                </div>
-              </form>
-            </section>
-          </>
+                )}
+              </div>
+            </form>
+          </section>
+        </>
         )}
 
+        {/* Tab Obras*/}
         {activeTab === 'artworks' && (
         <>
         <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Obras</h2>
             <button
-              className="rounded-lg text-sm font-bold text-gray-600 border border-gray-300 hover:bg-gray-200 p-3"
+              className={buttonNew}
               onClick={() => {
                 resetArtworkForm()
                 scrollToForm('artwork-form')
               }}
               type="button"
             >
-              Nova obra
+              <ClipboardPlus />
             </button>
           </div>
           {artworks.length === 0 ? (
@@ -724,7 +733,7 @@ export default function AdminDashboard() {
                   <div className="flex shrink-0 gap-1">
                     <button
                       aria-label={`Editar obra ${artwork.title}`}
-                      className="rounded-md p-2 text-gray-600 hover:bg-gray-600/10"
+                      className={buttonEdit}
                       onClick={() => startEditingArtwork(artwork)}
                       title="Editar obra"
                       type="button"
@@ -733,7 +742,7 @@ export default function AdminDashboard() {
                     </button>
                     <button
                       aria-label={`Excluir obra ${artwork.title}`}
-                      className="rounded-md p-2 text-gray-600 hover:bg-gray-50"
+                      className={buttonDelete}
                       onClick={() => void deleteArtwork(artwork.id)}
                       title="Excluir obra"
                       type="button"
@@ -748,16 +757,16 @@ export default function AdminDashboard() {
           </section>
 
           <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="artwork-form">
-            <h2 className="mb-5 text-2xl font-display">
+            <h2 className="mb-5! text-2xl font-display">
               {editingArtworkId ? 'Editar obra' : 'Nova obra'}
             </h2>
             <form className="space-y-4" onSubmit={saveArtwork}>
-              <div className="rounded-xl border border-gray-600/20 bg-gray-600/5 p-4">
+              <p className="mb-2 block text-sm font-medium">Origem do artwork</p>
+              <div className="rounded-xl border-2 border-dashed border-brand-secondary/50 bg-brand-secondary/5 hover:border-brand-secondary/70 hover:bg-brand-secondary/10 p-4">
                 <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
-                  <label className="block text-sm font-medium">
-                    Origem do artwork
+                  <label className="flex items-center text-sm font-medium">
                     <select
-                      className="mt-1 w-full rounded-lg border border-gray-300 bg-white p-3"
+                      className={inputs}
                       value={artworkOrigin}
                       onChange={(event) => setArtworkOrigin(event.target.value as ArtworkOrigin)}
                     >
@@ -769,15 +778,15 @@ export default function AdminDashboard() {
                     </select>
                   </label>
                   <button
-                    className="rounded-lg border border-gray-600 px-4 py-3 font-bold text-gray-600"
+                    className={buttonPrimary}
                     onClick={applyLicensePreset}
                     type="button"
                   >
                     Aplicar preset de licença
                   </button>
                 </div>
-                <p className="mt-2 text-xs text-gray-600">
-                  Preenche ferramenta, tipo, fonte e notas da licença. Revise e edite os campos antes de salvar.
+                <p className="p-1 text-xs text-brand-primary">
+                  Ferramenta, Tipo, Fonte, Licença. Revise antes de salvar.
                 </p>
               </div>
               <div>
@@ -793,7 +802,7 @@ export default function AdminDashboard() {
                 <label className="mt-3 block text-sm font-medium">
                   Ou cole uma URL direta
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     type="url"
                     value={artworkForm.final_image_url || ''}
                     onChange={(event) =>
@@ -805,7 +814,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Resumo do prompt
                 <textarea
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   rows={3}
                   value={artworkForm.prompt_summary || ''}
                   onChange={(event) =>
@@ -816,7 +825,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Descrição do workflow
                 <textarea
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   rows={3}
                   value={artworkForm.workflow_description || ''}
                   onChange={(event) =>
@@ -828,7 +837,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Ferramenta
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     value={artworkForm.source_tool || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, source_tool: event.target.value })
@@ -839,7 +848,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Modelo
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     value={artworkForm.source_model || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, source_model: event.target.value })
@@ -850,7 +859,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Plano utilizado
                 <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   value={artworkForm.source_plan || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, source_plan: event.target.value })
@@ -862,7 +871,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Tipo de licença
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     value={artworkForm.license_type || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, license_type: event.target.value })
@@ -873,7 +882,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Fonte da licença
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     type="url"
                     value={artworkForm.license_source_url || ''}
                     onChange={(event) =>
@@ -885,7 +894,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Notas da licença
                 <textarea
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   rows={3}
                   value={artworkForm.license_notes || ''}
                   onChange={(event) =>
@@ -897,7 +906,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Orientação
                   <select
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     value={artworkForm.orientation}
                     onChange={(event) =>
                       setArtworkForm({
@@ -913,7 +922,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Revisão da licença
                   <select
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     value={artworkForm.license_status}
                     onChange={(event) =>
                       setArtworkForm({
@@ -932,7 +941,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Link da página oficial
                 <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   value={artworkForm.civitai_url || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, civitai_url: event.target.value })
@@ -943,7 +952,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Link da página oficial
                 <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   value={artworkForm.leonardo_url || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, leonardo_url: event.target.value })
@@ -965,7 +974,7 @@ export default function AdminDashboard() {
                 <label className="block text-sm font-medium">
                   Texto do crédito
                   <input
-                    className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                    className={inputs}
                     value={artworkForm.credit_text || 'Créditos: Usuàrio @'}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, credit_text: event.target.value })
@@ -977,7 +986,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Título
                 <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   value={artworkForm.title}
                   onChange={(event) => {
                     const title = event.target.value
@@ -993,7 +1002,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Slug
                 <input
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   value={artworkForm.slug}
                   onChange={(event) => {
                     setArtworkSlugTouched(true)
@@ -1006,7 +1015,7 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium">
                 Coleção
                 <select
-                  className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                  className={inputs}
                   value={artworkForm.collection_id || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, collection_id: event.target.value })
@@ -1033,7 +1042,7 @@ export default function AdminDashboard() {
               </label>
               <div className="flex gap-3">
                 <button
-                  className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50"
+                  className={buttonPrimary}
                   disabled={isSaving}
                   type="submit"
                 >
@@ -1041,7 +1050,7 @@ export default function AdminDashboard() {
                 </button>
                 {editingArtworkId && (
                   <button
-                    className="rounded-lg border border-gray-300 px-4 py-3 font-bold"
+                    className={buttonSecondary}
                     onClick={resetArtworkForm}
                     type="button"
                   >
@@ -1054,20 +1063,21 @@ export default function AdminDashboard() {
           </>
         )}
 
+        {/* Tab Produtos */}
         {activeTab === 'products' && (
           <>
             <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Produtos</h2>
             <button
-              className="text-sm font-bold text-gray-600"
+              className={buttonNew}
               onClick={() => {
                 resetProductForm()
                 scrollToForm('product-form')
               }}
               type="button"
             >
-              Novo produto
+              <ClipboardPlus />
             </button>
           </div>
           {products.length === 0 ? (
@@ -1103,7 +1113,7 @@ export default function AdminDashboard() {
                     <div className="flex shrink-0 gap-1">
                       <button
                         aria-label={`Editar produto ${product.title}`}
-                        className="rounded-md p-2 text-gray-600 hover:bg-gray-600/10"
+                        className={buttonEdit}
                         onClick={() => startEditingProduct(product)}
                         title="Editar produto"
                         type="button"
@@ -1112,7 +1122,7 @@ export default function AdminDashboard() {
                       </button>
                       <button
                         aria-label={`Excluir produto ${product.title}`}
-                        className="rounded-md p-2 text-gray-600 hover:bg-gray-50"
+                        className={buttonDelete}
                         onClick={() => void deleteProduct(product.id)}
                         title="Excluir produto"
                         type="button"
@@ -1135,12 +1145,11 @@ export default function AdminDashboard() {
             <label className="block text-sm font-medium">
               Obra
               <select
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                className={inputs}
                 value={productForm.artwork_id}
                 onChange={(event) =>
                   setProductForm({ ...productForm, artwork_id: event.target.value })
                 }
-                required
               >
                 <option value="">Selecione uma obra</option>
                 {artworks
@@ -1155,7 +1164,7 @@ export default function AdminDashboard() {
             <label className="block text-sm font-medium">
               Título
               <input
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                className={inputs}
                 value={productForm.title}
                 onChange={(event) => setProductForm({ ...productForm, title: event.target.value })}
                 required
@@ -1164,7 +1173,7 @@ export default function AdminDashboard() {
             <label className="block text-sm font-medium">
               Tipo
               <select
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                className={inputs}
                 value={productForm.product_type}
                 onChange={(event) =>
                   setProductForm({ ...productForm, product_type: event.target.value })
@@ -1178,7 +1187,7 @@ export default function AdminDashboard() {
             <label className="block text-sm font-medium">
               Descrição
               <textarea
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                className={inputs}
                 rows={3}
                 value={productForm.description || ''}
                 onChange={(event) =>
@@ -1189,7 +1198,7 @@ export default function AdminDashboard() {
             <label className="block text-sm font-medium">
               Preço
               <input
-                className="mt-1 w-full rounded-lg border border-gray-300 p-3"
+                className={inputs}
                 inputMode="decimal"
                 value={productForm.base_price}
                 onChange={(event) =>
@@ -1306,7 +1315,7 @@ export default function AdminDashboard() {
             </label>
             <div className="flex gap-3">
               <button
-                className="rounded-lg bg-gray-900 px-4 py-3 font-bold text-white disabled:opacity-50"
+                className={buttonPrimary}
                 disabled={isSaving}
                 type="submit"
               >
@@ -1314,7 +1323,7 @@ export default function AdminDashboard() {
               </button>
               {editingProductId && (
                 <button
-                  className="rounded-lg border border-gray-300 px-4 py-3 font-bold"
+                  className={buttonSecondary}
                   onClick={resetProductForm}
                   type="button"
                 >

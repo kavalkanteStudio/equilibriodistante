@@ -62,7 +62,7 @@ export default function ImageUploadField({ value, onChange, pathPrefix, disabled
   return (
     <div>
       <button
-        className={`relative flex min-h-40 w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed p-4 text-center transition-colors ${isDragging ? 'border-brand-primary bg-brand-primary/10' : 'border-gray-300 bg-gray-50 hover:border-brand-primary'} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+        className={`relative flex min-h-40 w-full flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-dashed p-4 text-center transition-colors ${isDragging ? 'border-brand-primary bg-brand-primary/5' : 'border-brand-secondary/50 bg-brand-secondary/5 hover:bg-brand-secondary/10 hover:border-brand-secondary/70'} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
         disabled={disabled || isUploading}
         onClick={() => inputRef.current?.click()}
         onDragEnter={(event) => { event.preventDefault(); setIsDragging(true) }}
@@ -72,14 +72,14 @@ export default function ImageUploadField({ value, onChange, pathPrefix, disabled
         type="button"
       >
         {value ? <img className="absolute inset-0 h-full w-full object-cover opacity-30" src={value} alt="Pré-visualização da capa" /> : null}
-        <span className="relative z-10 rounded-full bg-white/90 p-3 text-brand-primary shadow-sm">
+        <span className="relative z-10 rounded-full bg-white/90 p-3 border border-brand-secondary/70 text-brand-primary shadow-sm">
           {isUploading ? <UploadCloud className="animate-pulse" size={24} /> : <ImagePlus size={24} />}
         </span>
-        <span className="relative z-10 mt-3 text-sm font-bold text-gray-700">{isUploading ? 'Enviando imagem...' : 'Arraste a imagem ou clique para selecionar'}</span>
-        <span className="relative z-10 mt-1 text-xs text-gray-500">JPEG, PNG ou WebP · até 12 MB</span>
+        <span className="relative z-10 mt-3 text-sm font-bold text-gray-900/70">{isUploading ? 'Enviando imagem...' : 'Arrastar ou Selecionar Imagem'}</span>
+        <span className="relative z-10 mt-1 text-xs text-gray-900/50">JPEG, PNG ou WebP · até 12 MB</span>
       </button>
       <input ref={inputRef} accept="image/jpeg,image/png,image/webp" className="hidden" onChange={handleInputChange} type="file" />
-      {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-brand-primary">{error}</p>}
     </div>
   )
 }
