@@ -12,23 +12,7 @@ export default function About() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr] gap-12 items-center">
-        <div className="h-full flex flex-col justify-around gap-4 text-gray-700 leading-8">
-          <p className="">
-            A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual.
-          </p>
-          <p className="">
-            Em cada peça reunimos emoção e conhecimento humano revelados no tempo.
-          </p>
-          <p className="">
-            Nosso trabalho é combinar ideias, tecnologias e impressão artesanal com o uso massivo de Inteligência artificial, criando novas referências, encontros e possibilidades.
-          </p>
-          <p className="">
-            São imagens digitais, selecionadas para inspirar e decorar espaços com arte acessível.
-          </p>
-          {/* <p className="">
-            Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.
-          </p> */}
-        </div>
+        
         <div className="rounded-3xl overflow-hidden border relative">
           <img
             src="/images/hero02.jpg"
@@ -37,11 +21,29 @@ export default function About() {
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
         </div>
+
+        <div className="h-full flex flex-col justify-around gap-4 text-gray-700 leading-8">
+          <p className="text-xl">
+            A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual.
+          </p>
+          <p className="text-xl">
+            Em cada peça reunimos emoção e conhecimento humano revelados no tempo.
+          </p>
+          <p className="text-xl">
+            Nosso trabalho é combinar ideias, tecnologias e impressão artesanal com o uso massivo de Inteligência artificial, criando novas referências, encontros e possibilidades.
+          </p>
+          <p className="text-xl">
+            São imagens digitais, selecionadas para inspirar e decorar espaços com arte acessível.
+          </p>
+          {/* <p className="text-xl">
+            Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.
+          </p> */}
+        </div>
       </div>
 
       <div className="mt-20 p-8 bg-gray-50 rounded-3xl border flex flex-col items-center justify-center gap-4">
-        <h3 className="text-xl md:text-2xl font-bold">Transforme seu Espaço</h3>
-        <p className="text-gray-600 text-xl md:text-2xl text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
+        <p className="text-xl md:text-2xl font-bold">Transforme seu Ambiente</p>
+        <p className="text-gray-600 text-lg md:text-xl text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
         <Link
           to="/coleções"
           className="text-xl px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
