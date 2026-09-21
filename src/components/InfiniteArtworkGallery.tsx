@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -16,8 +16,8 @@ type Artwork = {
 }
 
 export default function InfiniteArtworkGallery() {
-  const trackRef = useRef<HTMLUListElement>(null)
-  const animationRef = useRef<gsap.core.Tween | null>(null)
+  const stageRef = useRef<HTMLUListElement>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
@@ -45,37 +45,62 @@ export default function InfiniteArtworkGallery() {
     return () => mediaQuery.removeEventListener('change', updateMotionPreference)
   }, [])
 
-  useLayoutEffect(() => {
-    if (!trackRef.current || artworks.length < 2 || prefersReducedMotion) return
+  const currentIndex = artworks.length > 0 ? activeIndex % artworks.length : 0
 
-    const track = trackRef.current
-    const cards = track.querySelectorAll<HTMLElement>('[data-artwork-card]')
-    const half = Math.ceil(cards.length / 2)
-    const cardWidth = cards[0]?.offsetWidth || 0
-    const gap = Number.parseFloat(getComputedStyle(track).gap) || 0
-    const loopDistance = half * (cardWidth + gap)
+  useEffect(() => {
+    if (artworks.length < 2 || isPaused || prefersReducedMotion) return
 
-    if (!loopDistance) return
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % artworks.length)
+    }, 6500)
 
-    const animation = gsap.to(track, {
-      x: -loopDistance,
-      duration: Math.max(artworks.length * 5, 24),
-      ease: 'none',
-      repeat: -1,
-      paused: isPaused,
-    })
-
-    animationRef.current = animation
-    return () => {
-      animation.kill()
-      animationRef.current = null
-    }
+    return () => window.clearInterval(timer)
   }, [artworks.length, isPaused, prefersReducedMotion])
 
+  useLayoutEffect(() => {
+    if (!stageRef.current || artworks.length === 0) return
+
+    const stage = stageRef.current
+    const cards = Array.from(stage.querySelectorAll<HTMLElement>('[data-artwork-card]'))
+    const sideOffset = Math.min(window.innerWidth * 0.28, 360)
+
+    cards.forEach((card, index) => {
+      const distance = artworks.length === 1 ? 0 : (index - currentIndex) % artworks.length
+      const normalizedDistance = distance < -1 ? distance + artworks.length : distance > 1 ? distance - artworks.length : distance
+      const isCenter = normalizedDistance === 0
+      const isSide = Math.abs(normalizedDistance) === 1
+      const x = normalizedDistance * sideOffset
+
+      gsap.to(card, {
+        x,
+        scale: isCenter ? 1 : 0.68,
+        autoAlpha: isCenter ? 1 : isSide ? 0.62 : 0,
+        zIndex: isCenter ? 3 : isSide ? 2 : 0,
+        duration: prefersReducedMotion ? 0 : 0.8,
+        ease: 'power3.inOut',
+        pointerEvents: isCenter || isSide ? 'auto' : 'none',
+      })
+    })
+
+    return () => {
+      gsap.killTweensOf(cards)
+    }
+  }, [currentIndex, artworks.length, prefersReducedMotion])
+
+  useEffect(() => {
+    const nearbyArtworks = artworks.length > 0
+      ? [-2, -1, 0, 1, 2].map((offset) => artworks[(currentIndex + offset + artworks.length) % artworks.length])
+      : []
+
+    nearbyArtworks.forEach((artwork) => {
+      const image = new Image()
+      image.src = artwork.final_image_url
+    })
+  }, [currentIndex, artworks])
+
   function move(direction: 1 | -1) {
-    if (!animationRef.current || prefersReducedMotion) return
-    const nextTime = animationRef.current.time() + direction * 1.5
-    animationRef.current.time(nextTime)
+    if (artworks.length < 2) return
+    setActiveIndex((current) => (current + direction + artworks.length) % artworks.length)
   }
 
   function togglePause() {
@@ -83,8 +108,6 @@ export default function InfiniteArtworkGallery() {
   }
 
   if (isLoading || artworks.length === 0) return null
-
-  const displayedArtworks = prefersReducedMotion ? artworks : [...artworks, ...artworks]
 
   return (
     <section className="infinite-gallery" aria-labelledby="infinite-gallery-title">
@@ -95,15 +118,15 @@ export default function InfiniteArtworkGallery() {
       </div>
 
       <div className="infinite-gallery__viewport">
-        <ul className="infinite-gallery__track" ref={trackRef}>
-          {displayedArtworks.map((artwork, index) => (
+        <ul className="infinite-gallery__stage" ref={stageRef}>
+          {artworks.map((artwork, index) => (
             <li
               className="infinite-gallery__card"
               data-artwork-card
-              key={`${artwork.id}-${index}`}
-              aria-hidden={index >= artworks.length}
+              key={artwork.id}
+              aria-hidden={index !== currentIndex && Math.abs(index - currentIndex) !== 1}
             >
-              <Link to={`/obra/${artwork.slug}`} tabIndex={index >= artworks.length ? -1 : undefined}>
+              <Link to={`/obra/${artwork.slug}`} tabIndex={index === currentIndex || Math.abs(index - currentIndex) === 1 ? undefined : -1}>
                 <ArtFrame
                   orientation={artwork.orientation}
                   imageUrl={artwork.final_image_url}
@@ -117,13 +140,13 @@ export default function InfiniteArtworkGallery() {
       </div>
 
       <div className="infinite-gallery__controls" aria-label="Controles da galeria">
-        <button type="button" onClick={() => move(-1)} aria-label="Obra anterior" disabled={prefersReducedMotion}>
+        <button type="button" onClick={() => move(-1)} aria-label="Obra anterior" disabled={artworks.length < 2}>
           <ArrowLeft aria-hidden="true" />
         </button>
         <button type="button" onClick={togglePause} aria-label={isPaused ? 'Retomar galeria' : 'Pausar galeria'}>
           {isPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
         </button>
-        <button type="button" onClick={() => move(1)} aria-label="Próxima obra" disabled={prefersReducedMotion}>
+        <button type="button" onClick={() => move(1)} aria-label="Próxima obra" disabled={artworks.length < 2}>
           <ArrowRight aria-hidden="true" />
         </button>
       </div>
