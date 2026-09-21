@@ -69,6 +69,23 @@
   text-decoration: none;
 }
 
+.infinite-gallery__side-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.infinite-gallery__side-button:focus-visible {
+  outline: 2px solid #17131b;
+  outline-offset: 0.5rem;
+}
+
 .infinite-gallery__card .art-frame {
   width: 100%;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
+//import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
+import { ArrowLeft, ArrowRight} from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import ArtFrame from './ArtFrame'
@@ -18,7 +19,7 @@ type Artwork = {
 export default function InfiniteArtworkGallery() {
   const stageRef = useRef<HTMLUListElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
+  //const [isPaused, setIsPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   const { data: artworks = [], isLoading } = useQuery({
@@ -47,7 +48,7 @@ export default function InfiniteArtworkGallery() {
 
   const currentIndex = artworks.length > 0 ? activeIndex % artworks.length : 0
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (artworks.length < 2 || isPaused || prefersReducedMotion) return
 
     const timer = window.setInterval(() => {
@@ -55,7 +56,7 @@ export default function InfiniteArtworkGallery() {
     }, 6500)
 
     return () => window.clearInterval(timer)
-  }, [artworks.length, isPaused, prefersReducedMotion])
+  }, [artworks.length, isPaused, prefersReducedMotion]) */
 
   useLayoutEffect(() => {
     if (!stageRef.current || artworks.length === 0) return
@@ -66,7 +67,7 @@ export default function InfiniteArtworkGallery() {
 
     cards.forEach((card, index) => {
       const distance = artworks.length === 1 ? 0 : (index - currentIndex) % artworks.length
-      const normalizedDistance = distance < -1 ? distance - artworks.length : distance > 1 ? distance + artworks.length : distance
+      const normalizedDistance = distance > 1 ? distance - artworks.length : distance
       const isCenter = normalizedDistance === 0
       const isSide = Math.abs(normalizedDistance) === 1
       const x = normalizedDistance * sideOffset
@@ -103,9 +104,9 @@ export default function InfiniteArtworkGallery() {
     setActiveIndex((current) => (current + direction + artworks.length) % artworks.length)
   }
 
-  function togglePause() {
+  /* function togglePause() {
     setIsPaused((current) => !current)
-  }
+  } */
 
   if (isLoading || artworks.length === 0) return null
 
@@ -120,21 +121,47 @@ export default function InfiniteArtworkGallery() {
       <div className="infinite-gallery__viewport">
         <ul className="infinite-gallery__stage" ref={stageRef}>
           {artworks.map((artwork, index) => (
-            <li
-              className="infinite-gallery__card"
-              data-artwork-card
-              key={artwork.id}
-              aria-hidden={index !== currentIndex && Math.abs(index - currentIndex) !== 1}
-            >
-              <Link to={`/obra/${artwork.slug}`} tabIndex={index === currentIndex || Math.abs(index - currentIndex) === 1 ? undefined : -1}>
-                <ArtFrame
-                  orientation={artwork.orientation}
-                  imageUrl={artwork.final_image_url}
-                  alt={artwork.title}
-                />
-                <span className="infinite-gallery__caption">{artwork.title}</span>
-              </Link>
-            </li>
+            (() => {
+              const distance = artworks.length === 1 ? 0 : (index - currentIndex) % artworks.length
+              const normalizedDistance = distance > 1 ? distance - artworks.length : distance
+              const isCenter = normalizedDistance === 0
+              const isSide = Math.abs(normalizedDistance) === 1
+
+              return (
+                <li
+                  className="infinite-gallery__card"
+                  data-artwork-card
+                  key={artwork.id}
+                  aria-hidden={!isCenter && !isSide}
+                >
+                  {isCenter ? (
+                    <Link to={`/obra/${artwork.slug}`}>
+                      <ArtFrame
+                        orientation={artwork.orientation}
+                        imageUrl={artwork.final_image_url}
+                        alt={artwork.title}
+                      />
+                      <span className="infinite-gallery__caption">{artwork.title}</span>
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      className="infinite-gallery__side-button"
+                      onClick={() => move(normalizedDistance < 0 ? -1 : 1)}
+                      tabIndex={isSide ? undefined : -1}
+                      aria-label={`${normalizedDistance < 0 ? 'Obra anterior' : 'Próxima obra'}: ${artwork.title}`}
+                    >
+                      <ArtFrame
+                        orientation={artwork.orientation}
+                        imageUrl={artwork.final_image_url}
+                        alt={artwork.title}
+                      />
+                      <span className="infinite-gallery__caption">{artwork.title}</span>
+                    </button>
+                  )}
+                </li>
+              )
+            })()
           ))}
         </ul>
       </div>
@@ -143,9 +170,9 @@ export default function InfiniteArtworkGallery() {
         <button type="button" onClick={() => move(-1)} aria-label="Obra anterior" disabled={artworks.length < 2}>
           <ArrowLeft aria-hidden="true" />
         </button>
-        <button type="button" onClick={togglePause} aria-label={isPaused ? 'Retomar galeria' : 'Pausar galeria'}>
+        {/* <button type="button" onClick={togglePause} aria-label={isPaused ? 'Retomar galeria' : 'Pausar galeria'}>
           {isPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
-        </button>
+        </button> */}
         <button type="button" onClick={() => move(1)} aria-label="Próxima obra" disabled={artworks.length < 2}>
           <ArrowRight aria-hidden="true" />
         </button>
