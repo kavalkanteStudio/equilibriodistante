@@ -25,9 +25,9 @@ export default function About() {
           <p className="">
             São imagens digitais, selecionadas para inspirar e decorar espaços com arte acessível.
           </p>
-          <p className="">
+          {/* <p className="">
             Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.
-          </p>
+          </p> */}
         </div>
         <div className="rounded-3xl overflow-hidden border relative">
           <img
@@ -40,13 +40,13 @@ export default function About() {
       </div>
 
       <div className="mt-20 p-8 bg-gray-50 rounded-3xl border flex flex-col items-center justify-center gap-4">
-        <h3 className="text-xl md:text-3xl font-bold">Pronto para transformar seu espaço?</h3>
-        <p className="text-gray-600 text-lg md:text-3xl">Arte para Exploraaaaaaaaaaaar e Adquirir.</p>
+        <h3 className="text-xl md:text-2xl font-bold">Transforme seu Espaço</h3>
+        <p className="text-gray-600 text-xl md:text-2xl text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
         <Link
           to="/coleções"
           className="text-xl px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
         >
-          Venha ver as coleções
+          Visitar Coleções
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
