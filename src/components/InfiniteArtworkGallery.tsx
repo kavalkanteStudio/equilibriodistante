@@ -111,11 +111,11 @@ export default function InfiniteArtworkGallery() {
 
   return (
     <section className="infinite-gallery" aria-labelledby="infinite-gallery-title">
-      <div className="infinite-gallery__intro">
+      {/* <div className="infinite-gallery__intro">
         <p className="infinite-gallery__eyebrow">Passeio pela coleção</p>
         <h2 id="infinite-gallery-title">Obras para contemplar</h2>
         <p>Uma seleção em movimento, entre diferentes formas, atmosferas e coleções.</p>
-      </div>
+      </div> */}
 
       <div className="infinite-gallery__viewport">
         <ul className="infinite-gallery__stage" ref={stageRef}>

@@ -11,7 +11,7 @@ export default function Hero() {
           alt="Featured Artwork"
           className="w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-linear-to-b from-white/0 via-white/5 to-white" />
+        <div className="absolute inset-0 bg-linear-to-b from-white/0 via-white/5 to-[#f4f0e9]" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center flex flex-col gap-4 items-center justify-center">
