@@ -16,8 +16,17 @@ type Artwork = {
   orientation: string | null
 }
 
+function getCarouselDistance(index: number, focus: number, length: number) {
+  if (length <= 1) return 0
+
+  const forwardDistance = (index - focus + length) % length
+  return forwardDistance > length / 2 ? forwardDistance - length : forwardDistance
+}
+
 export default function InfiniteArtworkGallery() {
   const stageRef = useRef<HTMLUListElement>(null)
+  const previousIndexRef = useRef<number | null>(null)
+  const directionRef = useRef<1 | -1>(1)
   const [activeIndex, setActiveIndex] = useState(0)
   //const [isPaused, setIsPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
@@ -64,24 +73,48 @@ export default function InfiniteArtworkGallery() {
     const stage = stageRef.current
     const cards = Array.from(stage.querySelectorAll<HTMLElement>('[data-artwork-card]'))
     const sideOffset = Math.min(window.innerWidth * 0.28, 360)
+    const previousIndex = previousIndexRef.current
+    const direction = directionRef.current
+    const isInitialLayout = previousIndex === null
 
     cards.forEach((card, index) => {
-      const distance = artworks.length === 1 ? 0 : (index - currentIndex) % artworks.length
-      const normalizedDistance = distance > 1 ? distance - artworks.length : distance
+      const normalizedDistance = getCarouselDistance(index, currentIndex, artworks.length)
       const isCenter = normalizedDistance === 0
       const isSide = Math.abs(normalizedDistance) === 1
       const x = normalizedDistance * sideOffset
-
-      gsap.to(card, {
+      const isEnteringSide = !isInitialLayout && normalizedDistance === direction
+      const wasVisibleSide = previousIndex !== null
+        && getCarouselDistance(index, previousIndex, artworks.length) === -direction
+      const target = {
         x,
         scale: isCenter ? 1 : 0.68,
         autoAlpha: isCenter ? 1 : isSide ? 0.62 : 0,
         zIndex: isCenter ? 3 : isSide ? 2 : 0,
         duration: prefersReducedMotion ? 0 : 0.8,
-        ease: 'power3.inOut',
-        pointerEvents: isCenter || isSide ? 'auto' : 'none',
-      })
+        ease: 'power3.inOut' as const,
+        pointerEvents: isCenter || isSide ? 'auto' as const : 'none' as const,
+      }
+
+      if (isInitialLayout || prefersReducedMotion) {
+        gsap.set(card, target)
+      } else if (isEnteringSide) {
+        gsap.fromTo(card, {
+          x: direction * sideOffset * 2,
+          scale: 0.68,
+          autoAlpha: 0,
+        }, target)
+      } else if (wasVisibleSide) {
+        gsap.to(card, {
+          ...target,
+          x: -direction * sideOffset * 2,
+          autoAlpha: 0,
+        })
+      } else {
+        gsap.to(card, target)
+      }
     })
+
+    previousIndexRef.current = currentIndex
 
     return () => {
       gsap.killTweensOf(cards)
@@ -101,6 +134,7 @@ export default function InfiniteArtworkGallery() {
 
   function move(direction: 1 | -1) {
     if (artworks.length < 2) return
+    directionRef.current = direction
     setActiveIndex((current) => (current + direction + artworks.length) % artworks.length)
   }
 
@@ -122,8 +156,7 @@ export default function InfiniteArtworkGallery() {
         <ul className="infinite-gallery__stage" ref={stageRef}>
           {artworks.map((artwork, index) => (
             (() => {
-              const distance = artworks.length === 1 ? 0 : (index - currentIndex) % artworks.length
-              const normalizedDistance = distance > 1 ? distance - artworks.length : distance
+              const normalizedDistance = getCarouselDistance(index, currentIndex, artworks.length)
               const isCenter = normalizedDistance === 0
               const isSide = Math.abs(normalizedDistance) === 1
 
