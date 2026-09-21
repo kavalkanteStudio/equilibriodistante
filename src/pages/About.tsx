@@ -46,7 +46,7 @@ export default function About() {
         <p className="text-gray-600 text-lg md:text-xl text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
         <Link
           to="/coleções"
-          className="text-xl px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
+          className="md:text-lg px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
         >
           Visitar Coleções
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
