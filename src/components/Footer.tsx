@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <h3 className="font-display text-xl text-black">SKOPPOVIC</h3>
+            <h3 className="font-display text-xl text-gray-900">SKOPPOVIC</h3>
             <p className="text-gray-600">
               Arte Decorativa de Baixo Custo.
             </p>

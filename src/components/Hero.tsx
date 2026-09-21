@@ -15,9 +15,9 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 text-center flex flex-col gap-4 items-center justify-center">
-        <h1 className="text-black text-3xl md:text-6xl max-w-4xl mx-auto m-0!">
+        <p className="font-display text-gray-900 text-3xl md:text-6xl max-w-4xl mx-auto m-0!">
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
-        </h1>
+        </p>
         <p className="text-xl md:text-3xl">
           Arte para Exploraaaaaaaaaaaar e Adquirir.
         </p>
