@@ -288,7 +288,7 @@ export default function ArtworkDetail() {
         {/* Frame */}
         <div className="w-full flex-1 items-center justify-center p-8 md:p-20">
           <div id="crafted-artwork-composition" className="p-8">
-            <div className="mx-auto w-full max-w-[760px]">
+            <div className={`mx-auto w-full ${isWide ? 'max-w-3xl' : 'max-w-lg'}`}>
               <ArtFrame
                 orientation={artwork.orientation}
                 imageUrl={artwork.final_image_url}
