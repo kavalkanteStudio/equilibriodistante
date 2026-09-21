@@ -66,7 +66,7 @@ export default function InfiniteArtworkGallery() {
 
     cards.forEach((card, index) => {
       const distance = artworks.length === 1 ? 0 : (index - currentIndex) % artworks.length
-      const normalizedDistance = distance < -1 ? distance + artworks.length : distance > 1 ? distance - artworks.length : distance
+      const normalizedDistance = distance < -1 ? distance - artworks.length : distance > 1 ? distance + artworks.length : distance
       const isCenter = normalizedDistance === 0
       const isSide = Math.abs(normalizedDistance) === 1
       const x = normalizedDistance * sideOffset
