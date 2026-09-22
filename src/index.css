@@ -29,14 +29,14 @@
   --font-display: 'Oswald', sans-serif;
   --font-accent: 'Six Caps', sans-serif;
 
-  --color-brand-primary: #a47864; /* Mocha Mousse - bronze quente */
-  --color-brand-secondary: #c9a89d; /* Rose Taupe - nude rosado sofisticado */
-  --color-brand-tertiary: #d7b98a; /* Sand Gold - dourado areia suave */
-  --color-brand-quaternary: #111827; /* Jet - preto profundo */
-  --color-brand-quinary: #f4f0e9; /* Cultured - cinza claro suave */
-  --color-brand-senary: #d9c7b8; /* Taupe Light - nude cálido */
-  --color-brand-septenary: #f0f0eb; /* Cloud Dancer - branco cremoso suave */
-  --color-brand-octonary: #8d5a4b; /* Clay Brown - terracota apagada */
+  --color-brand-primary: #000000;
+  --color-brand-secondary: #999999;
+  --color-brand-tertiary: #888888;
+  --color-brand-quaternary: #777777;
+  --color-brand-quinary: #666666;
+  --color-brand-senary: #555555;
+  --color-brand-septenary: #cccccc;
+  --color-brand-octonary: #333333;
 }
 
 /*

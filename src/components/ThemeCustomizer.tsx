@@ -13,24 +13,42 @@ type ThemePreset = {
 
 const themePresets: Record<ThemeKey, ThemePreset> = {
   boutique: {
-    label: 'Boutique',
-    description: 'Ajuste mais premium e editorial, com base quente e sofisticada.',
-    swatches: ['#111827', '#f4f0e9', '#f0f0eb', '#a47864', '#c9a89d'],
+    label: 'Indigo',
+    description: 'Blue, pink, chocolate',
+    swatches: [
+      '#7209b7', 
+      '#f72585', 
+      '#a53860', 
+      '#a53860', 
+      '#fdf0d5', 
+      '#faedcd', 
+      '#f0f0eb', 
+      '#cbeef3'
+    ],
     colors: {
-      '--color-brand-primary': '#a47864',
-      '--color-brand-secondary': '#c9a89d',
-      '--color-brand-tertiary': '#d7b98a',
-      '--color-brand-quaternary': '#111827',
-      '--color-brand-quinary': '#f4f0e9',
-      '--color-brand-senary': '#d9c7b8',
+      '--color-brand-primary': '#7209b7',
+      '--color-brand-secondary': '#f72585',
+      '--color-brand-tertiary': '#a53860',
+      '--color-brand-quaternary': '#a53860',
+      '--color-brand-quinary': '#fdf0d5',
+      '--color-brand-senary': '#faedcd',
       '--color-brand-septenary': '#f0f0eb',
-      '--color-brand-octonary': '#8d5a4b',
+      '--color-brand-octonary': '#cbeef3',
     },
   },
   trend: {
-    label: 'Trend / Fashion',
-    description: 'Tom mais contemporâneo, limpo e com acento mais vibrante.',
-    swatches: ['#1b1b1b', '#f7f1ea', '#f5f3ef', '#b57b5a', '#c78a72'],
+    label: 'West',
+    description: 'Contemporâneo, clean, vibrante',
+    swatches: [
+      '#b57b5a',
+      '#e7d6c5',
+      '#8a6d73',
+      '#1b1b1b',
+      '#f7f1ea',
+      '#f1e7df',
+      '#f5f3ef',
+      '#c78a72',
+    ],
     colors: {
       '--color-brand-primary': '#b57b5a',
       '--color-brand-secondary': '#e7d6c5',
@@ -43,9 +61,18 @@ const themePresets: Record<ThemeKey, ThemePreset> = {
     },
   },
   editorial: {
-    label: 'Editorial / Gallery Luxe',
-    description: 'Visual mais nobre e museal, com contraste intenso e neutralidade.',
-    swatches: ['#121212', '#f2efe9', '#f7f5f1', '#8a695d', '#d5b8a4'],
+    label: 'Editorial',
+    description: 'Contraste intenso e neutralidade.',
+    swatches: [
+      '#8a695d',
+      '#d5b8a4',
+      '#c7a88d',
+      '#121212',
+      '#f2efe9',
+      '#e8ddd3',
+      '#f7f5f1',
+      '#6d4f46',
+    ],
     colors: {
       '--color-brand-primary': '#8a695d',
       '--color-brand-secondary': '#d5b8a4',
@@ -59,8 +86,17 @@ const themePresets: Record<ThemeKey, ThemePreset> = {
   },
   original: {
     label: 'Original',
-    description: 'Mantém a base atual, com acento mais marcante e vibrante.',
-    swatches: ['#111827', '#f4f0e9', '#f0f0eb', '#ff3b3b', '#ffb800'],
+    description: 'Marcante e vibrante.',
+    swatches: [
+      '#ff3b3b',
+      '#ffb800',
+      '#6b6375',
+      '#111827',
+      '#f4f0e9',
+      '#f2e9e4',
+      '#f0f0eb',
+      '#a47864',
+    ],
     colors: {
       '--color-brand-primary': '#ff3b3b',
       '--color-brand-secondary': '#ffb800',
@@ -107,7 +143,7 @@ export default function ThemeCustomizer() {
 
   const modalContent = isOpen ? (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/45 px-4 backdrop-blur-sm"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-brand-septenary/45 px-4 backdrop-blur-sm"
       onClick={() => setIsOpen(false)}
     >
       <div
@@ -120,7 +156,7 @@ export default function ThemeCustomizer() {
               Personalização
             </p>
             <h3 className="mt-2 text-2xl font-semibold text-brand-quaternary">
-              Escolha a paleta
+              Tema & Cor
             </h3>
           </div>
           <button
@@ -133,8 +169,8 @@ export default function ThemeCustomizer() {
           </button>
         </div>
 
-        <p className="mb-5 max-w-lg text-sm leading-relaxed text-brand-tertiary">
-          Ajuste rápido de cor para uma experiência mais boutique. Fonte e tamanho continuam no padrão do sistema.
+        <p className="mb-5! max-w-lg text-sm leading-relaxed text-brand-tertiary">
+          Escolha uma paleta. Selecione o tema que mais gostar.
         </p>
 
         <div className="grid gap-3 sm:grid-cols-2">
@@ -161,7 +197,7 @@ export default function ThemeCustomizer() {
                     {preset.swatches.map((color) => (
                       <span
                         key={`${key}-${color}`}
-                        className="h-8 w-8 rounded-full border border-black/5"
+                        className="h-4 w-4 rounded-full border border-black/5"
                         style={{ backgroundColor: color }}
                       />
                     ))}
