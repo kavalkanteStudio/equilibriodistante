@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import SEO from '@/components/SEO'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
 
 export default function CollectionDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -37,7 +37,7 @@ export default function CollectionDetail() {
     enabled: !!collection,
   })
 
-  if (collLoading || artLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Coleção...</div>
+  if (collLoading || artLoading) return <div className="container mx-auto px-4 py-20"><div className="flex justify-center py-12"><p className="text-brand-tertiary"><span className="flex animate-spin"><LoaderCircle className="w-8 h-8" /></span></p></div></div>
   if (collError || artError) return <div className="flex min-h-screen items-center justify-center text-brand-primary">Erro ao carregar a Coleção.</div>
   if (!collection) return <div className="flex min-h-screen items-center justify-center">Coleção não encontrada.</div>
 

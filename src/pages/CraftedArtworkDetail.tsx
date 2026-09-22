@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { useCart } from '@/context/CartContext'
 import SEO from '@/components/SEO'
 import ArtFrame from '@/components/ArtFrame'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LoaderCircle } from 'lucide-react'
 
 export default function ArtworkDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -62,7 +62,7 @@ export default function ArtworkDetail() {
     enabled: !!artwork,
   })
 
-  if (artLoading || prodLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Obra...</div>
+  if (artLoading || prodLoading) return <div className="container mx-auto px-4 py-20"><div className="flex justify-center py-12"><p className="text-brand-tertiary"><span className="flex animate-spin"><LoaderCircle className="w-8 h-8" /></span></p></div></div>
   if (artError || prodError) return <div className="flex min-h-screen items-center justify-center text-brand-primary">Erro ao carregar obra.</div>
   if (!artwork) return <div className="flex min-h-screen items-center justify-center">Obra não encontrada.</div>
   if (collLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Coleção...</div>

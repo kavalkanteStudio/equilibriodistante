@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, LoaderCircle } from 'lucide-react'
 import SEO from '@/components/SEO'
 
 export default function Collections() {
@@ -43,7 +43,7 @@ export default function Collections() {
       <div className="container mx-auto px-4 py-20">
         {isLoading && (
           <div className="flex justify-center py-12">
-            <p className="text-lg text-brand-tertiary animate-pulse">Carregado as coleções...</p>
+            <p className="text-brand-tertiary"><span className="flex animate-spin"><LoaderCircle className="w-8 h-8" /></span></p>
           </div>
         )}
 
