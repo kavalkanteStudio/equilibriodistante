@@ -18,7 +18,7 @@ export default function Header() {
   }
 
   return (
-    <header onMouseLeave={closeMenu} className="sticky top-0 z-40 w-full border-b bg-brand-septenary/80 backdrop-blur-md">
+    <header onMouseLeave={closeMenu} className="sticky top-0 z-40 w-full border-b-2 bg-brand-septenary/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/" className="font-display text-brand-tertiary text-xl tracking-tight">
@@ -46,17 +46,17 @@ export default function Header() {
               </span>
             )}
           </button>
-          <button onClick={toggleMenu} className="md:hidden p-2 text-brand-tertiary">
+          <button onClick={toggleMenu} className="md:hidden p-2 text-brand-tertiary hover:text-brand-primary">
             <Menu className="w-6 h-6" />
           </button>
         </div>
       </div>
       {isMenuOpen &&
-        <div className="absolute top-12 right-4 bg-brand-primary font-medium shadow-lg rounded-lg p-4">
-          <Link to="/" className="block py-2 text-white hover:text-brand-secondary transition-colors">Home</Link>
-          <Link to="/coleções" className="block py-2 text-white hover:text-brand-secondary transition-colors">Coleções</Link>
-          <Link to="/sobre" className="block py-2 text-white hover:text-brand-secondary transition-colors">Sobre</Link>
-          <Link to="/contato" className="block py-2 text-white hover:text-brand-secondary transition-colors">Contato</Link>
+        <div className="absolute top-16 right-3 flex flex-col p-2 bg-brand-octonary font-light shadow-lg border-t-2">
+          <Link to="/" className="flex justify-center px-4 py-2 hover:text-brand-secondary transition-colors">Home</Link>
+          <Link to="/coleções" className="flex justify-center px-4 py-2 hover:text-brand-secondary transition-colors">Coleções</Link>
+          <Link to="/sobre" className="flex justify-center px-4 py-2 hover:text-brand-secondary transition-colors">Sobre</Link>
+          <Link to="/contato" className="flex justify-center px-4 py-2 hover:text-brand-secondary transition-colors">Contato</Link>
         </div>
       }
     </header>
