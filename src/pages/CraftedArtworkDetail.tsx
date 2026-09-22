@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { useCart } from '@/context/CartContext'
 import SEO from '@/components/SEO'
 import ArtFrame from '@/components/ArtFrame'
+import { ArrowLeft } from 'lucide-react'
 
 export default function ArtworkDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -97,8 +98,8 @@ export default function ArtworkDetail() {
     <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
-        <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block">
-          ← Coleção/{collection?.slug}
+        <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block uppercase tracking-widest">
+          <ArrowLeft className="inline-block mr-2" /> Coleção/{collection?.slug}
         </Link>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -141,7 +142,7 @@ export default function ArtworkDetail() {
               <p className="text-gray-700 italic">"{artwork.prompt_summary}"</p>
             </div>
             <section className="my-8 border-y border-brand-secondary py-6">
-              <h3 className="mb-8 text-xs font-bold uppercase tracking-[0.18em] text-brand-secondary text-center">Ficha da obra</h3>
+              <h3 className="mb-16 text-xs font-bold tracking-[0.18em] text-brand-secondary text-center uppercase!">Ficha da Obra</h3>
               <dl className="grid gap-x-6 gap-y-4 text-xs leading-relaxed sm:grid-cols-2">
                 <div>
                   <dt className="font-bold uppercase tracking-wider text-brand-secondary">Formato</dt>
@@ -234,14 +235,14 @@ export default function ArtworkDetail() {
             </section>
 
             {products?.length === 0 ? (
-              <p className="text-gray-500 text-xl text-left">Obra não disponível para compra.</p>
+              <p className="text-brand-tertiary text-xl text-left">Obra não disponível para compra.</p>
             ) : (
               <div className="space-y-8">
                 {products?.map((product) => (
                   <div key={product.id} className="p-6 border rounded-2xl bg-brand-septenary shadow-sm">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-xl font-bold">{product.title}</h3>
-                      <p className="text-sm text-gray-500">{product.product_type}</p>
+                      <p className="text-sm text-brand-tertiary">{product.product_type}</p>
                     </div>
                     <p className="text-brand-tertiary mb-6">{product.description}</p>
 

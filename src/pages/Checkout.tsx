@@ -94,7 +94,7 @@ export default function Checkout() {
 
         {cart.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-lg text-gray-500 mb-4">Seu pacote está vazio</p>
+            <p className="text-lg text-brand-tertiary mb-4">Seu pacote está vazio</p>
             <Link to="/" className="text-brand-primary font-bold hover:underline">
               Return to Gallery
             </Link>

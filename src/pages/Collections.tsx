@@ -32,10 +32,10 @@ export default function Collections() {
       {/* Page Header */}
       <div className="bg-brand-senary py-20 border-b">
         <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
-          <h1 className="text-2xl md:text-4xl">Coleções</h1>
+          <h1 className="text-2xl md:text-4xl">Formas, Luz e Emoção</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
           <p className="text-lg text-brand-tertiary max-w-2xl mx-auto font-light">
-            Em cada coleção, você encontra imagens que capturam formas, luz e emoção. Descubra obras digitais interessantes.
+            Descubra obras digitais interessantes.
           </p>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function Collections() {
       <div className="container mx-auto px-4 py-20">
         {isLoading && (
           <div className="flex justify-center py-12">
-            <p className="text-lg text-gray-500 animate-pulse">Carregado as coleções...</p>
+            <p className="text-lg text-brand-tertiary animate-pulse">Carregado as coleções...</p>
           </div>
         )}
 

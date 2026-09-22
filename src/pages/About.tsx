@@ -7,7 +7,7 @@ export default function About() {
     <div className="container mx-auto px-4 py-20 max-w-4xl">
       <SEO title="Sobre" description="A Coleção SKOPPOVIC propõe Expressão, mensagens coloridas simples, de minimalismo, arte pop e conceitual." />
       <div className="text-center mb-16 space-y-4">
-        <h1 className="text-2xl md:text-4xl">Sobre Expressão e Cor</h1>
+        <h1 className="text-2xl md:text-4xl">Expressão e Cor</h1>
         <div className="w-20 h-1 bg-brand-primary mx-auto" />
       </div>
 
@@ -41,8 +41,8 @@ export default function About() {
         </div>
       </div>
 
-      <div className="mt-20 p-8 bg-brand-senary rounded-3xl border flex flex-col items-center justify-center gap-4">
-        <h3 className="text-xl md:text-2xl font-bold">Transforme seu Ambiente</h3>
+      <div className="mt-20 p-8 bg-brand-quinary rounded-3xl border flex flex-col items-center justify-center gap-4">
+        <h3 className="text-xl md:text-2xl font-bold text-brand-primary">Transforme seu Ambiente</h3>
         <p className="text-brand-tertiary text-lg text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
         <Link
           to="/coleções"

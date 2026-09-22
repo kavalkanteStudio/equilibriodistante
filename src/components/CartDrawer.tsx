@@ -47,7 +47,7 @@ export default function CartDrawer() {
 
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
               {cart.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-full text-center text-gray-500">
+                <div className="flex flex-col items-center justify-center h-full text-center text-brand-tertiary">
                   <ShoppingBag size={64} className="mb-4 opacity-20" />
                   <p className="text-lg">Seu pacote está vazio</p>
                   <Link to="/" className="mt-4 text-brand-primary font-bold hover:underline">
@@ -65,7 +65,7 @@ export default function CartDrawer() {
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      <p className="text-sm text-gray-500 mb-2">Opção: {item.variantName}</p>
+                      <p className="text-sm text-brand-tertiary mb-2">Opção: {item.variantName}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center border rounded-lg overflow-hidden">
                           <button

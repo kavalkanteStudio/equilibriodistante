@@ -468,7 +468,7 @@ export default function AdminDashboard() {
   const buttonNew = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
   const buttonEdit = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
   const buttonDelete = "rounded-md p-2 text-brand-secondary hover:bg-brand-secondary/10 transition-colors"
-  const inputs = "mt-1 w-full rounded-lg bg-brand-septenary border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-brand-senary disabled:text-gray-500 disabled:shadow-none"
+  const inputs = "mt-1 w-full rounded-lg bg-brand-septenary border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-brand-senary disabled:text-brand-tertiary disabled:shadow-none"
 
   return (
     <main className="min-h-screen bg-brand-senary p-4 md:p-8">
@@ -479,7 +479,7 @@ export default function AdminDashboard() {
               Skoppovic CMS
             </p>
             <h1 className="text-2xl md:text-4xl">Catálogo</h1>
-            <p className="text-sm text-gray-500">{session?.user.email}</p>
+            <p className="text-sm text-brand-tertiary">{session?.user.email}</p>
           </div>
           <span className="flex gap-1">
             
@@ -551,9 +551,9 @@ export default function AdminDashboard() {
               </button>
             </div>
             {isLoading ? (
-              <p className="text-gray-500">Carregando...</p>
+              <p className="text-brand-tertiary">Carregando...</p>
             ) : collections.length === 0 ? (
-              <p className="text-gray-500">Nenhuma coleção cadastrada.</p>
+              <p className="text-brand-tertiary">Nenhuma coleção cadastrada.</p>
             ) : (
                   <div className="grid gap-3 md:grid-cols-2">
                 {collections.map((collection) => (
@@ -573,7 +573,7 @@ export default function AdminDashboard() {
                           </div>
                           <div className="min-w-0">
                             <h3 className="truncate text-sm font-bold">{collection.name}</h3>
-                            <p className="truncate text-xs text-gray-500">
+                            <p className="truncate text-xs text-brand-tertiary">
                             /{collection.slug} · {collection.status}
                             </p>
                           </div>
@@ -646,7 +646,7 @@ export default function AdminDashboard() {
                   disabled={!editingId}
                 />
                 {!editingId && (
-                  <p className="mt-2 text-xs text-gray-500">
+                  <p className="mt-2 text-xs text-brand-tertiary">
                     Salve a coleção primeiro para habilitar o upload.
                   </p>
                 )}
@@ -713,7 +713,7 @@ export default function AdminDashboard() {
             </button>
           </div>
           {artworks.length === 0 ? (
-            <p className="text-gray-500">Nenhuma obra cadastrada.</p>
+            <p className="text-brand-tertiary">Nenhuma obra cadastrada.</p>
           ) : (
             <div className="grid gap-3 md:grid-cols-2">
               {artworks.map((artwork) => (
@@ -733,7 +733,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="min-w-0">
                       <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
-                      <p className="truncate text-xs text-gray-500">
+                      <p className="truncate text-xs text-brand-tertiary">
                         /{artwork.slug} ·{' '}
                         {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
                         {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
@@ -1091,7 +1091,7 @@ export default function AdminDashboard() {
             </button>
           </div>
           {products.length === 0 ? (
-            <p className="text-gray-500">Nenhum produto cadastrado.</p>
+            <p className="text-brand-tertiary">Nenhum produto cadastrado.</p>
           ) : (
             <div className="grid gap-3 md:grid-cols-2">
               {products.map((product) => {
@@ -1113,7 +1113,7 @@ export default function AdminDashboard() {
                       </div>
                       <div className="min-w-0">
                         <h3 className="truncate text-sm font-bold">{product.title}</h3>
-                        <p className="truncate text-xs text-gray-500">
+                        <p className="truncate text-xs text-brand-tertiary">
                           {artwork?.title || 'Obra removida'} ·{' '}
                           {product.product_variants.map((variant) => variant.name).join(' / ')} ·{' '}
                           {product.active ? 'ativo' : 'inativo'}

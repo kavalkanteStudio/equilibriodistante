@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from '@/lib/supabase'
 import SEO from '@/components/SEO'
+import { ArrowLeft } from 'lucide-react'
 
 export default function CollectionDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -44,8 +45,8 @@ export default function CollectionDetail() {
     <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title={collection.name} description={collection.description} />
       <div className="max-w-7xl mx-auto">
-        <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block">
-          ← Coleções
+        <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block uppercase tracking-widest">
+          <ArrowLeft className="inline-block mr-2" /> Coleções
         </Link>
         {/* Page Header */}
         <div className="pt-20 pb-16">
@@ -61,7 +62,7 @@ export default function CollectionDetail() {
         <div className="flex flex-col items-center justify-center w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {artworks?.length === 0 ? (
-              <p className="col-span-full text-center text-gray-500">Sem obras publicadas nesta coleção.</p>
+              <p className="col-span-full text-center text-brand-tertiary">Sem obras publicadas nesta coleção.</p>
             ) : (
               artworks?.map((art) => (
                 <div key={art.id} className="group relative overflow-hidden rounded-2xl border bg-brand-septenary transition-all hover:shadow-2xl hover:-translate-y-2">
@@ -79,7 +80,7 @@ export default function CollectionDetail() {
                   </div>
                   {/*<div className="p-4">
                     <h3 className="text-xl font-bold">{art.title}</h3>
-                    <p className="text-sm text-gray-500 mb-4">{art.source_model}</p>
+                    <p className="text-sm text-brand-tertiary mb-4">{art.source_model}</p>
                     <Link
                       to={`/obra/${art.slug}`}
                       className="block text-center py-2 px-4 bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"

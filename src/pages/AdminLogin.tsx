@@ -35,7 +35,7 @@ export default function AdminLogin() {
       <section className="w-full max-w-md rounded-2xl border border-gray-200 bg-brand-septenary p-8 shadow-xl">
         <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-brand-tertiary">Skoppovic</p>
         <h1 className="mb-2 text-2xl md:text-4xl">Administração</h1>
-        <p className="mb-8 text-gray-500">Entre para gerenciar o catálogo.</p>
+        <p className="mb-8 text-brand-tertiary">Entre para gerenciar o catálogo.</p>
 
         <form className="space-y-4" onSubmit={signInWithPassword}>
           <label className="block text-sm font-medium text-gray-700">

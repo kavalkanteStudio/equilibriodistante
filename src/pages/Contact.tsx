@@ -13,7 +13,7 @@ export default function Contact() {
           <p className="text-lg text-brand-tertiary max-w-md mx-auto font-light">
             Mande uma dúvida sobre uma peça ou faça uma encomenda e solicitação personalizada.
           </p>
-          <p className="mt-10! p-4 bg-brand-primary/5 border border-brand-primary rounded-2xl text-sm text-brand-primary max-w-xl mx-auto font-medium text-center">
+          <p className="mt-10! p-4 bg-brand-senary border border-brand-primary rounded-2xl text-sm text-brand-primary max-w-xl mx-auto font-medium text-center">
             Retornamos Emails durante as Manhãs de Segunda à Sexta.
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function Contact() {
               <div>
                 <label className="hidden text-sm font-medium text-gray-700 mb-2">Nome</label>
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-brand-primary/10 text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
+                  <div className="p-3 bg-brand-senary text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
                     <User className="w-6 h-6" />
                   </div>
                   <div className="w-full">
@@ -46,7 +46,7 @@ export default function Contact() {
               <div>
                 <label className="hidden text-sm font-medium text-gray-700 mb-2">Email</label>
                 <div className="flex items-center gap-3">
-                  <div className="p-3 bg-brand-primary/10 text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
+                  <div className="p-3 bg-brand-senary text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div className="w-full">
@@ -58,7 +58,7 @@ export default function Contact() {
               <div>
                 <label className="hidden text-sm font-medium text-gray-700 mb-2">Mensagem</label>
                 <div className="flex items-start gap-3">
-                  <div className="p-3 bg-brand-primary/10 text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
+                  <div className="p-3 bg-brand-senary text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
                     <MessageCircle className="w-6 h-6" />
                   </div>
                   <div className="w-full">
@@ -73,9 +73,9 @@ export default function Contact() {
                     <LucideSend className="w-6 h-6" />
                   </div>
                   <div className="w-full">
-                    <button className="bg-brand-primary hover:bg-brand-secondary px-4 py-2 rounded-full text-white w-full flex items-center justify-center gap-3">
+                    <button className="bg-brand-primary hover:bg-brand-secondary px-4 py-2 rounded-full text-white flex items-center justify-self-start gap-3">
                       <LucideSend className="w-6 h-6" />
-                      <span className="font-medium">Mandar mensagem</span>
+                      <span className="font-bold">Mandar mensagem</span>
                     </button>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export default function Contact() {
                   <div className="p-3 invisible">
                     <LucideSend className="w-6 h-6" />
                   </div>
-                  <div className="w-full text-sm text-center font-light">
+                  <div className="w-full text-sm font-light">
                     (DADOS e SOLICITAÇÕES são CONFIDENCIAIS)
                   </div>
                 </div>

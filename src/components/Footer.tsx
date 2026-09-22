@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-brand-tertiary">
           <p>© {new Date().getFullYear()} CC BY SKOPPOVIC. Licença livre para uso pessoal.</p>
           <p>Artesanato e Arte Digital.</p>
         </div>
