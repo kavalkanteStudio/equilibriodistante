@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { ShoppingBag, Menu } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { useState } from 'react'
+import ThemeCustomizer from './ThemeCustomizer'
 
 export default function Header() {
   const { cart, setCartOpen } = useCart()
@@ -32,7 +33,8 @@ export default function Header() {
           </nav>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <ThemeCustomizer />
           <button
             className="relative p-2 text-brand-tertiary hover:text-brand-primary transition-colors"
             onClick={() => setCartOpen(true)}

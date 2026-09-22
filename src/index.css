@@ -29,15 +29,51 @@
   --font-display: 'Oswald', sans-serif;
   --font-accent: 'Six Caps', sans-serif;
 
-  --color-brand-primary: #ff3b3b; /* Red Salsa - Vermelho vibrante */
-  --color-brand-secondary: #ffb800; /* Orange Yellow Crayola - Amarelo alaranjado */
-  --color-brand-tertiary: #6b6375; /* Purple Mountain Majesty - Cinza roxo suave */
-  --color-brand-quaternary: #111827; /* Jet - Preto profundo */
-  --color-brand-quinary: #f4f0e9; /* Cultured - Cinza claro suave */
-  --color-brand-senary: #f2e9e4; /* Soft Lavender - Bege rosado suave */
-  --color-brand-septenary: #f0f0eb; /* Cloud Dancer - Branco cremoso suave (Pantone 2026) */
-  --color-brand-octonary: #a47864; /* Mocha Mousse -	Marrom chocolate quente */
+  --color-brand-primary: #a47864; /* Mocha Mousse - bronze quente */
+  --color-brand-secondary: #c9a89d; /* Rose Taupe - nude rosado sofisticado */
+  --color-brand-tertiary: #d7b98a; /* Sand Gold - dourado areia suave */
+  --color-brand-quaternary: #111827; /* Jet - preto profundo */
+  --color-brand-quinary: #f4f0e9; /* Cultured - cinza claro suave */
+  --color-brand-senary: #d9c7b8; /* Taupe Light - nude cálido */
+  --color-brand-septenary: #f0f0eb; /* Cloud Dancer - branco cremoso suave */
+  --color-brand-octonary: #8d5a4b; /* Clay Brown - terracota apagada */
 }
+
+/*
+  === Sugestão 02 — Trend / Fashion ===
+  @theme {
+    --font-sans: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Oswald', sans-serif;
+    --font-accent: 'Six Caps', sans-serif;
+
+    --color-brand-primary: #b57b5a;
+    --color-brand-secondary: #e7d6c5;
+    --color-brand-tertiary: #8a6d73;
+    --color-brand-quaternary: #1b1b1b;
+    --color-brand-quinary: #f7f1ea;
+    --color-brand-senary: #f1e7df;
+    --color-brand-septenary: #f5f3ef;
+    --color-brand-octonary: #c78a72;
+  }
+*/
+
+/*
+  === Sugestão 03 — Editorial / Gallery Luxe ===
+  @theme {
+    --font-sans: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Oswald', sans-serif;
+    --font-accent: 'Six Caps', sans-serif;
+
+    --color-brand-primary: #8a695d;
+    --color-brand-secondary: #d5b8a4;
+    --color-brand-tertiary: #c7a88d;
+    --color-brand-quaternary: #121212;
+    --color-brand-quinary: #f2efe9;
+    --color-brand-senary: #e8ddd3;
+    --color-brand-septenary: #f7f5f1;
+    --color-brand-octonary: #6d4f46;
+  }
+*/
 
 :root {
   --text: var(--color-brand-tertiary);

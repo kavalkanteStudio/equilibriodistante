@@ -165,6 +165,11 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [x] Configure `vite-plugin-pwa` with automatic service-worker updates.
   - [x] Generate the web app manifest through the Vite configuration and add 192px, 512px, Apple touch, and favicon assets.
   - [ ] Implement service worker for offline caching of catalog.
+- [x] **Theme Personalization (lightweight customizer)**:
+  - [x] Add a compact gear icon next to the cart button in the header.
+  - [x] Open a simple modal to allow quick palette switching between the approved boutique, trend, and editorial presets.
+  - [x] Keep font and sizing controls closed by default, preserving the system typography and reducing scope.
+  - [x] Persist the chosen palette in browser storage for a lightweight custom experience without changing the design system globally.
 - [ ] **Performance**:
 - [x] Priorizar o carregamento do Hero, da fonte principal e da obra central da galeria.
 - [x] Pré-carregar e decodificar as obras próximas, reutilizando um cache durante a navegação.
