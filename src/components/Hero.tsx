@@ -10,6 +10,8 @@ export default function Hero() {
           src="/images/hero01.jpg"
           alt="Featured Artwork"
           className="w-full h-full object-cover opacity-80"
+          fetchPriority="high"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-linear-to-b from-white/0 via-white/5 to-[#f4f0e9]" />
       </div>

@@ -166,6 +166,9 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [x] Generate the web app manifest through the Vite configuration and add 192px, 512px, Apple touch, and favicon assets.
   - [ ] Implement service worker for offline caching of catalog.
 - [ ] **Performance**:
+- [x] Priorizar o carregamento do Hero, da fonte principal e da obra central da galeria.
+- [x] Pré-carregar e decodificar as obras próximas, reutilizando um cache durante a navegação.
+- [x] Adicionar estados de carregamento, entrada suave e fallback visual para imagens indisponíveis.
   - [ ] Optimize image loading (lazy loading, client-side resize/compression, WebP).
   - [ ] Monitor Supabase Storage quota and per-file limits before catalog expansion.
   - [ ] Implement basic SEO meta tags.

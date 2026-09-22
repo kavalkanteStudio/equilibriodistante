@@ -16,6 +16,21 @@ type Artwork = {
   orientation: string | null
 }
 
+const artworkImagePreloads = new Map<string, Promise<void>>()
+
+function preloadArtworkImage(imageUrl: string) {
+  const existingPreload = artworkImagePreloads.get(imageUrl)
+  if (existingPreload) return existingPreload
+
+  const image = new Image()
+  image.decoding = 'async'
+  image.src = imageUrl
+
+  const preload = image.decode?.().catch(() => undefined) ?? Promise.resolve()
+  artworkImagePreloads.set(imageUrl, preload)
+  return preload
+}
+
 function getCarouselDistance(index: number, focus: number, length: number) {
   if (length <= 1) return 0
 
@@ -126,10 +141,7 @@ export default function InfiniteArtworkGallery() {
       ? [-2, -1, 0, 1, 2].map((offset) => artworks[(currentIndex + offset + artworks.length) % artworks.length])
       : []
 
-    nearbyArtworks.forEach((artwork) => {
-      const image = new Image()
-      image.src = artwork.final_image_url
-    })
+    nearbyArtworks.forEach((artwork) => preloadArtworkImage(artwork.final_image_url))
   }, [currentIndex, artworks])
 
   function move(direction: 1 | -1) {
@@ -173,6 +185,8 @@ export default function InfiniteArtworkGallery() {
                         orientation={artwork.orientation}
                         imageUrl={artwork.final_image_url}
                         alt={artwork.title}
+                        loading="eager"
+                        fetchPriority="high"
                       />
                       <span className="infinite-gallery__caption">{artwork.title}</span>
                     </Link>
@@ -188,6 +202,8 @@ export default function InfiniteArtworkGallery() {
                         orientation={artwork.orientation}
                         imageUrl={artwork.final_image_url}
                         alt={artwork.title}
+                        loading="eager"
+                        fetchPriority="low"
                       />
                       <span className="infinite-gallery__caption">{artwork.title}</span>
                     </button>
