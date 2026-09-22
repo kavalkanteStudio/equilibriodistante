@@ -157,7 +157,7 @@ export default function InfiniteArtworkGallery() {
   if (isLoading || artworks.length === 0) return null
 
   return (
-    <section className="infinite-gallery" aria-labelledby="infinite-gallery-title">
+    <section className="infinite-gallery bg-brand-septenary" aria-labelledby="infinite-gallery-title">
       {/* <div className="infinite-gallery__intro">
         <p className="infinite-gallery__eyebrow">Passeio pela coleção</p>
         <h2 id="infinite-gallery-title">Obras para contemplar</h2>
