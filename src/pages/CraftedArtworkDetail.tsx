@@ -299,6 +299,11 @@ export default function ArtworkDetail() {
           </div>
           <p className="text-center text-sm md:text-base">Imagem ilustrativa</p>
         </div>
+        <div className="max-w-7xl mx-auto">
+          <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block uppercase tracking-widest">
+            <ArrowLeft className="inline-block mr-2" /> Coleção/{collection?.slug}
+          </Link>
+        </div>
     </div>
   )
 }
