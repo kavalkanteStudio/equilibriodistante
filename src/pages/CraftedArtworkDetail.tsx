@@ -98,7 +98,7 @@ export default function ArtworkDetail() {
     <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
-        <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block uppercase tracking-widest">
+        <Link to={`/coleção/${collection?.slug}`} className="text-sm md:text-base text-brand-secondary hover:underline mb-24 inline-block uppercase tracking-wider md:tracking-widest">
           <ArrowLeft className="inline-block mr-2" /> Coleção/{collection?.slug}
         </Link>
         
@@ -300,7 +300,7 @@ export default function ArtworkDetail() {
           <p className="text-center text-sm md:text-base">Imagem ilustrativa</p>
         </div>
         <div className="max-w-7xl mx-auto">
-          <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block uppercase tracking-widest">
+          <Link to={`/coleção/${collection?.slug}`} className="text-sm md:text-base text-brand-secondary hover:underline mb-24 inline-block uppercase tracking-wider md:tracking-widest">
             <ArrowLeft className="inline-block mr-2" /> Coleção/{collection?.slug}
           </Link>
         </div>
