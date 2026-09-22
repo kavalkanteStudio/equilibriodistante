@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 //import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react'
-import { ArrowLeft, ArrowRight} from 'lucide-react'
+import { ArrowLeft, ArrowRight, LoaderCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import ArtFrame from './ArtFrame'
@@ -154,7 +154,7 @@ export default function InfiniteArtworkGallery() {
     setIsPaused((current) => !current)
   } */
 
-  if (isLoading || artworks.length === 0) return null
+  if (isLoading || artworks.length === 0) return <div className="container mx-auto px-4 py-20"><div className="flex justify-center py-12"><p className="text-brand-tertiary"><span className="flex animate-spin"><LoaderCircle className="w-8 h-8" /></span></p></div></div>
 
   return (
     <section className="infinite-gallery bg-brand-septenary" aria-labelledby="infinite-gallery-title">
