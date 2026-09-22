@@ -83,7 +83,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-white">
+    <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title="Checkout" description="Complete seu pedido e garanta sua peça de arte digital." />
       <div className="max-w-3xl mx-auto">
         <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
@@ -113,7 +113,7 @@ export default function Checkout() {
                         placeholder="Nome"
                         className={`w-full p-3 border rounded-lg ${errors.fullName ? 'border-red-500' : ''}`}
                       />
-                      {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName.message}</p>}
+                      {errors.fullName && <p className="text-brand-primary text-xs mt-1">{errors.fullName.message}</p>}
                     </div>
                     <div>
                       <input
@@ -122,7 +122,7 @@ export default function Checkout() {
                         placeholder="Email"
                         className={`w-full p-3 border rounded-lg ${errors.email ? 'border-red-500' : ''}`}
                       />
-                      {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
+                      {errors.email && <p className="text-brand-primary text-xs mt-1">{errors.email.message}</p>}
                     </div>
                     <div>
                       <input
@@ -131,7 +131,7 @@ export default function Checkout() {
                         placeholder="Endereço"
                         className={`w-full p-3 border rounded-lg ${errors.address ? 'border-red-500' : ''}`}
                       />
-                      {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address.message}</p>}
+                      {errors.address && <p className="text-brand-primary text-xs mt-1">{errors.address.message}</p>}
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
@@ -141,7 +141,7 @@ export default function Checkout() {
                           placeholder="Cidade"
                           className={`w-full p-3 border rounded-lg ${errors.city ? 'border-red-500' : ''}`}
                         />
-                        {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city.message}</p>}
+                        {errors.city && <p className="text-brand-primary text-xs mt-1">{errors.city.message}</p>}
                       </div>
                       <div>
                         <input
@@ -150,7 +150,7 @@ export default function Checkout() {
                           placeholder="CEP"
                           className={`w-full p-3 border rounded-lg ${errors.zipCode ? 'border-red-500' : ''}`}
                         />
-                        {errors.zipCode && <p className="text-red-500 text-xs mt-1">{errors.zipCode.message}</p>}
+                        {errors.zipCode && <p className="text-brand-primary text-xs mt-1">{errors.zipCode.message}</p>}
                       </div>
                     </div>
                   </div>
@@ -158,12 +158,12 @@ export default function Checkout() {
               </div>
             </div>
 
-            <div className="p-6 border rounded-2xl bg-gray-50 h-fit">
+            <div className="p-6 border rounded-2xl bg-brand-senary h-fit">
               <h2 className="text-xl font-bold mb-4">Resumo do Pedido</h2>
               <div className="space-y-3 mb-6">
                 {cart.map((item) => (
                   <div key={item.variantId} className="flex justify-between text-sm">
-                    <span className="text-gray-600">{item.title} ({item.variantName}) x{item.quantity}</span>
+                    <span className="text-brand-tertiary">{item.title} ({item.variantName}) x{item.quantity}</span>
                     <span className="font-medium">${(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}

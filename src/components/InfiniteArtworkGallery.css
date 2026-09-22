@@ -3,7 +3,7 @@
   min-height: 100svh;
   overflow: hidden;
   /* padding: clamp(4rem, 10vw, 8rem) 0 clamp(3rem, 8vw, 6rem); */
-  background: #f4f0e9;
+  background: var(--color-brand-quinary);
   color: #17131b;
 }
 

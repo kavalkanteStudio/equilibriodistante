@@ -4,14 +4,14 @@ import SEO from '@/components/SEO'
 
 export default function OrderSuccess() {
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-white flex items-center justify-center">
+    <div className="min-h-screen p-4 md:p-8 bg-brand-septenary flex items-center justify-center">
       <SEO title="Order Confirmed" description="Thank you for your order! We will contact you soon." />
-      <div className="max-w-md w-full text-center space-y-6 p-8 border rounded-3xl bg-gray-50">
+      <div className="max-w-md w-full text-center space-y-6 p-8 border rounded-3xl bg-brand-senary">
         <div className="flex justify-center">
           <CheckCircle2 className="w-16 h-16 text-green-500" />
         </div>
         <h1 className="text-2xl md:text-4xl">Pedido Confirmado!</h1>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-brand-tertiary">
           Agradecemos seu tempo para fazer o pedido! Em breve, entraremos em contato para confirmar os detalhes. O pagamento é realizado na entrega.
         </p>
         <div className="pt-8">

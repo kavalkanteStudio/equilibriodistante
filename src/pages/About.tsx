@@ -41,12 +41,12 @@ export default function About() {
         </div>
       </div>
 
-      <div className="mt-20 p-8 bg-gray-50 rounded-3xl border flex flex-col items-center justify-center gap-4">
-        <p className="text-xl md:text-2xl font-bold">Transforme seu Ambiente</p>
-        <p className="text-gray-600 text-lg md:text-xl text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
+      <div className="mt-20 p-8 bg-brand-senary rounded-3xl border flex flex-col items-center justify-center gap-4">
+        <h3 className="text-xl md:text-2xl font-bold">Transforme seu Ambiente</h3>
+        <p className="text-brand-tertiary text-lg text-center">Cada item é escolhido para provocar reflexão, emoção e apreciação estética, tornando a arte digital uma experiência envolvente.</p>
         <Link
           to="/coleções"
-          className="md:text-lg px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
+          className="px-4 py-2 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
         >
           Visitar Coleções
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

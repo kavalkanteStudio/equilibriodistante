@@ -468,14 +468,14 @@ export default function AdminDashboard() {
   const buttonNew = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
   const buttonEdit = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
   const buttonDelete = "rounded-md p-2 text-brand-secondary hover:bg-brand-secondary/10 transition-colors"
-  const inputs = "mt-1 w-full rounded-lg bg-white border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-gray-50 disabled:text-gray-500 disabled:shadow-none"
+  const inputs = "mt-1 w-full rounded-lg bg-brand-septenary border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-brand-senary disabled:text-gray-500 disabled:shadow-none"
 
   return (
-    <main className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <main className="min-h-screen bg-brand-senary p-4 md:p-8">
       <div className="mx-auto max-w-7xl flex flex-col gap-8">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-600">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-tertiary">
               Skoppovic CMS
             </p>
             <h1 className="text-2xl md:text-4xl">Catálogo</h1>
@@ -502,7 +502,7 @@ export default function AdminDashboard() {
 
         <nav
           aria-label="Seções do catálogo"
-          className="grid grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm"
+          className="grid grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-brand-septenary p-1 shadow-sm"
         >
           {([
             ['collections', 'Coleções', collections.length],
@@ -536,7 +536,7 @@ export default function AdminDashboard() {
         {/* Tab Coleções*/}
         {activeTab === 'collections' && (
         <>
-          <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+          <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-2xl font-display">Coleções</h2>
               <button
@@ -562,7 +562,7 @@ export default function AdminDashboard() {
                     key={collection.id}
                   >
                         <div className="flex min-w-0 items-center gap-3">
-                          <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                          <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
                             {collection.cover_image && (
                               <img
                                 className="h-full w-full object-cover"
@@ -604,7 +604,7 @@ export default function AdminDashboard() {
                 )}
           </section>
 
-          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="collection-form">
+          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm" id="collection-form">
             <h2 className="mb-5 text-2xl font-display">
               {editingId ? 'Editar coleção' : 'Nova coleção'}
             </h2>
@@ -671,7 +671,7 @@ export default function AdminDashboard() {
                   <option value="published">Publicado</option>
                 </select>
               </label>
-              {error && <p className="text-sm text-gray-600">{error}</p>}
+              {error && <p className="text-sm text-brand-tertiary">{error}</p>}
               <div className="flex gap-3">
                 <button
                   className={buttonPrimary}
@@ -698,7 +698,7 @@ export default function AdminDashboard() {
         {/* Tab Obras*/}
         {activeTab === 'artworks' && (
         <>
-        <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Obras</h2>
             <button
@@ -722,7 +722,7 @@ export default function AdminDashboard() {
                   key={artwork.id}
                 >
                   <div className="flex min-w-0 items-center gap-3">
-                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
                       {artwork.final_image_url && (
                         <img
                           className="h-full w-full object-cover"
@@ -766,7 +766,7 @@ export default function AdminDashboard() {
           )}
           </section>
 
-          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="artwork-form">
+          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm" id="artwork-form">
             <h2 className="mb-5! text-2xl font-display">
               {editingArtworkId ? 'Editar obra' : 'Nova obra'}
             </h2>
@@ -1076,7 +1076,7 @@ export default function AdminDashboard() {
         {/* Tab Produtos */}
         {activeTab === 'products' && (
           <>
-            <section className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+            <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Produtos</h2>
             <button
@@ -1102,7 +1102,7 @@ export default function AdminDashboard() {
                     key={product.id}
                   >
                     <div className="flex min-w-0 items-center gap-3">
-                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
                         {artwork?.final_image_url && (
                           <img
                             className="h-full w-full object-cover"
@@ -1147,7 +1147,7 @@ export default function AdminDashboard() {
           )}
             </section>
 
-            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" id="product-form">
+            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm" id="product-form">
           <h2 className="mb-5 text-2xl font-display">
             {editingProductId ? 'Editar produto' : 'Novo produto'}
           </h2>
@@ -1222,7 +1222,7 @@ export default function AdminDashboard() {
               <div className="mt-16 flex items-center justify-between">
                 <p className="font-bold">Variantes</p>
                 <button
-                  className="text-sm font-bold text-gray-600"
+                  className="text-sm font-bold text-brand-tertiary"
                   onClick={() =>
                     setProductForm({
                       ...productForm,
@@ -1246,7 +1246,7 @@ export default function AdminDashboard() {
                     <p className="text-sm font-medium">Variante {index + 1}</p>
                     {productForm.product_variants.length > 1 && (
                       <button
-                        className="text-sm font-bold text-gray-600"
+                        className="text-sm font-bold text-brand-tertiary"
                         onClick={() =>
                           setProductForm({
                             ...productForm,

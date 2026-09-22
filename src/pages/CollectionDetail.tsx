@@ -37,11 +37,11 @@ export default function CollectionDetail() {
   })
 
   if (collLoading || artLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Coleção...</div>
-  if (collError || artError) return <div className="flex min-h-screen items-center justify-center text-red-500">Erro ao carregar a Coleção.</div>
+  if (collError || artError) return <div className="flex min-h-screen items-center justify-center text-brand-primary">Erro ao carregar a Coleção.</div>
   if (!collection) return <div className="flex min-h-screen items-center justify-center">Coleção não encontrada.</div>
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-white">
+    <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title={collection.name} description={collection.description} />
       <div className="max-w-7xl mx-auto">
         <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block">
@@ -52,7 +52,7 @@ export default function CollectionDetail() {
           <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
             <h1 className="text-2xl md:text-4xl">{collection.name}</h1>
             <div className="w-24 h-1 bg-brand-secondary mx-auto" />
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+            <p className="text-lg text-brand-tertiary max-w-2xl mx-auto font-light">
               {collection.description}
             </p>
           </div>
@@ -64,8 +64,8 @@ export default function CollectionDetail() {
               <p className="col-span-full text-center text-gray-500">Sem obras publicadas nesta coleção.</p>
             ) : (
               artworks?.map((art) => (
-                <div key={art.id} className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2">
-                  <div className="aspect-square w-full overflow-hidden bg-gray-100">
+                <div key={art.id} className="group relative overflow-hidden rounded-2xl border bg-brand-septenary transition-all hover:shadow-2xl hover:-translate-y-2">
+                  <div className="aspect-square w-full overflow-hidden bg-brand-secondary">
                     <Link
                       to={`/obra/${art.slug}`}
                       className="h-full w-full"

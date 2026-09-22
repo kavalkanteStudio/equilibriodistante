@@ -24,17 +24,17 @@ export default function Collections() {
   })
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-brand-septenary">
       <SEO
         title="Coleções"
         description="Coleção SKOPPOVIC CoLLeCCiOone. Em cada coleção, você encontra imagens que capturam formas, luz e emoção. Descubra obras digitais interessantes."
       />
       {/* Page Header */}
-      <div className="bg-gray-50 py-20 border-b">
+      <div className="bg-brand-senary py-20 border-b">
         <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
           <h1 className="text-2xl md:text-4xl">Coleções</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+          <p className="text-lg text-brand-tertiary max-w-2xl mx-auto font-light">
             Em cada coleção, você encontra imagens que capturam formas, luz e emoção. Descubra obras digitais interessantes.
           </p>
         </div>
@@ -67,9 +67,9 @@ export default function Collections() {
                   <Link
                     key={c.id}
                     to={`/coleção/${c.slug}`}
-                    className="group relative overflow-hidden rounded-2xl border bg-white transition-all hover:shadow-2xl hover:-translate-y-2"
+                    className="group relative overflow-hidden rounded-2xl border bg-brand-septenary transition-all hover:shadow-2xl hover:-translate-y-2"
                   >
-                    <div className="aspect-4/3 w-full overflow-hidden bg-gray-100">
+                    <div className="aspect-4/3 w-full overflow-hidden bg-brand-secondary">
                       {c.cover_image ? (
                         <img
                           src={c.cover_image}
@@ -77,7 +77,7 @@ export default function Collections() {
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-gray-400">
+                        <div className="flex h-full w-full items-center justify-center text-brand-secondary text-sm font-medium">
                           No cover image
                         </div>
                       )}
@@ -86,9 +86,9 @@ export default function Collections() {
                       <h3 className="text-base font-bold text-gray-900 group-hover:text-brand-primary transition-colors">
                         {c.name}
                       </h3>
-                      <p className="text-sm text-gray-600 line-clamp-2 mt-2">{c.description}</p>
+                      <p className="text-sm text-brand-tertiary line-clamp-2 mt-2">{c.description}</p>
                     </div>
-                    <div className="text-sm p-6 flex items-center gap-2 text-gray-600 hover:text-brand-primary group-hover:gap-4 transition-all">
+                    <div className="text-sm p-6 flex items-center gap-2 text-brand-tertiary hover:text-brand-primary group-hover:gap-4 transition-all">
                       Ver a Coleção
                       <ArrowRight className="w-5 h-5" />
                     </div>

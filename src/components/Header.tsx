@@ -17,14 +17,14 @@ export default function Header() {
   }
 
   return (
-    <header onMouseLeave={closeMenu} className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur-md">
+    <header onMouseLeave={closeMenu} className="sticky top-0 z-40 w-full border-b bg-brand-septenary/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/" className="font-display text-gray-900 text-xl tracking-tight">
             SKOPPOVIC
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-brand-tertiary">
             <Link to="/" className="hover:text-brand-primary transition-colors">Home</Link>
             <Link to="/coleções" className="hover:text-brand-primary transition-colors">Coleções</Link>
             <Link to="/sobre" className="hover:text-brand-primary transition-colors">Sobre</Link>
@@ -34,7 +34,7 @@ export default function Header() {
 
         <div className="flex items-center gap-4">
           <button
-            className="relative p-2 text-gray-600 hover:text-brand-primary transition-colors"
+            className="relative p-2 text-brand-tertiary hover:text-brand-primary transition-colors"
             onClick={() => setCartOpen(true)}
           >
             <ShoppingBag className="w-6 h-6" />
@@ -44,7 +44,7 @@ export default function Header() {
               </span>
             )}
           </button>
-          <button onClick={toggleMenu} className="md:hidden p-2 text-gray-600">
+          <button onClick={toggleMenu} className="md:hidden p-2 text-brand-tertiary">
             <Menu className="w-6 h-6" />
           </button>
         </div>

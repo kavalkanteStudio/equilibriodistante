@@ -62,10 +62,10 @@ export default function ArtworkDetail() {
   })
 
   if (artLoading || prodLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Obra...</div>
-  if (artError || prodError) return <div className="flex min-h-screen items-center justify-center text-red-500">Erro ao carregar obra.</div>
+  if (artError || prodError) return <div className="flex min-h-screen items-center justify-center text-brand-primary">Erro ao carregar obra.</div>
   if (!artwork) return <div className="flex min-h-screen items-center justify-center">Obra não encontrada.</div>
   if (collLoading) return <div className="flex min-h-screen items-center justify-center">Carregando Coleção...</div>
-  if (collError) return <div className="flex min-h-screen items-center justify-center text-red-500">Erro ao carregar coleção.</div>
+  if (collError) return <div className="flex min-h-screen items-center justify-center text-brand-primary">Erro ao carregar coleção.</div>
 
 
   // Find the first variant of the first product as default
@@ -94,7 +94,7 @@ export default function ArtworkDetail() {
   const isWide = artwork.orientation === 'a3-wide'
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-white">
+    <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title={artwork.title} description={artwork.prompt_summary} image={artwork.final_image_url} />
       <div className="max-w-7xl mx-auto">
         <Link to={`/coleção/${collection?.slug}`} className="text-brand-secondary hover:underline mb-24 inline-block">
@@ -104,7 +104,7 @@ export default function ArtworkDetail() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Left: Artwork Image */}
           <div>
-            <div className={`${isWide? "aspect-16_9" : "aspect-9_16"} relative w-full overflow-hidden rounded-2xl bg-gray-100 shadow-2xl`}>
+            <div className={`${isWide? "aspect-16_9" : "aspect-9_16"} relative w-full overflow-hidden rounded-2xl bg-brand-secondary shadow-2xl`}>
               <img
                 src={artwork.final_image_url}
                 alt={artwork.title}
@@ -131,12 +131,12 @@ export default function ArtworkDetail() {
               <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
                 <h1 className="text-2xl md:text-4xl">{artwork.title}</h1>
                 <div className="w-24 h-1 bg-brand-secondary mx-auto" />
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto font-light">
+                <p className="text-lg text-brand-tertiary max-w-2xl mx-auto font-light">
                   {artwork.source_model}
                 </p>
               </div>       
             </div>
-            <div className="text-center p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <div className="text-center p-4 bg-brand-senary rounded-xl border border-gray-100">
               <h3 className="text-sm font-bold uppercase tracking-wider text-brand-secondary mb-2">Resumo do Prompt</h3>
               <p className="text-gray-700 italic">"{artwork.prompt_summary}"</p>
             </div>
@@ -184,7 +184,7 @@ export default function ArtworkDetail() {
                   <h3 className="text-xs font-bold uppercase tracking-wider text-brand-secondary">
                     Processo de criação
                   </h3>
-                  <p className="mt-2 whitespace-pre-line text-xs leading-6 text-gray-600">
+                  <p className="mt-2 whitespace-pre-line text-xs leading-6 text-brand-tertiary">
                     {artwork.workflow_description}
                   </p>
                 </div>
@@ -195,14 +195,14 @@ export default function ArtworkDetail() {
                   <h3 className="text-xs font-bold uppercase tracking-wider text-brand-secondary">
                     Notas de licenciamento
                   </h3>
-                  <p className="mt-2 text-xs leading-6 text-gray-600">{artwork.license_notes}</p>
+                  <p className="mt-2 text-xs leading-6 text-brand-tertiary">{artwork.license_notes}</p>
                 </div>
               )}
 
               <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs">
                 {artwork.leonardo_url && (
                   <a
-                    className="font-medium text-gray-600 hover:underline"
+                    className="font-medium text-brand-tertiary hover:underline"
                     href={artwork.leonardo_url}
                     rel="noreferrer"
                     target="_blank"
@@ -212,7 +212,7 @@ export default function ArtworkDetail() {
                 )}
                 {artwork.civitai_url && (
                   <a
-                    className="font-medium text-gray-600 hover:underline"
+                    className="font-medium text-brand-tertiary hover:underline"
                     href={artwork.civitai_url}
                     rel="noreferrer"
                     target="_blank"
@@ -222,7 +222,7 @@ export default function ArtworkDetail() {
                 )}
                 {artwork.license_source_url && (
                   <a
-                    className="font-medium text-gray-600 hover:underline"
+                    className="font-medium text-brand-tertiary hover:underline"
                     href={artwork.license_source_url}
                     rel="noreferrer"
                     target="_blank"
@@ -238,12 +238,12 @@ export default function ArtworkDetail() {
             ) : (
               <div className="space-y-8">
                 {products?.map((product) => (
-                  <div key={product.id} className="p-6 border rounded-2xl bg-white shadow-sm">
+                  <div key={product.id} className="p-6 border rounded-2xl bg-brand-septenary shadow-sm">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-xl font-bold">{product.title}</h3>
                       <p className="text-sm text-gray-500">{product.product_type}</p>
                     </div>
-                    <p className="text-gray-600 mb-6">{product.description}</p>
+                    <p className="text-brand-tertiary mb-6">{product.description}</p>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
                       {product.product_variants.map((variant: any) => (
@@ -253,7 +253,7 @@ export default function ArtworkDetail() {
                           onClick={() => setSelectedVariantId(variant.id)}
                           className={`p-3 text-sm rounded-lg border transition-all disabled:cursor-not-allowed disabled:opacity-40 ${currentVariantId === variant.id
                             ? 'border-brand-primary bg-brand-primary/10 text-brand-primary ring-2 ring-brand-primary/20'
-                            : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                            : 'border-gray-200 hover:border-gray-300 text-brand-tertiary'
                             }`}
                         >
                           <div className="font-bold">{variant.name}</div>

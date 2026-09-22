@@ -31,9 +31,9 @@ export default function AdminLogin() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white p-6">
-      <section className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-xl">
-        <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-gray-600">Skoppovic</p>
+    <main className="flex min-h-screen items-center justify-center bg-brand-septenary p-6">
+      <section className="w-full max-w-md rounded-2xl border border-gray-200 bg-brand-septenary p-8 shadow-xl">
+        <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-brand-tertiary">Skoppovic</p>
         <h1 className="mb-2 text-2xl md:text-4xl">Administração</h1>
         <p className="mb-8 text-gray-500">Entre para gerenciar o catálogo.</p>
 

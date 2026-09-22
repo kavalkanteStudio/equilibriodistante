@@ -22,7 +22,7 @@ export default function CartDrawer() {
       >
         <ShoppingBag size={24} />
         {totalItems > 0 && (
-          <span className="absolute -top-1 -right-1 bg-white text-brand-primary text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-brand-primary">
+          <span className="absolute -top-1 -right-1 bg-brand-septenary text-brand-primary text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-brand-primary">
             {totalItems}
           </span>
         )}
@@ -37,10 +37,10 @@ export default function CartDrawer() {
           />
 
           {/* Drawer Content */}
-          <div className="relative w-full max-w-md bg-white h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+          <div className="relative w-full max-w-md bg-brand-septenary h-full shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
             <div className="p-6 border-b flex items-center justify-between">
-              <h2 className="text-4xl">Itens do Pacote</h2>
-              <button onClick={() => setCartOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+              <h2 className="text-2xl">Itens do Pacote</h2>
+              <button onClick={() => setCartOpen(false)} className="p-2 hover:bg-brand-secondary rounded-full transition-colors">
                 <X size={24} />
               </button>
             </div>
@@ -57,11 +57,11 @@ export default function CartDrawer() {
               ) : (
                 cart.map((item) => (
                   <div key={item.variantId} className="flex gap-4 p-3 border rounded-xl">
-                    <img src={item.imageUrl} alt={item.title} className="w-20 h-20 object-cover rounded-lg bg-gray-100" />
+                    <img src={item.imageUrl} alt={item.title} className="w-20 h-20 object-cover rounded-lg bg-brand-secondary" />
                     <div className="flex-1">
                       <div className="flex justify-between">
                         <h4 className="font-bold text-gray-900">{item.title}</h4>
-                        <button onClick={() => removeFromCart(item.variantId)} className="text-gray-400 hover:text-red-500 transition-colors">
+                        <button onClick={() => removeFromCart(item.variantId)} className="text-brand-secondary hover:text-brand-primary transition-colors">
                           <Trash2 size={16} />
                         </button>
                       </div>
@@ -70,14 +70,14 @@ export default function CartDrawer() {
                         <div className="flex items-center border rounded-lg overflow-hidden">
                           <button
                             onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                            className="p-1 px-2 hover:bg-gray-100 border-r"
+                            className="p-1 px-2 hover:bg-brand-secondary border-r"
                           >
                             <Minus size={14} />
                           </button>
                           <span className="px-3 text-sm font-medium">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                            className="p-1 px-2 hover:bg-gray-100 border-l"
+                            className="p-1 px-2 hover:bg-brand-secondary border-l"
                           >
                             <Plus size={14} />
                           </button>
@@ -91,9 +91,9 @@ export default function CartDrawer() {
             </div>
 
             {cart.length > 0 && (
-              <div className="p-6 border-t bg-gray-50 space-y-4">
+              <div className="p-6 border-t bg-brand-senary space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Subtotal</span>
+                  <span className="text-brand-tertiary">Subtotal</span>
                   <span className="text-2xl font-bold">${totalPrice.toFixed(2)}</span>
                 </div>
                 <Link

@@ -72,7 +72,7 @@ export default function ImageUploadField({ value, onChange, pathPrefix, disabled
         type="button"
       >
         {value ? <img className="absolute inset-0 h-full w-full object-cover opacity-30" src={value} alt="Pré-visualização da capa" /> : null}
-        <span className="relative z-10 rounded-full bg-white/90 p-3 border border-brand-secondary/70 text-brand-primary shadow-sm">
+        <span className="relative z-10 rounded-full bg-brand-septenary/90 p-3 border border-brand-secondary/70 text-brand-primary shadow-sm">
           {isUploading ? <UploadCloud className="animate-pulse" size={24} /> : <ImagePlus size={24} />}
         </span>
         <span className="relative z-10 mt-3 text-sm font-bold text-gray-900/70">{isUploading ? 'Enviando imagem...' : 'Arrastar ou Selecionar Imagem'}</span>

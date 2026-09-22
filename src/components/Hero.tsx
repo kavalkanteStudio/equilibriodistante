@@ -23,17 +23,17 @@ export default function Hero() {
         <p className="text-xl md:text-2xl">
           Arte para Explorar e Adquirir.
         </p>
-        <div className="md:text-lg flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             to="/coleções"
-            className="px-8 py-4 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
+            className="px-4 py-2 bg-brand-primary text-white font-bold rounded-full hover:bg-brand-secondary transition-all flex items-center gap-2 group"
           >
             Coleções
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
             to="/sobre"
-            className="px-8 py-4 bg-white/10 backdrop-blur-md text-white font-bold rounded-full hover:bg-white/20 transition-all border border-white/30"
+            className="px-4 py-2 bg-brand-septenary/10 backdrop-blur-md text-white font-bold rounded-full hover:bg-brand-septenary/20 transition-all border border-white/30"
           >
             Sobre
           </Link>
