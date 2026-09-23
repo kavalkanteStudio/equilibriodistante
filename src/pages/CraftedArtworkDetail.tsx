@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase'
 import { useCart } from '@/context/CartContext'
 import SEO from '@/components/SEO'
 import ArtFrame from '@/components/ArtFrame'
-import { ArrowLeft, LoaderCircle } from 'lucide-react'
+import { ArrowLeft, LoaderCircle, ShoppingBag, Plus } from 'lucide-react'
 
 export default function ArtworkDetail() {
   const { slug } = useParams<{ slug: string }>()
@@ -240,11 +240,11 @@ export default function ArtworkDetail() {
               <div className="space-y-8">
                 {products?.map((product) => (
                   <div key={product.id} className="p-6 border rounded-2xl bg-brand-septenary shadow-sm">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-xl font-bold">{product.title}</h3>
-                      <p className="text-sm text-brand-tertiary">{product.product_type}</p>
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="sm:text-xl font-bold">{product.title}</h3>
+                      <p className="text-xs uppercase tracking-widest text-brand-tertiary mt-1!">{product.product_type}</p>
                     </div>
-                    <p className="text-brand-tertiary mb-6">{product.description}</p>
+                    <p className="text-brand-tertiary mb-6!">{product.description}</p>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
                       {product.product_variants.map((variant: any) => (
@@ -266,17 +266,17 @@ export default function ArtworkDetail() {
                 ))}
 
                 {currentVariant && (
-                  <div className="flex items-center justify-between p-6 bg-gray-900 text-white rounded-2xl shadow-xl">
+                  <div className="flex items-center justify-between gap-2 p-6 bg-gray-900 text-white rounded-2xl shadow-xl">
                     <div>
                       <p className="text-sm opacity-70 uppercase tracking-widest">Valor</p>
-                      <p className="text-3xl font-bold">R${Number(currentProduct?.base_price || 0).toFixed(2)}</p>
+                      <p className="text-xl sm:text-2xl md:text-3xl font-bold">R${Number(currentProduct?.base_price || 0).toFixed(2)}</p>
                     </div>
                     <button
-                      className="px-8 py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-colors"
+                      className="px-4 py-2 flex items-center gap-2 bg-brand-secondary text-white font-bold rounded-xl hover:bg-brand-primary transition-colors"
                       disabled={currentVariant.stock_quantity <= 0}
                       onClick={handleAddToCart}
                     >
-                      Adicionar ao Pacote
+                      <Plus /> <ShoppingBag />
                     </button>
                   </div>
                 )}
