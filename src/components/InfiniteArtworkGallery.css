@@ -139,11 +139,13 @@
 
 @media (max-width: 640px) {
   .infinite-gallery {
-    min-height: auto;
+    /*min-height: auto;*/
+    min-height: 70svh;
   }
 
   .infinite-gallery__viewport {
-    min-height: 31rem;
+    /*min-height: 31rem;*/
+    min-height: clamp(20rem, 72svh, 10rem);
   }
 
   .infinite-gallery__card {
