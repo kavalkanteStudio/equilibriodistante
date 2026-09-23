@@ -18,7 +18,7 @@ export default function Header() {
   }
 
   return (
-    <header onMouseLeave={closeMenu} className="sticky top-0 z-40 w-full border-b-2 bg-brand-septenary/80 backdrop-blur-md">
+    <header onMouseLeave={closeMenu} className="sticky top-0 z-40 w-full border-b-1 bg-brand-septenary/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-8">
           <Link to="/" className="font-display text-brand-tertiary text-xl tracking-tight">

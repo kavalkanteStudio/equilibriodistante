@@ -94,6 +94,11 @@ export default function CollectionDetail() {
           </div>
         </div>
       </div>
+      <div className="max-w-7xl mx-auto mt-16">
+        <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block uppercase tracking-widest">
+          <ArrowLeft className="inline-block mr-2" /> Coleções
+        </Link>
+      </div>
     </div>
   )
 }
