@@ -21,7 +21,7 @@ export default function Hero() {
           SKOPPOVIC <span className="font-accent">CoLLeCCiOone</span>
         </p>
         <p className="text-xl md:text-2xl">
-          Arte para Explorar e Adquirir.
+          Arte para Exploraaaar e Adquirir.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
