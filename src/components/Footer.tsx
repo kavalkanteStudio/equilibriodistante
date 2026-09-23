@@ -11,14 +11,14 @@ export default function Footer() {
             <p className="text-brand-quaternary">
               Arte Decorativa de Baixo Custo.
             </p>
-            <div className="flex mt-4 gap-4 text-brand-tertiary">
-              <a href="/contato" className="hover:text-brand-quaternary transition-colors">
+            <div className="flex mt-4 gap-4 text-brand-secondary">
+              <a href="/contato" className="hover:text-brand-primary transition-colors">
                 <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
               </a>
-              <a href="/contato" className="hover:text-brand-quaternary transition-colors">
+              <a href="/contato" className="hover:text-brand-primary transition-colors">
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg"><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"></path></svg>
               </a>
-              <a href="/contato" className="hover:text-brand-quaternary transition-colors"><Mail size={20} /></a>
+              <a href="/contato" className="hover:text-brand-primary transition-colors"><Mail size={20} /></a>
             </div>
           </div>
 

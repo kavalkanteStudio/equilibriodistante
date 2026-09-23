@@ -1,6 +1,6 @@
 .infinite-gallery {
   position: relative;
-  min-height: 100svh;
+  min-height: 90svh;
   overflow: hidden;
   /* padding: clamp(4rem, 10vw, 8rem) 0 clamp(3rem, 8vw, 6rem); */
   color: #17131b;
@@ -36,7 +36,7 @@
 .infinite-gallery__viewport {
   position: relative;
   width: 100%;
-  min-height: clamp(29rem, 72svh, 43rem);
+  min-height: clamp(29rem, 72svh, 6rem);
   overflow: hidden;
   padding: 1rem 0 3rem;
 }
@@ -145,7 +145,7 @@
 
   .infinite-gallery__viewport {
     /*min-height: 31rem;*/
-    min-height: clamp(20rem, 72svh, 10rem);
+    min-height: clamp(29rem, 72svh, 6rem);
   }
 
   .infinite-gallery__card {
