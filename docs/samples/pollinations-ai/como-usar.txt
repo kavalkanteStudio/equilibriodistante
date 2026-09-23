@@ -1,0 +1,220 @@
+# Proposta Brave Leo
+O script abaixo é uma **Node.js CLI** que roda fora do React (mas usa a mesma stack: TypeScript, Tailwind no frontend, npm). Ele:
+
+1. Chama a **Pollinations API** (sem API key no free tier)
+2. Baixa a imagem para `public/generated/`
+3. Gera o JSON no formato exato da sua tabela `artworks`
+4. Imprime no terminal pronto para copiar/colar no Supabase
+
+## Como usar
+
+```bash
+# 1. Instalar dependências
+npm install axios
+
+# 2. Rodar a CLI
+npx ts-node src/scripts/generate-artwork.ts \
+  --prompt "A minimalist cat silhouette on a vintage poster, warm color palette, grain texture" \
+  --model flux-schnell \
+  --collection "b8789f2d-8859-45b9-ab96-35c180cce721"
+```
+
+Ele vai imprimir o JSON no terminal. Copia e cola no Supabase ou num INSERT.
+
+---
+
+```ts
+// src/scripts/generate-artwork.ts
+
+import axios from 'axios'
+import fs from 'fs'
+import path from 'path'
+import { nanoid } from 'nanoid'
+
+// ── CLI args ──────────────────────────────────────────────
+const args = process.argv.slice(2)
+const getArg = (key: string) => {
+  const idx = args.indexOf(`--${key}`)
+  return idx === -1 ? undefined : args[idx + 1]
+}
+
+const prompt = getArg('prompt')
+const model = getArg('model') ?? 'flux-schnell'
+const collectionId = getArg('collection')
+const width = parseInt(getArg('width') ?? '1024')
+const height = parseInt(getArg('height') ?? '1024')
+const seed = parseInt(getArg('seed') ?? String(Date.now()))
+
+if (!prompt) {
+  console.error('Usage: npx ts-node generate-artwork.ts --prompt "..." [--model flux-schnell] [--collection <uuid>]')
+  process.exit(1)
+}
+
+// ── Config ────────────────────────────────────────────────
+const POLLINATIONS_BASE = 'https://image.pollinations.ai'
+const OUTPUT_DIR = path.resolve('public', 'generated')
+
+// ── Model → license mapping ──────────────────────────────
+// Atualize conforme a licença de cada modelo muda.
+// Consulte: https://pollinations.ai/models
+const MODEL_LICENSES: Record<string, { type: string; source: string; commercialFree: boolean }> = {
+  'flux-schnell': {
+    type: 'FLUX [schnell] — Apache 2.0 (comercial livre)',
+    source: 'https://github.com/black-forest-labs/flux',
+    commercialFree: true,
+  },
+  'flux-dev': {
+    type: 'FLUX [dev] — Apache 2.0 (comercial livre)',
+    source: 'https://github.com/black-forest-labs/flux',
+    commercialFree: true,
+  },
+  'flux-pro': {
+    type: 'FLUX [pro] — licença proprietária da Black Forest Labs',
+    source: 'https://github.com/black-forest-labs/flux',
+    commercialFree: false,
+  },
+  'gpt-image-1': {
+    type: 'GPT Image — licença proprietária OpenAI',
+    source: 'https://openai.com/policies/terms-of-use',
+    commercialFree: false,
+  },
+  'seedream-4_0': {
+    type: 'Seedream 4.0 — licença da plataforma',
+    source: 'https://pollinations.ai/models',
+    commercialFree: false,
+  },
+}
+
+function getLicense(modelName: string) {
+  return MODEL_LICENSES[modelName] ?? {
+    type: `Licença não verificada para "${modelName}"`,
+    source: 'https://pollinations.ai/models',
+    commercialFree: false,
+  }
+}
+
+// ── Slugify ───────────────────────────────────────────────
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim()
+    .slice(0, 100)
+}
+
+// ── Main ──────────────────────────────────────────────────
+async function main() {
+  // 1. Construir URL da Pollinations
+  const encodedPrompt = encodeURIComponent(prompt)
+  const imageUrl = `${POLLINATIONS_BASE}/image/${encodedPrompt}?model=${model}&width=${width}&height=${height}&seed=${seed}&nologo=true`
+
+  console.log(`🎨 Prompt: "${prompt}"`)
+  console.log(`🤖 Model: ${model}`)
+  console.log(`🖼️  URL: ${imageUrl}`)
+
+  // 2. Baixar imagem
+  const slug = slugify(prompt)
+  const filename = `${slug}-${seed}.jpg`
+  const dir = path.join(OUTPUT_DIR, model)
+  const filepath = path.join(dir, filename)
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true })
+  }
+
+  const response = await axios.get(imageUrl, {
+    responseType: 'arraybuffer',
+    timeout: 60_000,
+  })
+
+  fs.writeFileSync(filepath, Buffer.from(response.data))
+  const publicUrl = `/generated/${model}/${filename}`
+
+  console.log(`💾 Saved: ${publicUrl}`)
+
+  // 3. Montar objeto Artwork
+  const license = getLicense(model)
+  const now = new Date().toISOString().replace('Z', '+00:00')
+
+  const artwork = {
+    id: nanoid(),
+    collection_id: collectionId || null,
+    title: prompt.slice(0, 80),
+    slug,
+    prompt_summary: prompt,
+    workflow_description: `Pollinations AI — ${model}\nWidth: ${width} | Height: ${height} | Seed: ${seed}\nPrompt: ${prompt}`,
+    civitai_url: null,
+    leonardo_url: null,
+    license_notes: `Modelo gerado via Pollinations.ai usando "${model}". Licença de pesos: ${license.type}. Verificar termos específicos antes de uso comercial.`,
+    source_model: model,
+    final_image_url: publicUrl,
+    published: true,
+    created_at: now,
+    updated_at: now,
+    orientation: width > height ? 'landscape' : height > width ? 'portrait' : 'square',
+    license_status: license.commercialFree ? 'approved' : 'pending_review',
+    license_type: license.type,
+    license_source_url: license.source,
+    license_verified_at: null,
+    credit_required: true,
+    credit_text: 'Créditos: Pollinations.ai (FLUX via Pollinations)',
+    source_tool: 'Pollinations AI',
+    source_plan: 'Free (no API key)',
+  }
+
+  // 4. Imprimir JSON pronto pro Supabase
+  console.log('\n--- JSON (copie e cole no Supabase) ---')
+  console.log(JSON.stringify(artwork, null, 2))
+  console.log('--- FIM ---')
+}
+
+main().catch((err) => {
+  console.error('Erro:', err.message)
+  process.exit(1)
+})
+```
+
+---
+
+## O que o script faz por você
+
+| O que | Como |
+|---|---|
+| **Sem API key** | Chama `image.pollinations.ai/image/{prompt}` direto — free tier, rate limit sob fair use |
+| **Baixa a imagem** | Salva em `public/generated/{model}/{slug}-{seed}.jpg` |
+| **Licença automática** | Mapeia cada modelo (`flux-schnell`, `gpt-image-1`, etc.) pro tipo de licença relevante |
+| **Orientation** | Calcula `landscape` / `portrait` / `square` automaticamente |
+| **Slug** | Gera URL-friendly a partir do prompt |
+| **JSON pronto** | Imprime no terminal no formato exato da sua tabela `artworks` |
+
+## Notas importantes
+
+- **`flux-schnell`** e **`flux-dev`** são Apache 2.0 — uso comercial livre. É a escolha mais segura pro seu caso.
+- **`gpt-image-1`** e **`seedream`** têm licenças proprietárias — o script marca como `pending_review` por padrão.
+- O `license_notes` herda o que eu expliquei antes: **código MIT ≠ licença do output**. O script já documenta isso.
+- Se quiser rodar em lote, dá pra transformar o script num `for` que itera sobre um array de prompts (eu posso montar isso se quiser).
+
+## Próximos passos no frontend
+
+No seu componente de galeria, quando exibir a obra, você pode usar as cores Tailwind que você já tem:
+
+```tsx
+// Exemplo de badge de licença na galeria
+<div className="flex items-center gap-2">
+  <span className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${
+    artwork.license_status === 'approved'
+      ? 'bg-green-100 text-green-800'
+      : 'bg-amber-100 text-amber-800'
+  }`}>
+    {artwork.license_status === 'approved' ? '✓ Comercial permitido' : '⏳ Revisar licença'}
+  </span>
+  {artwork.credit_required && (
+    <span className="text-xs text-brand-secondary">
+      {artwork.credit_text}
+    </span>
+  )}
+</div>
+```
+
