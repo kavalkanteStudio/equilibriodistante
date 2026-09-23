@@ -198,11 +198,14 @@ export default function AdminDashboard() {
     else setProducts((data || []) as Product[])
   }
 
+  // Start Loading Data
+  const [sload, setSload] = useState(false)
+  setTimeout(() => setSload(true),100)
   useEffect(() => {
     void Promise.resolve().then(() =>
       Promise.all([loadCollections(), loadArtworks(), loadProducts()]),
     )
-  }, [])
+  }, [sload])
 
   function scrollToForm(id: string) {
     window.requestAnimationFrame(() => {
@@ -752,7 +755,7 @@ export default function AdminDashboard() {
                         {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
                         {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
                       </p>
-                      <p className="text-xs uppercase text-brand-secondary">
+                      <p className="text-xs uppercase font-medium text-brand-secondary">
                         {artwork.collections.name}
                       </p>
                     </div>
