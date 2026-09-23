@@ -19,6 +19,7 @@ type CollectionForm = Omit<Collection, 'id'>
 type Artwork = {
   id: string
   collection_id: string | null
+  collections: { name: string } | null
   title: string
   slug: string
   prompt_summary: string | null
@@ -166,11 +167,24 @@ export default function AdminDashboard() {
     setIsLoading(false)
   }
 
-  async function loadArtworks() {
+  /*async function loadArtworks() {
     const { data, error: queryError } = await supabase
       .from('artworks')
       .select('*')
       .order('created_at', { ascending: false })
+    if (queryError) setError(queryError.message)
+    else setArtworks((data || []) as Artwork[])
+  }*/
+
+  async function loadArtworks() {
+    const { data, error: queryError } = await supabase
+      .from('artworks')
+      .select(`
+        *,
+        collections ( name )
+      `)
+      .order('created_at', { ascending: false })
+
     if (queryError) setError(queryError.message)
     else setArtworks((data || []) as Artwork[])
   }
@@ -737,6 +751,9 @@ export default function AdminDashboard() {
                         /{artwork.slug} ·{' '}
                         {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
                         {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
+                      </p>
+                      <p className="text-xs uppercase text-brand-secondary">
+                        {artwork.collections.name}
                       </p>
                     </div>
                   </div>
