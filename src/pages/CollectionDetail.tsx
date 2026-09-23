@@ -45,13 +45,13 @@ export default function CollectionDetail() {
     <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title={collection.name} description={collection.description} />
       <div className="max-w-7xl mx-auto">
-        <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block uppercase tracking-widest">
-          <ArrowLeft className="inline-block mr-2" /> Coleções
+        <Link to="/coleções" className="text-sm md:text-base text-brand-primary hover:underline mb-24 flex items-center uppercase tracking-wider md:tracking-widest">
+          <ArrowLeft className="inline-block mr-1" />Coleções
         </Link>
         {/* Page Header */}
-        <div className="pt-20 pb-16">
+        <div className="pt-0 pb-16">
           <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
-            <h1 className="text-2xl md:text-4xl">{collection.name}</h1>
+            <h1 className="text-2xl md:text-4xl mt-0!">{collection.name}</h1>
             <div className="w-24 h-1 bg-brand-secondary mx-auto" />
             <p className="text-lg text-brand-tertiary max-w-2xl mx-auto font-light">
               {collection.description}
@@ -60,7 +60,7 @@ export default function CollectionDetail() {
         </div>
 
         <div className="flex flex-col items-center justify-center w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {artworks?.length === 0 ? (
               <p className="col-span-full text-center text-brand-tertiary">Sem obras publicadas nesta coleção.</p>
             ) : (
@@ -95,8 +95,8 @@ export default function CollectionDetail() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-16">
-        <Link to="/coleções" className="text-brand-primary hover:underline mb-8 inline-block uppercase tracking-widest">
-          <ArrowLeft className="inline-block mr-2" /> Coleções
+        <Link to="/coleções" className="text-sm md:text-base text-brand-primary hover:underline mb-24 flex items-center uppercase tracking-wider md:tracking-widest">
+          <ArrowLeft className="inline-block mr-1" />Coleções
         </Link>
       </div>
     </div>
