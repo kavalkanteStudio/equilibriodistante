@@ -18,7 +18,7 @@ export default function CartDrawer() {
       {/* Cart Trigger Button - Fixed floating button */}
       <button
         onClick={() => setCartOpen(true)}
-        className="fixed bottom-6 right-6 z-50 p-4 bg-brand-primary text-white rounded-full shadow-2xl hover:bg-brand-secondary transition-all hover:scale-110 group"
+        className="hidden md:flex fixed bottom-6 right-6 z-50 p-4 bg-brand-primary text-white rounded-full shadow-2xl hover:bg-brand-secondary transition-all hover:scale-110 group"
       >
         <ShoppingBag size={24} />
         {totalItems > 0 && (
