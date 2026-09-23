@@ -468,14 +468,14 @@ export default function AdminDashboard() {
   const buttonNew = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
   const buttonEdit = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
   const buttonDelete = "rounded-md p-2 text-brand-secondary hover:bg-brand-secondary/10 transition-colors"
-  const inputs = "mt-1 w-full rounded-lg bg-brand-septenary border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-brand-senary disabled:text-brand-tertiary disabled:shadow-none"
+  const inputs = "mt-1 w-full rounded-lg bg-white border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-brand-senary disabled:text-brand-tertiary disabled:shadow-none"
 
   return (
-    <main className="min-h-screen bg-brand-senary p-4 md:p-8">
+    <main className="min-h-screen bg-brand-septenary p-4 md:p-8">
       <div className="mx-auto max-w-7xl flex flex-col gap-8">
         <header className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-tertiary">
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-secondary">
               Skoppovic CMS
             </p>
             <h1 className="text-2xl md:text-4xl">Catálogo</h1>
