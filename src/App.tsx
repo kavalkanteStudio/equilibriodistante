@@ -12,6 +12,7 @@ import Contact from './pages/Contact'
 import Collections from './pages/Collections'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import AdminStudio from './pages/AdminStudio'
 import AdminRoute from './components/AdminRoute'
 import './App.css'
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route element={<AdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/studio" element={<AdminStudio />} />
           </Route>
         </Routes>
       </main>
