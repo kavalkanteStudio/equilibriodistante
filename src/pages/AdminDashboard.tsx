@@ -24,8 +24,7 @@ type Artwork = {
   slug: string
   prompt_summary: string | null
   workflow_description: string | null
-  civitai_url: string | null
-  leonardo_url: string | null
+  source_url: string | null
   license_notes: string | null
   source_model: string | null
   source_tool: string | null
@@ -111,8 +110,7 @@ const emptyArtworkForm: ArtworkForm = {
   slug: '',
   prompt_summary: '',
   workflow_description: '',
-  civitai_url: '',
-  leonardo_url: '',
+  source_url: '',
   license_notes: '',
   source_model: '',
   source_tool: '',
@@ -242,8 +240,7 @@ export default function AdminDashboard() {
       slug: artwork.slug,
       prompt_summary: artwork.prompt_summary || '',
       workflow_description: artwork.workflow_description || '',
-      civitai_url: artwork.civitai_url || '',
-      leonardo_url: artwork.leonardo_url || '',
+      source_url: artwork.source_url || '',
       license_notes: artwork.license_notes || '',
       source_model: artwork.source_model || '',
       source_tool: artwork.source_tool || '',
@@ -356,8 +353,7 @@ export default function AdminDashboard() {
       collection_id: artworkForm.collection_id || null,
       prompt_summary: artworkForm.prompt_summary || null,
       workflow_description: artworkForm.workflow_description || null,
-      civitai_url: artworkForm.civitai_url || null,
-      leonardo_url: artworkForm.leonardo_url || null,
+      source_url: artworkForm.source_url || null,
       license_notes: artworkForm.license_notes || null,
       source_model: artworkForm.source_model || null,
       source_tool: artworkForm.source_tool || null,
@@ -972,22 +968,12 @@ export default function AdminDashboard() {
                 Link da página oficial
                 <input
                   className={inputs}
-                  value={artworkForm.civitai_url || ''}
+                  type="url"
+                  value={artworkForm.source_url || ''}
                   onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, civitai_url: event.target.value })
+                    setArtworkForm({ ...artworkForm, source_url: event.target.value })
                   }
-                  placeholder="URL Civitai, pode ser nulo"
-                />
-              </label>
-              <label className="block text-sm font-medium">
-                Link da página oficial
-                <input
-                  className={inputs}
-                  value={artworkForm.leonardo_url || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, leonardo_url: event.target.value })
-                  }
-                  placeholder="URL Leonardo, pode ser nulo"
+                  placeholder="URL da fonte (Civitai, Leonardo, Replicate, etc)"
                 />
               </label>
               <label className="flex items-center gap-2 text-sm font-medium">

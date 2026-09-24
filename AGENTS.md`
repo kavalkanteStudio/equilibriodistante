@@ -161,6 +161,16 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Offer a product and one initial named variant as a draft after artwork review.
   - [ ] Allow the admin to edit, add, or remove variants before saving.
 
+### Phase 4.4: Database Refinement & Consolidation 🚧
+- [ ] **Unified Source URLs**:
+  - [ ] Create a migration to add `source_url` to the `artworks` table.
+  - [ ] Migrating existing data from `civitai_url` and `leonardo_url` into `source_url`.
+  - [ ] Drop `civitai_url` and `leonardo_url` columns to clean up the schema.
+- [ ] **API Access Updates**:
+  - [ ] Ensure all new tables created in public schema have explicit `GRANT` statements to maintain Data API access (pre-emptive fix for Oct 30th Supabase change).
+- [ ] **Admin Sync**:
+  - [ ] Update Admin Artwork CRUD to use the unified `source_url` field.
+
 ### Phase 5: PWA & Optimization ✅
 - [x] **PWA Implementation**:
   - [x] Configure `vite-plugin-pwa` with automatic service-worker updates.
@@ -198,11 +208,12 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Implement the basic request structure: `prompt`, `aspect_ratio`, `go_fast: true`, `output_format: "webp"`.
 - [ ] **Studio Admin Interface**:
   - [ ] Create a dedicated `/admin/studio` route.
+  - [ ] Ensure the route is protected by Auth ( GitHub Login).
   - [ ] Build a "Generation Lab" UI: prompt input, aspect ratio selector, and "Generate" button.
   - [ ] Implement a real-time preview of the generated image before saving.
 - [ ] **The "Studio-to-Store" Pipeline**:
   - [ ] Implement "Promote to Catalog": a one-click action to move a generated image into the `artworks` table.
-  - [ ] Auto-fill `source_model` as "Flux Schnell" and `prompt_summary` from the input prompt.
+  - [ ] Auto-fill `source_model` as "Flux Schnell", `prompt_summary` from the input prompt, and the resulting URL into `source_url`.
   - [ ] Automatic aspect ratio detection to suggest `A3 vertical` or `A3 wide`.
 - [ ] **Style Recipes (Prompt Library)**:
   - [ ] Create a system to save and reuse "Style Presets" to maintain brand consistency.
@@ -213,7 +224,7 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 - [ ] Integrate Stripe/PayPal for those who want instant checkout.
 
 ## 🧭 Next Session Handoff
-- **PRIORITY**: Transition to Phase 7 - The AI Studio.
+- **PRIORITY**: Execute Phase 4.4 (Database Consolidation) $\rightarrow$ Phase 7 (The AI Studio).
 - Reference `docs/samples/replicate-flux-schnell/llms.md` for the model schema.
 - Current working admin route: `/admin/login` and `/admin`.
 - Admin role is read from Supabase Auth `app_metadata.role`; do not use `user_metadata` for authorization.
@@ -221,6 +232,6 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
 - The current upload field is [src/components/ImageUploadField.tsx](src/components/ImageUploadField.tsx); it uploads directly to the public `artworks` bucket and caps files at 12 MB.
 - The remote importer is [supabase/functions/import-artwork-image/index.ts](supabase/functions/import-artwork-image/index.ts), but it is not yet invoked by the frontend.
 - The admin now supports artworks, license review, products, and `30x45`/`45x30` variants.
-- Next implementation order: Setup Replicate proxy function $\rightarrow$ Studio UI $\rightarrow$ Pipeline to Catalog.
+- Next implementation order: Consolidate source URLs $\rightarrow$ Setup Replicate proxy function $\rightarrow$ Studio UI $\rightarrow$ Pipeline to Catalog.
 - Storage decision: no local/web toggle for now. Web upload is the normal path; local Node remains an optional batch/recovery tool.
 - The Supabase 50 MB limit is not currently a blocker because the UI and Edge Function accept at most 12 MB per image. Before scaling the catalog, add client-side WebP resizing/compression and review total quota versus paid Storage.

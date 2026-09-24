@@ -201,20 +201,10 @@ export default function ArtworkDetail() {
               )}
 
               <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs">
-                {artwork.leonardo_url && (
+                {artwork.source_url && (
                   <a
                     className="font-medium text-brand-tertiary hover:underline"
-                    href={artwork.leonardo_url}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Link Oficial
-                  </a>
-                )}
-                {artwork.civitai_url && (
-                  <a
-                    className="font-medium text-brand-tertiary hover:underline"
-                    href={artwork.civitai_url}
+                    href={artwork.source_url}
                     rel="noreferrer"
                     target="_blank"
                   >
