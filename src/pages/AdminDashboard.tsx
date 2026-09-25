@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
 import { slugify } from '@/lib/utils'
 import { Pencil, Trash2, ClipboardPlus } from 'lucide-react'
-import { Button, Input, Textarea, Label } from '@/components/ui'
+import { Button, Input, Textarea, Label, Select } from '@/components/ui'
 
 type Collection = {
   id: string
@@ -190,11 +190,12 @@ export default function AdminDashboard() {
 
   // Start Loading Data
   const [sload, setSload] = useState(false)
-  setTimeout(() => setSload(true),100)
   useEffect(() => {
-    void Promise.resolve().then(() =>
-      Promise.all([loadCollections(), loadArtworks(), loadProducts()]),
-    )
+    if (sload) {
+      void Promise.resolve().then(() =>
+        Promise.all([loadCollections(), loadArtworks(), loadProducts()]),
+      )
+    }
   }, [sload])
 
   function scrollToForm(id: string) {
