@@ -190,6 +190,7 @@ export default function AdminDashboard() {
 
   // Start Loading Data
   const [sload, setSload] = useState(false)
+  setTimeout(() => setSload(true),100)
   useEffect(() => {
     if (sload) {
       void Promise.resolve().then(() =>
