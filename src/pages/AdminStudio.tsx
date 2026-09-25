@@ -1,10 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Loader2, Sparkles, Save, Image as ImageIcon, AlertCircle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
+import { Button, Input, Textarea, Label } from '@/components/ui'
 
 export default function AdminStudio() {
   const [prompt, setPrompt] = useState('')
@@ -27,18 +24,11 @@ export default function AdminStudio() {
 
       if (funcError) throw funcError
 
-      // Replicate returns a prediction object. 
-      // If the image is already generated, it's in data.output.
-      // Since we use flux-schnell (very fast), it's often ready quickly, 
-      // but if it's still processing, the API might return a status.
-      
       if (data?.output && Array.isArray(data.output)) {
         setGeneratedImage(data.output[0])
       } else if (data?.output) {
         setGeneratedImage(data.output)
       } else {
-        // If it's still 'starting' or 'processing', we might need to poll.
-        // For now, let's check if a URL is provided in the response.
         throw new Error("Image is still processing. Please try again in a few seconds.")
       }
     } catch (err: any) {
@@ -54,7 +44,6 @@ export default function AdminStudio() {
     setError(null)
 
     try {
-      // 1. Create the artwork record
       const { data: artwork, error: artError } = await supabase
         .from('artworks')
         .insert({
@@ -119,8 +108,8 @@ export default function AdminStudio() {
                       key={ratio}
                       onClick={() => setAspectRatio(ratio)}
                       className={`py-2 text-xs font-bold rounded-lg border transition-all ${
-                        aspectRatio === ratio 
-                        ? 'bg-brand-primary text-white border-brand-primary' 
+                        aspectRatio === ratio
+                        ? 'bg-brand-primary text-white border-brand-primary'
                         : 'bg-white text-gray-500 border-gray-200 hover:border-brand-secondary'
                       }`}
                     >
@@ -130,8 +119,8 @@ export default function AdminStudio() {
                 </div>
               </div>
 
-              <Button 
-                className="w-full py-6 text-lg font-bold gap-2" 
+              <Button
+                className="w-full py-6 text-lg font-bold gap-2"
                 onClick={handleGenerate}
                 disabled={isGenerating || !prompt}
               >
@@ -153,15 +142,15 @@ export default function AdminStudio() {
 
           {/* Right: Preview */}
           <div className="flex flex-col gap-4">
-            <div 
+            <div
               className={`relative w-full overflow-hidden rounded-2xl bg-gray-100 border-2 border-dashed border-gray-300 transition-all ${
                 aspectRatio === '1:1' ? 'aspect-square' : (aspectRatio === '16:9' ? 'aspect-video' : 'aspect-[3/4]')
               }`}
             >
               {generatedImage ? (
-                <img 
-                  src={generatedImage} 
-                  alt="Generated Art" 
+                <img
+                  src={generatedImage}
+                  alt="Generated Art"
                   className="h-full w-full object-cover animate-in fade-in duration-500"
                 />
               ) : (
@@ -170,7 +159,7 @@ export default function AdminStudio() {
                   <p className="text-sm font-medium">Aguardando criação...</p>
                 </div>
               )}
-              
+
               {isGenerating && (
                 <div className="absolute inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center">
                   <Loader2 className="w-10 h-10 animate-spin text-brand-primary" />
@@ -179,7 +168,7 @@ export default function AdminStudio() {
             </div>
 
             {generatedImage && (
-              <Button 
+              <Button
                 className="w-full py-6 text-lg font-bold gap-2 bg-gray-900 hover:bg-black text-white"
                 onClick={promoteToCatalog}
                 disabled={isSaving}

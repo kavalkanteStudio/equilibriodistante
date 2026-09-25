@@ -4,6 +4,7 @@ import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
 import { slugify } from '@/lib/utils'
 import { Pencil, Trash2, ClipboardPlus } from 'lucide-react'
+import { Button, Input, Textarea, Label } from '@/components/ui'
 
 type Collection = {
   id: string
@@ -164,15 +165,6 @@ export default function AdminDashboard() {
     else setCollections(data as Collection[])
     setIsLoading(false)
   }
-
-  /*async function loadArtworks() {
-    const { data, error: queryError } = await supabase
-      .from('artworks')
-      .select('*')
-      .order('created_at', { ascending: false })
-    if (queryError) setError(queryError.message)
-    else setArtworks((data || []) as Artwork[])
-  }*/
 
   async function loadArtworks() {
     const { data, error: queryError } = await supabase
@@ -476,13 +468,6 @@ export default function AdminDashboard() {
     else await loadProducts()
   }
 
-  const buttonPrimary = "rounded-lg bg-brand-secondary hover:bg-brand-primary px-4 py-2 font-bold text-white/80 hover:text-white disabled:opacity-50 border border-transparent transition-colors"
-  const buttonSecondary = "rounded-lg border border-brand-secondary text-gray-900/50 hover:text-gray-900/70 hover:bg-brand-secondary/10 px-4 py-2 font-bold transition-colors"
-  const buttonNew = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
-  const buttonEdit = "rounded-md p-2 text-brand-primary hover:bg-brand-primary/10 transition-colors"
-  const buttonDelete = "rounded-md p-2 text-brand-secondary hover:bg-brand-secondary/10 transition-colors"
-  const inputs = "mt-1 w-full rounded-lg bg-white border border-brand-secondary p-2 invalid:border-brand-secondary invalid:text-pink-600 focus:border-brand-primary focus:outline-none focus:ring-2 focus:ring-brand-primary focus:invalid:border-brand-primary focus:invalid:outline-brand-primary disabled:border-gray-200 disabled:bg-brand-senary disabled:text-brand-tertiary disabled:shadow-none"
-
   return (
     <main className="min-h-screen bg-brand-septenary p-4 md:p-8">
       <div className="mx-auto max-w-7xl flex flex-col gap-8">
@@ -495,21 +480,21 @@ export default function AdminDashboard() {
             <p className="text-sm text-brand-tertiary">{session?.user.email}</p>
           </div>
           <span className="flex gap-1">
-            
-            <button
-              className={buttonSecondary}
+
+            <Button
+              variant="secondary"
               onClick={() => window.location.href = "/"}
               type="button"
             >
               Home
-            </button>
-            <button
-              className={buttonSecondary}
+            </Button>
+            <Button
+              variant="secondary"
               onClick={() => void signOut()}
               type="button"
             >
               Logout
-            </button>
+            </Button>
         </span>
         </header>
 
@@ -552,8 +537,8 @@ export default function AdminDashboard() {
           <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
             <div className="mb-5 flex items-center justify-between">
               <h2 className="text-2xl font-display">Coleções</h2>
-              <button
-                className={buttonNew}
+              <Button
+                variant="ghost"
                 onClick={() => {
                   resetForm()
                   scrollToForm('collection-form')
@@ -561,7 +546,7 @@ export default function AdminDashboard() {
                 type="button"
               >
                 <ClipboardPlus />
-              </button>
+              </Button>
             </div>
             {isLoading ? (
               <p className="text-brand-tertiary">Carregando...</p>
@@ -592,27 +577,27 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                         <div className="flex shrink-0 gap-1">
-                          <button
+                          <Button
+                            variant="ghost"
                             aria-label={`Editar coleção ${collection.name}`}
-                            className={buttonEdit}
                             onClick={() => startEditing(collection)}
                             title="Editar coleção"
                             type="button"
                           >
                             <Pencil aria-hidden="true" size={15} />
-                          </button>
-                          <button
+                          </Button>
+                          <Button
+                            variant="danger"
                             aria-label={`Excluir coleção ${collection.name}`}
-                            className={buttonDelete}
                             onClick={() => void deleteCollection(collection.id)}
                             title="Excluir coleção"
                             type="button"
                           >
                             <Trash2 aria-hidden="true" size={15} />
-                          </button>
+                          </Button>
                         </div>
-                      </article>
-                    ))}
+                  </article>
+                ))}
                   </div>
                 )}
           </section>
@@ -622,36 +607,33 @@ export default function AdminDashboard() {
               {editingId ? 'Editar coleção' : 'Nova coleção'}
             </h2>
             <form className="space-y-4" onSubmit={saveCollection}>
-              <label className="block text-sm font-medium">
+              <Label>
                 Nome
-                <input
-                  className={inputs}
+                <Input
                   value={form.name}
                   onChange={(event) => setForm({ ...form, name: event.target.value })}
                   required
                 />
-              </label>
-              <label className="block text-sm font-medium">
+              </Label>
+              <Label>
                 Slug
-                <input
-                  className={inputs}
+                <Input
                   value={form.slug}
                   onChange={(event) => setForm({ ...form, slug: event.target.value })}
                   pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
                   required
                 />
-              </label>
-              <label className="block text-sm font-medium">
+              </Label>
+              <Label>
                 Descrição
-                <textarea
-                  className={inputs}
+                <Textarea
                   rows={4}
                   value={form.description || ''}
                   onChange={(event) => setForm({ ...form, description: event.target.value })}
                 />
-              </label>
+              </Label>
               <div>
-                <p className="mb-2 block text-sm font-medium">Capa da coleção</p>
+                <Label>Capa da coleção</Label>
                 <ImageUploadField
                   value={form.cover_image || ''}
                   onChange={(coverImage) => setForm({ ...form, cover_image: coverImage })}
@@ -663,44 +645,42 @@ export default function AdminDashboard() {
                     Salve a coleção primeiro para habilitar o upload.
                   </p>
                 )}
-                <label className="mt-3 block text-sm font-medium">
+                <Label className="mt-3">
                   Ou cole uma URL direta
-                  <input
-                    className={inputs}
+                  <Input
                     type="url"
                     value={form.cover_image || ''}
                     onChange={(event) => setForm({ ...form, cover_image: event.target.value })}
                   />
-                </label>
+                </Label>
               </div>
-              <label className="block text-sm font-medium">
+              <Label>
                 Status
-                <select
-                  className={inputs}
+                <Select
                   value={form.status}
                   onChange={(event) => setForm({ ...form, status: event.target.value })}
                 >
                   <option value="draft">Rascunho</option>
                   <option value="published">Publicado</option>
-                </select>
-              </label>
+                </Select>
+              </Label>
               {error && <p className="text-sm text-brand-tertiary">{error}</p>}
               <div className="flex gap-3">
-                <button
-                  className={buttonPrimary}
+                <Button
+                  variant="primary"
                   disabled={isSaving}
                   type="submit"
                 >
                   {isSaving ? 'Salvando...' : 'Salvar'}
-                </button>
+                </Button>
                 {editingId && (
-                  <button
-                    className={buttonSecondary}
+                  <Button
+                    variant="secondary"
                     onClick={resetForm}
                     type="button"
                   >
                     Cancelar
-                  </button>
+                  </Button>
                 )}
               </div>
             </form>
@@ -714,8 +694,8 @@ export default function AdminDashboard() {
         <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Obras</h2>
-            <button
-              className={buttonNew}
+            <Button
+              variant="ghost"
               onClick={() => {
                 resetArtworkForm()
                 scrollToForm('artwork-form')
@@ -723,7 +703,7 @@ export default function AdminDashboard() {
               type="button"
             >
               <ClipboardPlus />
-            </button>
+            </Button>
           </div>
           {artworks.length === 0 ? (
             <p className="text-brand-tertiary">Nenhuma obra cadastrada.</p>
@@ -757,24 +737,24 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                   <div className="flex shrink-0 gap-1">
-                    <button
+                    <Button
+                      variant="ghost"
                       aria-label={`Editar obra ${artwork.title}`}
-                      className={buttonEdit}
                       onClick={() => startEditingArtwork(artwork)}
                       title="Editar obra"
                       type="button"
                     >
                       <Pencil aria-hidden="true" size={15} />
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                      variant="danger"
                       aria-label={`Excluir obra ${artwork.title}`}
-                      className={buttonDelete}
                       onClick={() => void deleteArtwork(artwork.id)}
                       title="Excluir obra"
                       type="button"
                     >
                       <Trash2 aria-hidden="true" size={15} />
-                    </button>
+                    </Button>
                   </div>
                 </article>
               ))}
@@ -787,12 +767,11 @@ export default function AdminDashboard() {
               {editingArtworkId ? 'Editar obra' : 'Nova obra'}
             </h2>
             <form className="space-y-4" onSubmit={saveArtwork}>
-              <p className="mb-2 block text-sm font-medium">Origem do artwork</p>
+              <Label>Origem do artwork</Label>
               <div className="rounded-xl border-2 border-dashed border-brand-secondary/50 bg-brand-secondary/5 hover:border-brand-secondary/70 hover:bg-brand-secondary/10 p-4">
                 <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
-                  <label className="flex items-center text-sm font-medium">
-                    <select
-                      className={inputs}
+                  <Label className="flex items-center">
+                    <Select
                       value={artworkOrigin}
                       onChange={(event) => setArtworkOrigin(event.target.value as ArtworkOrigin)}
                     >
@@ -801,22 +780,22 @@ export default function AdminDashboard() {
                           {preset.label}
                         </option>
                       ))}
-                    </select>
-                  </label>
-                  <button
-                    className={buttonPrimary}
+                    </Select>
+                  </Label>
+                  <Button
+                    variant="primary"
                     onClick={applyLicensePreset}
                     type="button"
                   >
                     Aplicar preset de licença
-                  </button>
+                  </Button>
                 </div>
                 <p className="p-1 text-xs text-brand-primary">
                   Ferramenta, Tipo, Fonte, Licença. Revise antes de salvar.
                 </p>
               </div>
               <div>
-                <p className="mb-2 block text-sm font-medium">Imagem final</p>
+                <Label>Imagem final</Label>
                 <ImageUploadField
                   value={artworkForm.final_image_url || ''}
                   onChange={(finalImageUrl) =>
@@ -825,114 +804,104 @@ export default function AdminDashboard() {
                   pathPrefix={`artworks/${editingArtworkId || 'pending'}`}
                   disabled={false}
                 />
-                <label className="mt-3 block text-sm font-medium">
+                <Label className="mt-3">
                   Ou cole uma URL direta
-                  <input
-                    className={inputs}
+                  <Input
                     type="url"
                     value={artworkForm.final_image_url || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, final_image_url: event.target.value })
                     }
                   />
-                </label>
+                </Label>
               </div>
-              <label className="block text-sm font-medium">
+              <Label>
                 Resumo do prompt
-                <textarea
-                  className={inputs}
+                <Textarea
                   rows={3}
                   value={artworkForm.prompt_summary || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, prompt_summary: event.target.value })
                   }
                 />
-              </label>
-              <label className="block text-sm font-medium">
+              </Label>
+              <Label>
                 Descrição do workflow
-                <textarea
-                  className={inputs}
+                <Textarea
                   rows={3}
                   value={artworkForm.workflow_description || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, workflow_description: event.target.value })
                   }
                 />
-              </label>
+              </Label>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block text-sm font-medium">
+                <Label>
                   Ferramenta
-                  <input
-                    className={inputs}
+                  <Input
                     value={artworkForm.source_tool || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, source_tool: event.target.value })
                     }
                     placeholder="Leonardo AI"
                   />
-                </label>
-                <label className="block text-sm font-medium">
+                </Label>
+                <Label>
                   Modelo
-                  <input
-                    className={inputs}
+                  <Input
                     value={artworkForm.source_model || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, source_model: event.target.value })
                     }
                   />
-                </label>
+                </Label>
               </div>
-              <label className="block text-sm font-medium">
+              <Label>
                 Plano utilizado
-                <input
-                  className={inputs}
+                <Input
                   value={artworkForm.source_plan || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, source_plan: event.target.value })
                   }
                   placeholder="Pago, gratuito ou licença do modelo"
                 />
-              </label>
+              </Label>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block text-sm font-medium">
+                <Label>
                   Tipo de licença
-                  <input
-                    className={inputs}
+                  <Input
                     value={artworkForm.license_type || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, license_type: event.target.value })
                     }
                     placeholder="CC BY, comercial, autorização"
                   />
-                </label>
-                <label className="block text-sm font-medium">
+                </Label>
+                <Label>
                   Fonte da licença
-                  <input
-                    className={inputs}
+                  <Input
                     type="url"
                     value={artworkForm.license_source_url || ''}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, license_source_url: event.target.value })
                     }
                   />
-                </label>
+                </Label>
               </div>
-              <label className="block text-sm font-medium">
+              <Label>
                 Notas da licença
-                <textarea
-                  className={inputs}
+                <Textarea
                   rows={3}
                   value={artworkForm.license_notes || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, license_notes: event.target.value })
                   }
                 />
-              </label>   
+              </Label>
               <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block text-sm font-medium">
+                <Label>
                   Orientação
-                  <select
-                    className={inputs}
+                  <Select
                     value={artworkForm.orientation}
                     onChange={(event) =>
                       setArtworkForm({
@@ -943,12 +912,11 @@ export default function AdminDashboard() {
                   >
                     <option value="a3-vertical">A3 vertical (30x45)</option>
                     <option value="a3-wide">A3 wide (45x30)</option>
-                  </select>
-                </label>
-                <label className="block text-sm font-medium">
+                  </Select>
+                </Label>
+                <Label>
                   Revisão da licença
-                  <select
-                    className={inputs}
+                  <Select
                     value={artworkForm.license_status}
                     onChange={(event) =>
                       setArtworkForm({
@@ -961,13 +929,12 @@ export default function AdminDashboard() {
                     <option value="pending">Pendente</option>
                     <option value="approved">Aprovada</option>
                     <option value="rejected">Rejeitada</option>
-                  </select>
-                </label>
-              </div>            
-              <label className="block text-sm font-medium">
+                  </Select>
+                </Label>
+              </div>
+              <Label>
                 Link da página oficial
-                <input
-                  className={inputs}
+                <Input
                   type="url"
                   value={artworkForm.source_url || ''}
                   onChange={(event) =>
@@ -975,8 +942,8 @@ export default function AdminDashboard() {
                   }
                   placeholder="URL da fonte (Civitai, Leonardo, Replicate, etc)"
                 />
-              </label>
-              <label className="flex items-center gap-2 text-sm font-medium">
+              </Label>
+              <Label className="flex items-center gap-2">
                 <input
                   checked={artworkForm.credit_required}
                   onChange={(event) =>
@@ -985,40 +952,37 @@ export default function AdminDashboard() {
                   type="checkbox"
                 />{' '}
                 Exige crédito
-              </label>
+              </Label>
               {artworkForm.credit_required && (
-                <label className="block text-sm font-medium">
+                <Label>
                   Texto do crédito
-                  <input
-                    className={inputs}
+                  <Input
                     value={artworkForm.credit_text || 'Créditos: Usuàrio @'}
                     onChange={(event) =>
                       setArtworkForm({ ...artworkForm, credit_text: event.target.value })
                     }
                     required
                   />
-                </label>
+                </Label>
               )}
-              <label className="block text-sm font-medium">
+              <Label>
                 Título
-                <input
-                  className={inputs}
+                <Input
                   value={artworkForm.title}
                   onChange={(event) => {
                     const title = event.target.value
                     setArtworkForm({
                       ...artworkForm,
                       title,
-                      ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
+                      ...(artworkHulgTouched ? {} : { slug: slugify(title) }),
                     })
                   }}
                   required
                 />
-              </label>
-              <label className="block text-sm font-medium">
+              </Label>
+              <Label>
                 Slug
-                <input
-                  className={inputs}
+                <Input
                   value={artworkForm.slug}
                   onChange={(event) => {
                     setArtworkSlugTouched(true)
@@ -1027,11 +991,10 @@ export default function AdminDashboard() {
                   pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
                   required
                 />
-              </label>
-              <label className="block text-sm font-medium">
+              </Label>
+              <Label>
                 Coleção
-                <select
-                  className={inputs}
+                <Select
                   value={artworkForm.collection_id || ''}
                   onChange={(event) =>
                     setArtworkForm({ ...artworkForm, collection_id: event.target.value })
@@ -1043,9 +1006,9 @@ export default function AdminDashboard() {
                       {collection.name}
                     </option>
                   ))}
-                </select>
-              </label>
-              <label className="flex items-center gap-2 text-sm font-medium">
+                </Select>
+              </Label>
+              <Label className="flex items-center gap-2">
                 <input
                   checked={artworkForm.published}
                   disabled={artworkForm.license_status !== 'approved'}
@@ -1055,23 +1018,23 @@ export default function AdminDashboard() {
                   type="checkbox"
                 />{' '}
                 Publicar no catálogo
-              </label>
+              </Label>
               <div className="flex gap-3">
-                <button
-                  className={buttonPrimary}
+                <Button
+                  variant="primary"
                   disabled={isSaving}
                   type="submit"
                 >
                   {isSaving ? 'Salvando...' : 'Salvar obra'}
-                </button>
+                </Button>
                 {editingArtworkId && (
-                  <button
-                    className={buttonSecondary}
+                  <Button
+                    variant="secondary"
                     onClick={resetArtworkForm}
                     type="button"
                   >
                     Cancelar
-                  </button>
+                  </Button>
                 )}
               </div>
             </form>
@@ -1085,8 +1048,8 @@ export default function AdminDashboard() {
             <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-2xl font-display">Produtos</h2>
-            <button
-              className={buttonNew}
+            <Button
+              variant="ghost"
               onClick={() => {
                 resetProductForm()
                 scrollToForm('product-form')
@@ -1094,7 +1057,7 @@ export default function AdminDashboard() {
               type="button"
             >
               <ClipboardPlus />
-            </button>
+            </Button>
           </div>
           {products.length === 0 ? (
             <p className="text-brand-tertiary">Nenhum produto cadastrado.</p>
@@ -1127,24 +1090,24 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     <div className="flex shrink-0 gap-1">
-                      <button
+                      <Button
+                        variant="ghost"
                         aria-label={`Editar produto ${product.title}`}
-                        className={buttonEdit}
                         onClick={() => startEditingProduct(product)}
                         title="Editar produto"
                         type="button"
                       >
                         <Pencil aria-hidden="true" size={15} />
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="danger"
                         aria-label={`Excluir produto ${product.title}`}
-                        className={buttonDelete}
                         onClick={() => void deleteProduct(product.id)}
                         title="Excluir produto"
                         type="button"
                       >
                         <Trash2 aria-hidden="true" size={15} />
-                      </button>
+                      </Button>
                     </div>
                   </article>
                 )
@@ -1158,10 +1121,9 @@ export default function AdminDashboard() {
             {editingProductId ? 'Editar produto' : 'Novo produto'}
           </h2>
           <form className="space-y-4" onSubmit={saveProduct}>
-            <label className="block text-sm font-medium">
+            <Label>
               Obra
-              <select
-                className={inputs}
+              <Select
                 value={productForm.artwork_id}
                 onChange={(event) =>
                   setProductForm({ ...productForm, artwork_id: event.target.value })
@@ -1175,21 +1137,19 @@ export default function AdminDashboard() {
                       {artwork.title}
                     </option>
                   ))}
-              </select>
-            </label>
-            <label className="block text-sm font-medium">
+              </Select>
+            </Label>
+            <Label>
               Título
-              <input
-                className={inputs}
+              <Input
                 value={productForm.title}
                 onChange={(event) => setProductForm({ ...productForm, title: event.target.value })}
                 required
               />
-            </label>
-            <label className="block text-sm font-medium">
+            </Label>
+            <Label>
               Tipo
-              <select
-                className={inputs}
+              <Select
                 value={productForm.product_type}
                 onChange={(event) =>
                   setProductForm({ ...productForm, product_type: event.target.value })
@@ -1198,23 +1158,21 @@ export default function AdminDashboard() {
                 <option value="print">Impressão</option>
                 <option value="canvas">Tela</option>
                 <option value="poster">Pôster</option>
-              </select>
-            </label>
-            <label className="block text-sm font-medium">
+              </Select>
+            </Label>
+            <Label>
               Descrição
-              <textarea
-                className={inputs}
+              <Textarea
                 rows={3}
                 value={productForm.description || ''}
                 onChange={(event) =>
                   setProductForm({ ...productForm, description: event.target.value })
                 }
               />
-            </label>
-            <label className="block text-sm font-medium">
+            </Label>
+            <Label>
               Preço
-              <input
-                className={inputs}
+              <Input
                 inputMode="decimal"
                 value={productForm.base_price}
                 onChange={(event) =>
@@ -1223,7 +1181,7 @@ export default function AdminDashboard() {
                 placeholder="79,90"
                 required
               />
-            </label>
+            </Label>
             <div className="space-y-3">
               <div className="mt-16 flex items-center justify-between">
                 <p className="font-bold">Variantes</p>
@@ -1268,8 +1226,7 @@ export default function AdminDashboard() {
                     )}
                   </div>
                   <div className="grid gap-2">
-                    <input
-                      className="w-full rounded-lg border border-gray-300 p-2"
+                    <Input
                       placeholder="Nome da variante (ex.: A3 vertical 30x45 aprox.)"
                       value={variant.name}
                       onChange={(event) =>
@@ -1282,8 +1239,7 @@ export default function AdminDashboard() {
                       }
                       required
                     />
-                    <input
-                      className="w-full rounded-lg border border-gray-300 p-2"
+                    <Input
                       placeholder="SKU (ex.: SKU-0001A3V)"
                       value={variant.sku}
                       onChange={(event) =>
@@ -1296,9 +1252,8 @@ export default function AdminDashboard() {
                       }
                       required
                     />
-                    <label className="text-sm font-medium">Estoque</label>
-                    <input
-                      className="w-full rounded-lg border border-gray-300 p-2"
+                    <Label className="text-sm font-medium">Estoque</Label>
+                    <Input
                       min="0"
                       type="number"
                       placeholder="Estoque"
@@ -1319,7 +1274,7 @@ export default function AdminDashboard() {
                 </div>
               ))}
             </div>
-            <label className="flex items-center gap-2 text-sm font-medium">
+            <Label className="flex items-center gap-2">
               <input
                 checked={productForm.active}
                 onChange={(event) =>
@@ -1328,23 +1283,23 @@ export default function AdminDashboard() {
                 type="checkbox"
               />{' '}
               Produto ativo
-            </label>
+            </Label>
             <div className="flex gap-3">
-              <button
-                className={buttonPrimary}
+              <Button
+                variant="primary"
                 disabled={isSaving}
                 type="submit"
               >
                 {isSaving ? 'Salvando...' : 'Salvar produto'}
-              </button>
+              </Button>
               {editingProductId && (
-                <button
-                  className={buttonSecondary}
+                <Button
+                  variant="secondary"
                   onClick={resetProductForm}
                   type="button"
                 >
                   Cancelar
-                </button>
+                </Button>
               )}
             </div>
           </form>
