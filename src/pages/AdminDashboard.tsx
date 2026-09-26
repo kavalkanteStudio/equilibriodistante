@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useState, type ChangeEvent } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
@@ -41,7 +41,7 @@ type Artwork = {
   published: boolean
 }
 
-type ArtworkForm = Omit<Artwork, 'id'>
+type ArtworkForm = Omit<Artwork, 'id' | 'collections'>
 
 type ArtworkOrigin = 'leonardo' | 'civitai'
 
@@ -107,6 +107,7 @@ const emptyForm: CollectionForm = {
 
 const emptyArtworkForm: ArtworkForm = {
   collection_id: '',
+  //collections: null,
   title: '',
   slug: '',
   prompt_summary: '',
@@ -230,6 +231,7 @@ export default function AdminDashboard() {
     setArtworkOrigin(artwork.source_tool?.toLowerCase().includes('civitai') ? 'civitai' : 'leonardo')
     setArtworkForm({
       collection_id: artwork.collection_id || '',
+      //collections: artwork.collections || null,
       title: artwork.title,
       slug: artwork.slug,
       prompt_summary: artwork.prompt_summary || '',
@@ -301,7 +303,7 @@ export default function AdminDashboard() {
     setError(null)
   }
 
-  async function saveCollection(event: FormEvent<HTMLFormElement>) {
+  async function saveCollection(event: ChangeEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsSaving(true)
     setError(null)
@@ -331,7 +333,7 @@ export default function AdminDashboard() {
     else await loadCollections()
   }
 
-  async function saveArtwork(event: FormEvent<HTMLFormElement>) {
+  async function saveArtwork(event: ChangeEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsSaving(true)
     setError(null)
@@ -345,6 +347,7 @@ export default function AdminDashboard() {
     const payload = {
       ...artworkForm,
       collection_id: artworkForm.collection_id || null,
+      //collections: artworkForm.collections || null,
       prompt_summary: artworkForm.prompt_summary || null,
       workflow_description: artworkForm.workflow_description || null,
       source_url: artworkForm.source_url || null,
@@ -381,7 +384,7 @@ export default function AdminDashboard() {
     else await loadArtworks()
   }
 
-  async function saveProduct(event: FormEvent<HTMLFormElement>) {
+  async function saveProduct(event: ChangeEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsSaving(true)
     setError(null)
@@ -509,7 +512,7 @@ export default function AdminDashboard() {
 
         <nav
           aria-label="Seções do catálogo"
-          className="grid grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-brand-septenary p-1 shadow-sm"
+          className="grid grid-rows-3 md:grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-brand-septenary p-1 shadow-sm"
         >
           {([
             ['collections', 'Coleções', collections.length],
@@ -518,10 +521,10 @@ export default function AdminDashboard() {
           ] as const).map(([tab, label, count]) => (
             <button
               aria-selected={activeTab === tab}
-              className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-600 ${
+              className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors ${
                 activeTab === tab
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-900/50 hover:bg-brand-secondary/10 border border-transparent hover:border hover:border-brand-secondary hover:text-gray-900/70'
+                  ? 'bg-brand-primary text-white'
+                  : 'text-brand-primary/50 hover:bg-brand-secondary/10 border border-b-brand-octonary hover:border hover:border-brand-secondary hover:text-brand-primary/70'
               }`}
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -531,7 +534,7 @@ export default function AdminDashboard() {
               {label}
               <span
                 className={`ml-2 rounded-full px-2 py-0.5 text-xs ${
-                  activeTab === tab ? 'bg-brand-primary text-white' : 'bg-gray-900/50 text-white'
+                  activeTab === tab ? 'bg-brand-octonary text-brand-tertiary' : 'bg-brand-primary/50 text-brand-septenary'
                 }`}
               >
                 {count}
@@ -565,7 +568,7 @@ export default function AdminDashboard() {
                   <div className="grid gap-3 md:grid-cols-2">
                 {collections.map((collection) => (
                   <article
-                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-gray-100 p-3"
+                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
                     key={collection.id}
                   >
                         <div className="flex min-w-0 items-center gap-3">
@@ -720,7 +723,7 @@ export default function AdminDashboard() {
             <div className="grid gap-3 md:grid-cols-2">
               {artworks.map((artwork) => (
                 <article
-                  className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-gray-100 p-3"
+                  className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
                   key={artwork.id}
                 >
                   <div className="flex min-w-0 items-center gap-3">
@@ -983,7 +986,7 @@ export default function AdminDashboard() {
                     setArtworkForm({
                       ...artworkForm,
                       title,
-                      ...(artworkHulgTouched ? {} : { slug: slugify(title) }),
+                      ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
                     })
                   }}
                   required
@@ -1076,7 +1079,7 @@ export default function AdminDashboard() {
                 const artwork = artworks.find((item) => item.id === product.artwork_id)
                 return (
                   <article
-                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-gray-100 p-3"
+                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
                     key={product.id}
                   >
                     <div className="flex min-w-0 items-center gap-3">

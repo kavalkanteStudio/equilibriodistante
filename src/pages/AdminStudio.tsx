@@ -5,11 +5,51 @@ import { Button, Input, Textarea, Label } from '@/components/ui'
 
 export default function AdminStudio() {
   const [prompt, setPrompt] = useState('')
-  const [aspectRatio, setAspectRatio] = useState('1:1')
+  const [aspectRatio, setAspectRatio] = useState('3:4')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+  const [artwork, setArtwork] = useState<Artwork[]>([])
+
+  type Artwork = {
+    id: string
+    collection_id: string | null
+    collections: { name: string } | null
+    title: string
+    slug: string
+    prompt_summary: string | null
+    workflow_description: string | null
+    source_url: string | null
+    license_notes: string | null
+    source_model: string | null
+    source_tool: string | null
+    source_plan: string | null
+    license_status: 'pending' | 'approved' | 'rejected'
+    license_type: string | null
+    license_source_url: string | null
+    license_verified_at: string | null
+    credit_required: boolean
+    credit_text: string | null
+    orientation: 'a3-vertical' | 'a3-wide'
+    final_image_url: string | null
+    published: boolean
+  }
+
+  function getErrorMessage(error: unknown, fallback: string): string {
+    if (error instanceof Error && error.message) return error.message
+
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'message' in error &&
+      typeof error.message === 'string'
+    ) {
+      return error.message || fallback
+    }
+
+    return fallback
+  }
 
   async function handleGenerate() {
     if (!prompt) return
@@ -31,8 +71,8 @@ export default function AdminStudio() {
       } else {
         throw new Error("Image is still processing. Please try again in a few seconds.")
       }
-    } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred')
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'An unexpected error occurred'))
     } finally {
       setIsGenerating(false)
     }
@@ -54,7 +94,7 @@ export default function AdminStudio() {
           source_tool: 'Replicate',
           source_url: generatedImage,
           final_image_url: generatedImage,
-          orientation: aspectRatio === '1:1' ? 'a3-vertical' : (aspectRatio === '16:9' ? 'a3-wide' : 'a3-vertical'),
+          orientation: aspectRatio === '1:1' ? 'a3-vertical' : (aspectRatio === '16:9' ? 'a3-wide' : (aspectRatio === '9:16' ? 'a3-vertical' : 'a3-vertical')),
           published: false,
           license_status: 'pending',
         })
@@ -62,12 +102,13 @@ export default function AdminStudio() {
         .single()
 
       if (artError) throw artError
+      if (artwork) setArtwork(artwork)
 
       alert('Obra promovida ao catálogo com sucesso! Agora você pode editá-la no Dashboard.')
       setGeneratedImage(null)
       setPrompt('')
-    } catch (err: any) {
-      setError(err.message || 'Error promoting to catalog')
+    } catch (err: unknown) {
+      setError(getErrorMessage(err, 'An unexpected error occurred'))
     } finally {
       setIsSaving(false)
     }
@@ -87,7 +128,7 @@ export default function AdminStudio() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Controls */}
-          <div className="space-y-6 bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+          <div className="space-y-6 bg-white p-6 rounded-2xl border border-brand-octonary shadow-sm">
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="prompt">Prompt Criativo</Label>
@@ -96,8 +137,10 @@ export default function AdminStudio() {
                   placeholder="Ex: A minimalist golden cat silhouette with a vintage twist, luxury background..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-30 resize-none"
+                  className="min-h-30 resize-y text-brand-tertiary"
+                  required
                 />
+                <Input className='hidden' />
               </div>
 
               <div className="space-y-2">
@@ -109,8 +152,8 @@ export default function AdminStudio() {
                       onClick={() => setAspectRatio(ratio)}
                       className={`py-2 text-xs font-bold rounded-lg border transition-all ${
                         aspectRatio === ratio
-                        ? 'bg-brand-primary text-white border-brand-primary'
-                        : 'bg-white text-gray-500 border-gray-200 hover:border-brand-secondary'
+                        ? 'bg-brand-primary text-brand-octonary border-brand-quibg-brand-primary'
+                        : 'bg-brand-septenary text-brand-tertiary hover:text-brand-octonary border-brand-tertiary hover:bg-brand-primary'
                       }`}
                     >
                       {ratio}
@@ -120,7 +163,7 @@ export default function AdminStudio() {
               </div>
 
               <Button
-                className="w-full py-6 text-lg font-bold flex flex-1 gap-2"
+                className="w-full flex flex-1 px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
                 onClick={handleGenerate}
                 disabled={isGenerating || !prompt}
               >
@@ -143,8 +186,8 @@ export default function AdminStudio() {
           {/* Right: Preview */}
           <div className="flex flex-col gap-4">
             <div
-              className={`relative w-full overflow-hidden rounded-2xl bg-gray-100 border-2 border-dashed border-gray-300 transition-all ${
-                aspectRatio === '1:1' ? 'aspect-square' : (aspectRatio === '16:9' ? 'aspect-video' : 'aspect-[3/4]')
+              className={`relative w-full overflow-hidden rounded-2xl bg-brand-octonary border-2 border-dashed border-brand-tertiary transition-all ${
+                aspectRatio === '1:1' ? 'aspect-square' : (aspectRatio === '16:9' ? 'aspect-video' : 'aspect-3/4')
               }`}
             >
               {generatedImage ? (
@@ -166,20 +209,56 @@ export default function AdminStudio() {
                 </div>
               )}
             </div>
-
-            {generatedImage && (
-              <Button
-                className="w-full py-6 text-lg font-bold gap-2 bg-gray-900 hover:bg-black text-white"
-                onClick={promoteToCatalog}
-                disabled={isSaving}
-              >
-                {isSaving ? (
-                  <><Loader2 className="animate-spin" /> Salvando...</>
-                ) : (
-                  <><Save /> Promover ao Catálogo</>
-                )}
-              </Button>
-            )}
+            <div>
+              {artwork.length === 0 ? (
+                <p className="text-brand-tertiary hidden">Aguardando Criação.</p>
+              ) : (
+                <div className="grid gap-3 md:grid-cols-2">
+                  {artwork.map((artwork) => (
+                    <article
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
+                      key={artwork.id}
+                    >
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
+                          {artwork.final_image_url && (
+                            <img
+                              className="h-full w-full object-cover"
+                              src={artwork.final_image_url}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
+                          <p className="truncate text-xs text-brand-tertiary">
+                            /{artwork.slug} ·{' '}
+                            {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
+                            {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
+                          </p>
+                          <p className="text-xs uppercase font-medium text-brand-secondary">
+                            {artwork.collections?.name || 'Sem coleção'}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+              {generatedImage && (
+                <Button
+                  className="w-full px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
+                  onClick={promoteToCatalog}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <><Loader2 className="animate-spin" /> Salvando...</>
+                  ) : (
+                    <><Save /> Promover ao Catálogo</>
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
