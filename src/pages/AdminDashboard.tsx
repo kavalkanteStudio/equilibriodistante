@@ -170,10 +170,12 @@ export default function AdminDashboard() {
   async function loadArtworks() {
     const { data, error: queryError } = await supabase
       .from('artworks')
-      .select(`
+      .select(
+        `
         *,
         collections ( name )
-      `)
+      `,
+      )
       .order('created_at', { ascending: false })
 
     if (queryError) setError(queryError.message)
@@ -191,7 +193,7 @@ export default function AdminDashboard() {
 
   // Start Loading Data
   const [sload, setSload] = useState(false)
-  setTimeout(() => setSload(true),100)
+  setTimeout(() => setSload(true), 100)
   useEffect(() => {
     if (sload) {
       void Promise.resolve().then(() =>
@@ -228,7 +230,9 @@ export default function AdminDashboard() {
   function startEditingArtwork(artwork: Artwork) {
     setEditingArtworkId(artwork.id)
     setArtworkSlugTouched(true)
-    setArtworkOrigin(artwork.source_tool?.toLowerCase().includes('civitai') ? 'civitai' : 'leonardo')
+    setArtworkOrigin(
+      artwork.source_tool?.toLowerCase().includes('civitai') ? 'civitai' : 'leonardo',
+    )
     setArtworkForm({
       collection_id: artwork.collection_id || '',
       //collections: artwork.collections || null,
@@ -485,40 +489,33 @@ export default function AdminDashboard() {
             <p className="text-sm text-brand-tertiary">{session?.user.email}</p>
           </div>
           <span className="flex gap-1">
-
-            <Button
-              variant="secondary"
-              onClick={() => window.location.href = "/"}
-              type="button"
-            >
+            <Button variant="secondary" onClick={() => (window.location.href = '/')} type="button">
               Home
             </Button>
             <Button
               variant="secondary"
-              onClick={() => window.location.href = "/admin/studio"}
+              onClick={() => (window.location.href = '/admin/studio')}
               type="button"
             >
               Studio
             </Button>
-            <Button
-              variant="secondary"
-              onClick={() => void signOut()}
-              type="button"
-            >
+            <Button variant="secondary" onClick={() => void signOut()} type="button">
               Logout
             </Button>
-        </span>
+          </span>
         </header>
 
         <nav
           aria-label="Seções do catálogo"
           className="grid grid-rows-3 md:grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-brand-septenary p-1 shadow-sm"
         >
-          {([
-            ['collections', 'Coleções', collections.length],
-            ['artworks', 'Obras', artworks.length],
-            ['products', 'Produtos', products.length],
-          ] as const).map(([tab, label, count]) => (
+          {(
+            [
+              ['collections', 'Coleções', collections.length],
+              ['artworks', 'Obras', artworks.length],
+              ['products', 'Produtos', products.length],
+            ] as const
+          ).map(([tab, label, count]) => (
             <button
               aria-selected={activeTab === tab}
               className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors ${
@@ -534,7 +531,9 @@ export default function AdminDashboard() {
               {label}
               <span
                 className={`ml-2 rounded-full px-2 py-0.5 text-xs ${
-                  activeTab === tab ? 'bg-brand-octonary text-brand-tertiary' : 'bg-brand-primary/50 text-brand-septenary'
+                  activeTab === tab
+                    ? 'bg-brand-octonary text-brand-tertiary'
+                    : 'bg-brand-primary/50 text-brand-septenary'
                 }`}
               >
                 {count}
@@ -545,512 +544,499 @@ export default function AdminDashboard() {
 
         {/* Tab Coleções*/}
         {activeTab === 'collections' && (
-        <>
-          <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
-            <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-2xl font-display">Coleções</h2>
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  resetForm()
-                  scrollToForm('collection-form')
-                }}
-                type="button"
-              >
-                <ClipboardPlus />
-              </Button>
-            </div>
-            {isLoading ? (
-              <p className="text-brand-tertiary">Carregando...</p>
-            ) : collections.length === 0 ? (
-              <p className="text-brand-tertiary">Nenhuma coleção cadastrada.</p>
-            ) : (
-                  <div className="grid gap-3 md:grid-cols-2">
-                {collections.map((collection) => (
-                  <article
-                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
-                    key={collection.id}
-                  >
-                        <div className="flex min-w-0 items-center gap-3">
-                          <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
-                            {collection.cover_image && (
-                              <img
-                                className="h-full w-full object-cover"
-                                src={collection.cover_image}
-                                alt=""
-                              />
-                            )}
-                          </div>
-                          <div className="min-w-0">
-                            <h3 className="truncate text-sm font-bold">{collection.name}</h3>
-                            <p className="truncate text-xs text-brand-tertiary">
+          <>
+            <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-2xl font-display">Coleções</h2>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    resetForm()
+                    scrollToForm('collection-form')
+                  }}
+                  type="button"
+                >
+                  <ClipboardPlus />
+                </Button>
+              </div>
+              {isLoading ? (
+                <p className="text-brand-tertiary">Carregando...</p>
+              ) : collections.length === 0 ? (
+                <p className="text-brand-tertiary">Nenhuma coleção cadastrada.</p>
+              ) : (
+                <div className="grid gap-3 md:grid-cols-2">
+                  {collections.map((collection) => (
+                    <article
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
+                      key={collection.id}
+                    >
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
+                          {collection.cover_image && (
+                            <img
+                              className="h-full w-full object-cover"
+                              src={collection.cover_image}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="truncate text-sm font-bold">{collection.name}</h3>
+                          <p className="truncate text-xs text-brand-tertiary">
                             /{collection.slug} · {collection.status}
-                            </p>
-                          </div>
+                          </p>
                         </div>
-                        <div className="flex shrink-0 gap-1">
-                          <Button
-                            variant="ghost"
-                            aria-label={`Editar coleção ${collection.name}`}
-                            onClick={() => startEditing(collection)}
-                            title="Editar coleção"
-                            type="button"
-                          >
-                            <Pencil aria-hidden="true" size={15} />
-                          </Button>
-                          <Button
-                            variant="danger"
-                            aria-label={`Excluir coleção ${collection.name}`}
-                            onClick={() => void deleteCollection(collection.id)}
-                            title="Excluir coleção"
-                            type="button"
-                          >
-                            <Trash2 aria-hidden="true" size={15} />
-                          </Button>
-                        </div>
-                  </article>
-                ))}
-                  </div>
-                )}
-          </section>
+                      </div>
+                      <div className="flex shrink-0 gap-1">
+                        <Button
+                          variant="ghost"
+                          aria-label={`Editar coleção ${collection.name}`}
+                          onClick={() => startEditing(collection)}
+                          title="Editar coleção"
+                          type="button"
+                        >
+                          <Pencil aria-hidden="true" size={15} />
+                        </Button>
+                        <Button
+                          variant="danger"
+                          aria-label={`Excluir coleção ${collection.name}`}
+                          onClick={() => void deleteCollection(collection.id)}
+                          title="Excluir coleção"
+                          type="button"
+                        >
+                          <Trash2 aria-hidden="true" size={15} />
+                        </Button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </section>
 
-          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm" id="collection-form">
-            <h2 className="mb-5 text-2xl font-display">
-              {editingId ? 'Editar coleção' : 'Nova coleção'}
-            </h2>
-            <form className="space-y-4" onSubmit={saveCollection}>
-              <Label>
-                Nome
-                <Input
-                  value={form.name}
-                  onChange={(event) => setForm({ ...form, name: event.target.value })}
-                  required
-                />
-              </Label>
-              <Label>
-                Slug
-                <Input
-                  value={form.slug}
-                  onChange={(event) => setForm({ ...form, slug: event.target.value })}
-                  pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-                  required
-                />
-              </Label>
-              <Label>
-                Descrição
-                <Textarea
-                  rows={4}
-                  value={form.description || ''}
-                  onChange={(event) => setForm({ ...form, description: event.target.value })}
-                />
-              </Label>
-              <div>
-                <Label>Capa da coleção</Label>
-                <ImageUploadField
-                  value={form.cover_image || ''}
-                  onChange={(coverImage) => setForm({ ...form, cover_image: coverImage })}
-                  pathPrefix={`collections/${editingId || 'pending'}`}
-                  disabled={!editingId}
-                />
-                {!editingId && (
-                  <p className="mt-2 text-xs text-brand-tertiary">
-                    Salve a coleção primeiro para habilitar o upload.
-                  </p>
-                )}
-                <Label className="mt-3">
-                  Ou cole uma URL direta
+            <section
+              className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm"
+              id="collection-form"
+            >
+              <h2 className="mb-5 text-2xl font-display">
+                {editingId ? 'Editar coleção' : 'Nova coleção'}
+              </h2>
+              <form className="space-y-4" onSubmit={saveCollection}>
+                <Label>
+                  Nome
                   <Input
-                    type="url"
-                    value={form.cover_image || ''}
-                    onChange={(event) => setForm({ ...form, cover_image: event.target.value })}
+                    value={form.name}
+                    onChange={(event) => setForm({ ...form, name: event.target.value })}
+                    required
                   />
                 </Label>
-              </div>
-              <Label>
-                Status
-                <Select
-                  value={form.status}
-                  onChange={(event) => setForm({ ...form, status: event.target.value })}
-                >
-                  <option value="draft">Rascunho</option>
-                  <option value="published">Publicado</option>
-                </Select>
-              </Label>
-              {error && <p className="text-sm text-brand-tertiary">{error}</p>}
-              <div className="flex gap-3">
-                <Button
-                  variant="primary"
-                  disabled={isSaving}
-                  type="submit"
-                >
-                  {isSaving ? 'Salvando...' : 'Salvar'}
-                </Button>
-                {editingId && (
-                  <Button
-                    variant="secondary"
-                    onClick={resetForm}
-                    type="button"
+                <Label>
+                  Slug
+                  <Input
+                    value={form.slug}
+                    onChange={(event) => setForm({ ...form, slug: event.target.value })}
+                    pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                    required
+                  />
+                </Label>
+                <Label>
+                  Descrição
+                  <Textarea
+                    rows={4}
+                    value={form.description || ''}
+                    onChange={(event) => setForm({ ...form, description: event.target.value })}
+                  />
+                </Label>
+                <div>
+                  <Label>Capa da coleção</Label>
+                  <ImageUploadField
+                    value={form.cover_image || ''}
+                    onChange={(coverImage) => setForm({ ...form, cover_image: coverImage })}
+                    pathPrefix={`collections/${editingId || 'pending'}`}
+                    disabled={!editingId}
+                  />
+                  {!editingId && (
+                    <p className="mt-2 text-xs text-brand-tertiary">
+                      Salve a coleção primeiro para habilitar o upload.
+                    </p>
+                  )}
+                  <Label className="mt-3">
+                    Ou cole uma URL direta
+                    <Input
+                      type="url"
+                      value={form.cover_image || ''}
+                      onChange={(event) => setForm({ ...form, cover_image: event.target.value })}
+                    />
+                  </Label>
+                </div>
+                <Label>
+                  Status
+                  <Select
+                    value={form.status}
+                    onChange={(event) => setForm({ ...form, status: event.target.value })}
                   >
-                    Cancelar
+                    <option value="draft">Rascunho</option>
+                    <option value="published">Publicado</option>
+                  </Select>
+                </Label>
+                {error && <p className="text-sm text-brand-tertiary">{error}</p>}
+                <div className="flex gap-3">
+                  <Button variant="primary" disabled={isSaving} type="submit">
+                    {isSaving ? 'Salvando...' : 'Salvar'}
                   </Button>
-                )}
-              </div>
-            </form>
-          </section>
-        </>
+                  {editingId && (
+                    <Button variant="secondary" onClick={resetForm} type="button">
+                      Cancelar
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </section>
+          </>
         )}
 
         {/* Tab Obras*/}
         {activeTab === 'artworks' && (
-        <>
-        <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-2xl font-display">Obras</h2>
-            <Button
-              variant="ghost"
-              onClick={() => {
-                resetArtworkForm()
-                scrollToForm('artwork-form')
-              }}
-              type="button"
-            >
-              <ClipboardPlus />
-            </Button>
-          </div>
-          {artworks.length === 0 ? (
-            <p className="text-brand-tertiary">Nenhuma obra cadastrada.</p>
-          ) : (
-            <div className="grid gap-3 md:grid-cols-2">
-              {artworks.map((artwork) => (
-                <article
-                  className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
-                  key={artwork.id}
+          <>
+            <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-2xl font-display">Obras</h2>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    resetArtworkForm()
+                    scrollToForm('artwork-form')
+                  }}
+                  type="button"
                 >
-                  <div className="flex min-w-0 items-center gap-3">
-                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
-                      {artwork.final_image_url && (
-                        <img
-                          className="h-full w-full object-cover"
-                          src={artwork.final_image_url}
-                          alt=""
-                        />
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
-                      <p className="truncate text-xs text-brand-tertiary">
-                        /{artwork.slug} ·{' '}
-                        {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
-                        {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
-                      </p>
-                      <p className="text-xs uppercase font-medium text-brand-secondary">
-                        {artwork.collections?.name || 'Sem coleção'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex shrink-0 gap-1">
-                    <Button
-                      variant="ghost"
-                      aria-label={`Editar obra ${artwork.title}`}
-                      onClick={() => startEditingArtwork(artwork)}
-                      title="Editar obra"
-                      type="button"
+                  <ClipboardPlus />
+                </Button>
+              </div>
+              {artworks.length === 0 ? (
+                <p className="text-brand-tertiary">Nenhuma obra cadastrada.</p>
+              ) : (
+                <div className="grid gap-3 md:grid-cols-2">
+                  {artworks.map((artwork) => (
+                    <article
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
+                      key={artwork.id}
                     >
-                      <Pencil aria-hidden="true" size={15} />
-                    </Button>
-                    <Button
-                      variant="danger"
-                      aria-label={`Excluir obra ${artwork.title}`}
-                      onClick={() => void deleteArtwork(artwork.id)}
-                      title="Excluir obra"
-                      type="button"
-                    >
-                      <Trash2 aria-hidden="true" size={15} />
-                    </Button>
-                  </div>
-                </article>
-              ))}
-            </div>
-          )}
-          </section>
+                      <div className="flex min-w-0 items-center gap-3">
+                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
+                          {artwork.final_image_url && (
+                            <img
+                              className="h-full w-full object-cover"
+                              src={artwork.final_image_url}
+                              alt=""
+                            />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
+                          <p className="truncate text-xs text-brand-tertiary">
+                            /{artwork.slug} ·{' '}
+                            {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} ·
+                            licença {artwork.license_status} ·{' '}
+                            {artwork.published ? 'publicada' : 'rascunho'}
+                          </p>
+                          <p className="text-xs uppercase font-medium text-brand-secondary">
+                            {artwork.collections?.name || 'Sem coleção'}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex shrink-0 gap-1">
+                        <Button
+                          variant="ghost"
+                          aria-label={`Editar obra ${artwork.title}`}
+                          onClick={() => startEditingArtwork(artwork)}
+                          title="Editar obra"
+                          type="button"
+                        >
+                          <Pencil aria-hidden="true" size={15} />
+                        </Button>
+                        <Button
+                          variant="danger"
+                          aria-label={`Excluir obra ${artwork.title}`}
+                          onClick={() => void deleteArtwork(artwork.id)}
+                          title="Excluir obra"
+                          type="button"
+                        >
+                          <Trash2 aria-hidden="true" size={15} />
+                        </Button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </section>
 
-          <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm" id="artwork-form">
-            <h2 className="mb-5! text-2xl font-display">
-              {editingArtworkId ? 'Editar obra' : 'Nova obra'}
-            </h2>
-            <form className="space-y-4" onSubmit={saveArtwork}>
-              <Label>Origem do artwork</Label>
-              <div className="rounded-xl border-2 border-dashed border-brand-secondary/50 bg-brand-secondary/5 hover:border-brand-secondary/70 hover:bg-brand-secondary/10 p-4">
-                <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
-                  <Label className="flex items-center">
+            <section
+              className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm"
+              id="artwork-form"
+            >
+              <h2 className="mb-5! text-2xl font-display">
+                {editingArtworkId ? 'Editar obra' : 'Nova obra'}
+              </h2>
+              <form className="space-y-4" onSubmit={saveArtwork}>
+                <Label>Origem do artwork</Label>
+                <div className="rounded-xl border-2 border-dashed border-brand-secondary/50 bg-brand-secondary/5 hover:border-brand-secondary/70 hover:bg-brand-secondary/10 p-4">
+                  <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+                    <Label className="flex items-center">
+                      <Select
+                        value={artworkOrigin}
+                        onChange={(event) => setArtworkOrigin(event.target.value as ArtworkOrigin)}
+                      >
+                        {Object.entries(licensePresets).map(([origin, preset]) => (
+                          <option key={origin} value={origin}>
+                            {preset.label}
+                          </option>
+                        ))}
+                      </Select>
+                    </Label>
+                    <Button variant="primary" onClick={applyLicensePreset} type="button">
+                      Aplicar preset de licença
+                    </Button>
+                  </div>
+                  <p className="p-1 text-xs text-brand-primary">
+                    Ferramenta, Tipo, Fonte, Licença. Revise antes de salvar.
+                  </p>
+                </div>
+                <div>
+                  <Label>Imagem final</Label>
+                  <ImageUploadField
+                    value={artworkForm.final_image_url || ''}
+                    onChange={(finalImageUrl) =>
+                      setArtworkForm({ ...artworkForm, final_image_url: finalImageUrl })
+                    }
+                    pathPrefix={`artworks/${editingArtworkId || 'pending'}`}
+                    disabled={false}
+                  />
+                  <Label className="mt-3">
+                    Ou cole uma URL direta
+                    <Input
+                      type="url"
+                      value={artworkForm.final_image_url || ''}
+                      onChange={(event) =>
+                        setArtworkForm({ ...artworkForm, final_image_url: event.target.value })
+                      }
+                    />
+                  </Label>
+                </div>
+                <Label>
+                  Resumo do prompt
+                  <Textarea
+                    rows={3}
+                    value={artworkForm.prompt_summary || ''}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, prompt_summary: event.target.value })
+                    }
+                  />
+                </Label>
+                <Label>
+                  Descrição do workflow
+                  <Textarea
+                    rows={3}
+                    value={artworkForm.workflow_description || ''}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, workflow_description: event.target.value })
+                    }
+                  />
+                </Label>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Label>
+                    Ferramenta
+                    <Input
+                      value={artworkForm.source_tool || ''}
+                      onChange={(event) =>
+                        setArtworkForm({ ...artworkForm, source_tool: event.target.value })
+                      }
+                      placeholder="Leonardo AI"
+                    />
+                  </Label>
+                  <Label>
+                    Modelo
+                    <Input
+                      value={artworkForm.source_model || ''}
+                      onChange={(event) =>
+                        setArtworkForm({ ...artworkForm, source_model: event.target.value })
+                      }
+                    />
+                  </Label>
+                </div>
+                <Label>
+                  Plano utilizado
+                  <Input
+                    value={artworkForm.source_plan || ''}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, source_plan: event.target.value })
+                    }
+                    placeholder="Pago, gratuito ou licença do modelo"
+                  />
+                </Label>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Label>
+                    Tipo de licença
+                    <Input
+                      value={artworkForm.license_type || ''}
+                      onChange={(event) =>
+                        setArtworkForm({ ...artworkForm, license_type: event.target.value })
+                      }
+                      placeholder="CC BY, comercial, autorização"
+                    />
+                  </Label>
+                  <Label>
+                    Fonte da licença
+                    <Input
+                      type="url"
+                      value={artworkForm.license_source_url || ''}
+                      onChange={(event) =>
+                        setArtworkForm({ ...artworkForm, license_source_url: event.target.value })
+                      }
+                    />
+                  </Label>
+                </div>
+                <Label>
+                  Notas da licença
+                  <Textarea
+                    rows={3}
+                    value={artworkForm.license_notes || ''}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, license_notes: event.target.value })
+                    }
+                  />
+                </Label>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Label>
+                    Orientação
                     <Select
-                      value={artworkOrigin}
-                      onChange={(event) => setArtworkOrigin(event.target.value as ArtworkOrigin)}
+                      value={artworkForm.orientation}
+                      onChange={(event) =>
+                        setArtworkForm({
+                          ...artworkForm,
+                          orientation: event.target.value as ArtworkForm['orientation'],
+                        })
+                      }
                     >
-                      {Object.entries(licensePresets).map(([origin, preset]) => (
-                        <option key={origin} value={origin}>
-                          {preset.label}
-                        </option>
-                      ))}
+                      <option value="a3-vertical">A3 vertical (30x45)</option>
+                      <option value="a3-wide">A3 wide (45x30)</option>
                     </Select>
                   </Label>
-                  <Button
-                    variant="primary"
-                    onClick={applyLicensePreset}
-                    type="button"
-                  >
-                    Aplicar preset de licença
-                  </Button>
+                  <Label>
+                    Revisão da licença
+                    <Select
+                      value={artworkForm.license_status}
+                      onChange={(event) =>
+                        setArtworkForm({
+                          ...artworkForm,
+                          license_status: event.target.value as ArtworkForm['license_status'],
+                          published: false,
+                        })
+                      }
+                    >
+                      <option value="pending">Pendente</option>
+                      <option value="approved">Aprovada</option>
+                      <option value="rejected">Rejeitada</option>
+                    </Select>
+                  </Label>
                 </div>
-                <p className="p-1 text-xs text-brand-primary">
-                  Ferramenta, Tipo, Fonte, Licença. Revise antes de salvar.
-                </p>
-              </div>
-              <div>
-                <Label>Imagem final</Label>
-                <ImageUploadField
-                  value={artworkForm.final_image_url || ''}
-                  onChange={(finalImageUrl) =>
-                    setArtworkForm({ ...artworkForm, final_image_url: finalImageUrl })
-                  }
-                  pathPrefix={`artworks/${editingArtworkId || 'pending'}`}
-                  disabled={false}
-                />
-                <Label className="mt-3">
-                  Ou cole uma URL direta
+                <Label>
+                  Link da página oficial
                   <Input
                     type="url"
-                    value={artworkForm.final_image_url || ''}
+                    value={artworkForm.source_url || ''}
                     onChange={(event) =>
-                      setArtworkForm({ ...artworkForm, final_image_url: event.target.value })
+                      setArtworkForm({ ...artworkForm, source_url: event.target.value })
                     }
+                    placeholder="URL da fonte (Civitai, Leonardo, Replicate, etc)"
                   />
                 </Label>
-              </div>
-              <Label>
-                Resumo do prompt
-                <Textarea
-                  rows={3}
-                  value={artworkForm.prompt_summary || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, prompt_summary: event.target.value })
-                  }
-                />
-              </Label>
-              <Label>
-                Descrição do workflow
-                <Textarea
-                  rows={3}
-                  value={artworkForm.workflow_description || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, workflow_description: event.target.value })
-                  }
-                />
-              </Label>
-              <div className="grid gap-4 sm:grid-cols-2">
+                <Label className="flex items-center gap-2">
+                  <input
+                    checked={artworkForm.credit_required}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, credit_required: event.target.checked })
+                    }
+                    type="checkbox"
+                  />{' '}
+                  Exige crédito
+                </Label>
+                {artworkForm.credit_required && (
+                  <Label>
+                    Texto do crédito
+                    <Input
+                      value={artworkForm.credit_text || 'Créditos: Usuàrio @'}
+                      onChange={(event) =>
+                        setArtworkForm({ ...artworkForm, credit_text: event.target.value })
+                      }
+                      required
+                    />
+                  </Label>
+                )}
                 <Label>
-                  Ferramenta
+                  Título
                   <Input
-                    value={artworkForm.source_tool || ''}
-                    onChange={(event) =>
-                      setArtworkForm({ ...artworkForm, source_tool: event.target.value })
-                    }
-                    placeholder="Leonardo AI"
-                  />
-                </Label>
-                <Label>
-                  Modelo
-                  <Input
-                    value={artworkForm.source_model || ''}
-                    onChange={(event) =>
-                      setArtworkForm({ ...artworkForm, source_model: event.target.value })
-                    }
-                  />
-                </Label>
-              </div>
-              <Label>
-                Plano utilizado
-                <Input
-                  value={artworkForm.source_plan || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, source_plan: event.target.value })
-                  }
-                  placeholder="Pago, gratuito ou licença do modelo"
-                />
-              </Label>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Label>
-                  Tipo de licença
-                  <Input
-                    value={artworkForm.license_type || ''}
-                    onChange={(event) =>
-                      setArtworkForm({ ...artworkForm, license_type: event.target.value })
-                    }
-                    placeholder="CC BY, comercial, autorização"
-                  />
-                </Label>
-                <Label>
-                  Fonte da licença
-                  <Input
-                    type="url"
-                    value={artworkForm.license_source_url || ''}
-                    onChange={(event) =>
-                      setArtworkForm({ ...artworkForm, license_source_url: event.target.value })
-                    }
-                  />
-                </Label>
-              </div>
-              <Label>
-                Notas da licença
-                <Textarea
-                  rows={3}
-                  value={artworkForm.license_notes || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, license_notes: event.target.value })
-                  }
-                />
-              </Label>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Label>
-                  Orientação
-                  <Select
-                    value={artworkForm.orientation}
-                    onChange={(event) =>
+                    value={artworkForm.title}
+                    onChange={(event) => {
+                      const title = event.target.value
                       setArtworkForm({
                         ...artworkForm,
-                        orientation: event.target.value as ArtworkForm['orientation'],
+                        title,
+                        ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
                       })
-                    }
-                  >
-                    <option value="a3-vertical">A3 vertical (30x45)</option>
-                    <option value="a3-wide">A3 wide (45x30)</option>
-                  </Select>
-                </Label>
-                <Label>
-                  Revisão da licença
-                  <Select
-                    value={artworkForm.license_status}
-                    onChange={(event) =>
-                      setArtworkForm({
-                        ...artworkForm,
-                        license_status: event.target.value as ArtworkForm['license_status'],
-                        published: false,
-                      })
-                    }
-                  >
-                    <option value="pending">Pendente</option>
-                    <option value="approved">Aprovada</option>
-                    <option value="rejected">Rejeitada</option>
-                  </Select>
-                </Label>
-              </div>
-              <Label>
-                Link da página oficial
-                <Input
-                  type="url"
-                  value={artworkForm.source_url || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, source_url: event.target.value })
-                  }
-                  placeholder="URL da fonte (Civitai, Leonardo, Replicate, etc)"
-                />
-              </Label>
-              <Label className="flex items-center gap-2">
-                <input
-                  checked={artworkForm.credit_required}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, credit_required: event.target.checked })
-                  }
-                  type="checkbox"
-                />{' '}
-                Exige crédito
-              </Label>
-              {artworkForm.credit_required && (
-                <Label>
-                  Texto do crédito
-                  <Input
-                    value={artworkForm.credit_text || 'Créditos: Usuàrio @'}
-                    onChange={(event) =>
-                      setArtworkForm({ ...artworkForm, credit_text: event.target.value })
-                    }
+                    }}
                     required
                   />
                 </Label>
-              )}
-              <Label>
-                Título
-                <Input
-                  value={artworkForm.title}
-                  onChange={(event) => {
-                    const title = event.target.value
-                    setArtworkForm({
-                      ...artworkForm,
-                      title,
-                      ...(artworkSlugTouched ? {} : { slug: slugify(title) }),
-                    })
-                  }}
-                  required
-                />
-              </Label>
-              <Label>
-                Slug
-                <Input
-                  value={artworkForm.slug}
-                  onChange={(event) => {
-                    setArtworkSlugTouched(true)
-                    setArtworkForm({ ...artworkForm, slug: event.target.value })
-                  }}
-                  pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
-                  required
-                />
-              </Label>
-              <Label>
-                Coleção
-                <Select
-                  value={artworkForm.collection_id || ''}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, collection_id: event.target.value })
-                  }
-                >
-                  <option value="">Sem coleção</option>
-                  {collections.map((collection) => (
-                    <option key={collection.id} value={collection.id}>
-                      {collection.name}
-                    </option>
-                  ))}
-                </Select>
-              </Label>
-              <Label className="flex items-center gap-2">
-                <input
-                  checked={artworkForm.published}
-                  disabled={artworkForm.license_status !== 'approved'}
-                  onChange={(event) =>
-                    setArtworkForm({ ...artworkForm, published: event.target.checked })
-                  }
-                  type="checkbox"
-                />{' '}
-                Publicar no catálogo
-              </Label>
-              <div className="flex gap-3">
-                <Button
-                  variant="primary"
-                  disabled={isSaving}
-                  type="submit"
-                >
-                  {isSaving ? 'Salvando...' : 'Salvar obra'}
-                </Button>
-                {editingArtworkId && (
-                  <Button
-                    variant="secondary"
-                    onClick={resetArtworkForm}
-                    type="button"
+                <Label>
+                  Slug
+                  <Input
+                    value={artworkForm.slug}
+                    onChange={(event) => {
+                      setArtworkSlugTouched(true)
+                      setArtworkForm({ ...artworkForm, slug: event.target.value })
+                    }}
+                    pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                    required
+                  />
+                </Label>
+                <Label>
+                  Coleção
+                  <Select
+                    value={artworkForm.collection_id || ''}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, collection_id: event.target.value })
+                    }
                   >
-                    Cancelar
+                    <option value="">Sem coleção</option>
+                    {collections.map((collection) => (
+                      <option key={collection.id} value={collection.id}>
+                        {collection.name}
+                      </option>
+                    ))}
+                  </Select>
+                </Label>
+                <Label className="flex items-center gap-2">
+                  <input
+                    checked={artworkForm.published}
+                    disabled={artworkForm.license_status !== 'approved'}
+                    onChange={(event) =>
+                      setArtworkForm({ ...artworkForm, published: event.target.checked })
+                    }
+                    type="checkbox"
+                  />{' '}
+                  Publicar no catálogo
+                </Label>
+                <div className="flex gap-3">
+                  <Button variant="primary" disabled={isSaving} type="submit">
+                    {isSaving ? 'Salvando...' : 'Salvar obra'}
                   </Button>
-                )}
-              </div>
-            </form>
-          </section>
+                  {editingArtworkId && (
+                    <Button variant="secondary" onClick={resetArtworkForm} type="button">
+                      Cancelar
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </section>
           </>
         )}
 
@@ -1058,263 +1044,265 @@ export default function AdminDashboard() {
         {activeTab === 'products' && (
           <>
             <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-2xl font-display">Produtos</h2>
-            <Button
-              variant="ghost"
-              onClick={() => {
-                resetProductForm()
-                scrollToForm('product-form')
-              }}
-              type="button"
-            >
-              <ClipboardPlus />
-            </Button>
-          </div>
-          {products.length === 0 ? (
-            <p className="text-brand-tertiary">Nenhum produto cadastrado.</p>
-          ) : (
-            <div className="grid gap-3 md:grid-cols-2">
-              {products.map((product) => {
-                const artwork = artworks.find((item) => item.id === product.artwork_id)
-                return (
-                  <article
-                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
-                    key={product.id}
-                  >
-                    <div className="flex min-w-0 items-center gap-3">
-                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
-                        {artwork?.final_image_url && (
-                          <img
-                            className="h-full w-full object-cover"
-                            src={artwork.final_image_url}
-                            alt=""
-                          />
-                        )}
-                      </div>
-                      <div className="min-w-0">
-                        <h3 className="truncate text-sm font-bold">{product.title}</h3>
-                        <p className="truncate text-xs text-brand-tertiary">
-                          {artwork?.title || 'Obra removida'} ·{' '}
-                          {product.product_variants.map((variant) => variant.name).join(' / ')} ·{' '}
-                          {product.active ? 'ativo' : 'inativo'}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex shrink-0 gap-1">
-                      <Button
-                        variant="ghost"
-                        aria-label={`Editar produto ${product.title}`}
-                        onClick={() => startEditingProduct(product)}
-                        title="Editar produto"
-                        type="button"
+              <div className="mb-5 flex items-center justify-between">
+                <h2 className="text-2xl font-display">Produtos</h2>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    resetProductForm()
+                    scrollToForm('product-form')
+                  }}
+                  type="button"
+                >
+                  <ClipboardPlus />
+                </Button>
+              </div>
+              {products.length === 0 ? (
+                <p className="text-brand-tertiary">Nenhum produto cadastrado.</p>
+              ) : (
+                <div className="grid gap-3 md:grid-cols-2">
+                  {products.map((product) => {
+                    const artwork = artworks.find((item) => item.id === product.artwork_id)
+                    return (
+                      <article
+                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
+                        key={product.id}
                       >
-                        <Pencil aria-hidden="true" size={15} />
-                      </Button>
-                      <Button
-                        variant="danger"
-                        aria-label={`Excluir produto ${product.title}`}
-                        onClick={() => void deleteProduct(product.id)}
-                        title="Excluir produto"
-                        type="button"
-                      >
-                        <Trash2 aria-hidden="true" size={15} />
-                      </Button>
-                    </div>
-                  </article>
-                )
-              })}
-            </div>
-          )}
+                        <div className="flex min-w-0 items-center gap-3">
+                          <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
+                            {artwork?.final_image_url && (
+                              <img
+                                className="h-full w-full object-cover"
+                                src={artwork.final_image_url}
+                                alt=""
+                              />
+                            )}
+                          </div>
+                          <div className="min-w-0">
+                            <h3 className="truncate text-sm font-bold">{product.title}</h3>
+                            <p className="truncate text-xs text-brand-tertiary">
+                              {artwork?.title || 'Obra removida'} ·{' '}
+                              {product.product_variants.map((variant) => variant.name).join(' / ')}{' '}
+                              · {product.active ? 'ativo' : 'inativo'}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex shrink-0 gap-1">
+                          <Button
+                            variant="ghost"
+                            aria-label={`Editar produto ${product.title}`}
+                            onClick={() => startEditingProduct(product)}
+                            title="Editar produto"
+                            type="button"
+                          >
+                            <Pencil aria-hidden="true" size={15} />
+                          </Button>
+                          <Button
+                            variant="danger"
+                            aria-label={`Excluir produto ${product.title}`}
+                            onClick={() => void deleteProduct(product.id)}
+                            title="Excluir produto"
+                            type="button"
+                          >
+                            <Trash2 aria-hidden="true" size={15} />
+                          </Button>
+                        </div>
+                      </article>
+                    )
+                  })}
+                </div>
+              )}
             </section>
 
-            <section className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm" id="product-form">
-          <h2 className="mb-5 text-2xl font-display">
-            {editingProductId ? 'Editar produto' : 'Novo produto'}
-          </h2>
-          <form className="space-y-4" onSubmit={saveProduct}>
-            <Label>
-              Obra
-              <Select
-                value={productForm.artwork_id}
-                onChange={(event) =>
-                  setProductForm({ ...productForm, artwork_id: event.target.value })
-                }
-              >
-                <option value="">Selecione uma obra</option>
-                {artworks
-                  .filter((artwork) => artwork.published)
-                  .map((artwork) => (
-                    <option key={artwork.id} value={artwork.id}>
-                      {artwork.title}
-                    </option>
+            <section
+              className="scroll-mt-6 rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm"
+              id="product-form"
+            >
+              <h2 className="mb-5 text-2xl font-display">
+                {editingProductId ? 'Editar produto' : 'Novo produto'}
+              </h2>
+              <form className="space-y-4" onSubmit={saveProduct}>
+                <Label>
+                  Obra
+                  <Select
+                    value={productForm.artwork_id}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, artwork_id: event.target.value })
+                    }
+                  >
+                    <option value="">Selecione uma obra</option>
+                    {artworks
+                      .filter((artwork) => artwork.published)
+                      .map((artwork) => (
+                        <option key={artwork.id} value={artwork.id}>
+                          {artwork.title}
+                        </option>
+                      ))}
+                  </Select>
+                </Label>
+                <Label>
+                  Título
+                  <Input
+                    value={productForm.title}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, title: event.target.value })
+                    }
+                    required
+                  />
+                </Label>
+                <Label>
+                  Tipo
+                  <Select
+                    value={productForm.product_type}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, product_type: event.target.value })
+                    }
+                  >
+                    <option value="print">Impressão</option>
+                    <option value="canvas">Tela</option>
+                    <option value="poster">Pôster</option>
+                  </Select>
+                </Label>
+                <Label>
+                  Descrição
+                  <Textarea
+                    rows={3}
+                    value={productForm.description || ''}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, description: event.target.value })
+                    }
+                  />
+                </Label>
+                <Label>
+                  Preço
+                  <Input
+                    inputMode="decimal"
+                    value={productForm.base_price}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, base_price: event.target.value })
+                    }
+                    placeholder="79,90"
+                    required
+                  />
+                </Label>
+                <div className="space-y-3">
+                  <div className="mt-16 flex items-center justify-between">
+                    <p className="font-bold">Variantes</p>
+                    <button
+                      className="text-sm font-bold text-brand-tertiary"
+                      onClick={() =>
+                        setProductForm({
+                          ...productForm,
+                          product_variants: [
+                            ...productForm.product_variants,
+                            { name: '', sku: '', stock_quantity: 0 },
+                          ],
+                        })
+                      }
+                      type="button"
+                    >
+                      Adicionar variante
+                    </button>
+                  </div>
+                  {productForm.product_variants.map((variant, index) => (
+                    <div
+                      className="rounded-lg border border-gray-200 p-3"
+                      key={variant.id || `new-${index}`}
+                    >
+                      <div className="mb-2 flex items-center justify-center gap-3">
+                        <p className="text-sm font-medium">Variante {index + 1}</p>
+                        {productForm.product_variants.length > 1 && (
+                          <button
+                            className="text-sm font-bold text-brand-tertiary"
+                            onClick={() =>
+                              setProductForm({
+                                ...productForm,
+                                product_variants: productForm.product_variants.filter(
+                                  (_, itemIndex) => itemIndex !== index,
+                                ),
+                              })
+                            }
+                            type="button"
+                          >
+                            Remover
+                          </button>
+                        )}
+                      </div>
+                      <div className="grid gap-2">
+                        <Input
+                          placeholder="Nome da variante (ex.: A3 vertical 30x45 aprox.)"
+                          value={variant.name}
+                          onChange={(event) =>
+                            setProductForm({
+                              ...productForm,
+                              product_variants: productForm.product_variants.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index
+                                    ? { ...item, name: event.target.value }
+                                    : item,
+                              ),
+                            })
+                          }
+                          required
+                        />
+                        <Input
+                          placeholder="SKU (ex.: SKU-0001A3V)"
+                          value={variant.sku}
+                          onChange={(event) =>
+                            setProductForm({
+                              ...productForm,
+                              product_variants: productForm.product_variants.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index ? { ...item, sku: event.target.value } : item,
+                              ),
+                            })
+                          }
+                          required
+                        />
+                        <Label className="text-sm font-medium">Estoque</Label>
+                        <Input
+                          min="0"
+                          type="number"
+                          placeholder="Estoque"
+                          value={variant.stock_quantity}
+                          onChange={(event) =>
+                            setProductForm({
+                              ...productForm,
+                              product_variants: productForm.product_variants.map(
+                                (item, itemIndex) =>
+                                  itemIndex === index
+                                    ? { ...item, stock_quantity: Number(event.target.value) }
+                                    : item,
+                              ),
+                            })
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
                   ))}
-              </Select>
-            </Label>
-            <Label>
-              Título
-              <Input
-                value={productForm.title}
-                onChange={(event) => setProductForm({ ...productForm, title: event.target.value })}
-                required
-              />
-            </Label>
-            <Label>
-              Tipo
-              <Select
-                value={productForm.product_type}
-                onChange={(event) =>
-                  setProductForm({ ...productForm, product_type: event.target.value })
-                }
-              >
-                <option value="print">Impressão</option>
-                <option value="canvas">Tela</option>
-                <option value="poster">Pôster</option>
-              </Select>
-            </Label>
-            <Label>
-              Descrição
-              <Textarea
-                rows={3}
-                value={productForm.description || ''}
-                onChange={(event) =>
-                  setProductForm({ ...productForm, description: event.target.value })
-                }
-              />
-            </Label>
-            <Label>
-              Preço
-              <Input
-                inputMode="decimal"
-                value={productForm.base_price}
-                onChange={(event) =>
-                  setProductForm({ ...productForm, base_price: event.target.value })
-                }
-                placeholder="79,90"
-                required
-              />
-            </Label>
-            <div className="space-y-3">
-              <div className="mt-16 flex items-center justify-between">
-                <p className="font-bold">Variantes</p>
-                <button
-                  className="text-sm font-bold text-brand-tertiary"
-                  onClick={() =>
-                    setProductForm({
-                      ...productForm,
-                      product_variants: [
-                        ...productForm.product_variants,
-                        { name: '', sku: '', stock_quantity: 0 },
-                      ],
-                    })
-                  }
-                  type="button"
-                >
-                  Adicionar variante
-                </button>
-              </div>
-              {productForm.product_variants.map((variant, index) => (
-                <div
-                  className="rounded-lg border border-gray-200 p-3"
-                  key={variant.id || `new-${index}`}
-                >
-                  <div className="mb-2 flex items-center justify-center gap-3">
-                    <p className="text-sm font-medium">Variante {index + 1}</p>
-                    {productForm.product_variants.length > 1 && (
-                      <button
-                        className="text-sm font-bold text-brand-tertiary"
-                        onClick={() =>
-                          setProductForm({
-                            ...productForm,
-                            product_variants: productForm.product_variants.filter(
-                              (_, itemIndex) => itemIndex !== index,
-                            ),
-                          })
-                        }
-                        type="button"
-                      >
-                        Remover
-                      </button>
-                    )}
-                  </div>
-                  <div className="grid gap-2">
-                    <Input
-                      placeholder="Nome da variante (ex.: A3 vertical 30x45 aprox.)"
-                      value={variant.name}
-                      onChange={(event) =>
-                        setProductForm({
-                          ...productForm,
-                          product_variants: productForm.product_variants.map((item, itemIndex) =>
-                            itemIndex === index ? { ...item, name: event.target.value } : item,
-                          ),
-                        })
-                      }
-                      required
-                    />
-                    <Input
-                      placeholder="SKU (ex.: SKU-0001A3V)"
-                      value={variant.sku}
-                      onChange={(event) =>
-                        setProductForm({
-                          ...productForm,
-                          product_variants: productForm.product_variants.map((item, itemIndex) =>
-                            itemIndex === index ? { ...item, sku: event.target.value } : item,
-                          ),
-                        })
-                      }
-                      required
-                    />
-                    <Label className="text-sm font-medium">Estoque</Label>
-                    <Input
-                      min="0"
-                      type="number"
-                      placeholder="Estoque"
-                      value={variant.stock_quantity}
-                      onChange={(event) =>
-                        setProductForm({
-                          ...productForm,
-                          product_variants: productForm.product_variants.map((item, itemIndex) =>
-                            itemIndex === index
-                              ? { ...item, stock_quantity: Number(event.target.value) }
-                              : item,
-                          ),
-                        })
-                      }
-                      required
-                    />
-                  </div>
                 </div>
-              ))}
-            </div>
-            <Label className="flex items-center gap-2">
-              <input
-                checked={productForm.active}
-                onChange={(event) =>
-                  setProductForm({ ...productForm, active: event.target.checked })
-                }
-                type="checkbox"
-              />{' '}
-              Produto ativo
-            </Label>
-            <div className="flex gap-3">
-              <Button
-                variant="primary"
-                disabled={isSaving}
-                type="submit"
-              >
-                {isSaving ? 'Salvando...' : 'Salvar produto'}
-              </Button>
-              {editingProductId && (
-                <Button
-                  variant="secondary"
-                  onClick={resetProductForm}
-                  type="button"
-                >
-                  Cancelar
-                </Button>
-              )}
-            </div>
-          </form>
+                <Label className="flex items-center gap-2">
+                  <input
+                    checked={productForm.active}
+                    onChange={(event) =>
+                      setProductForm({ ...productForm, active: event.target.checked })
+                    }
+                    type="checkbox"
+                  />{' '}
+                  Produto ativo
+                </Label>
+                <div className="flex gap-3">
+                  <Button variant="primary" disabled={isSaving} type="submit">
+                    {isSaving ? 'Salvando...' : 'Salvar produto'}
+                  </Button>
+                  {editingProductId && (
+                    <Button variant="secondary" onClick={resetProductForm} type="button">
+                      Cancelar
+                    </Button>
+                  )}
+                </div>
+              </form>
             </section>
           </>
         )}

@@ -69,7 +69,7 @@ export default function AdminStudio() {
       } else if (data?.output) {
         setGeneratedImage(data.output)
       } else {
-        throw new Error("Image is still processing. Please try again in a few seconds.")
+        throw new Error('Image is still processing. Please try again in a few seconds.')
       }
     } catch (err: unknown) {
       setError(getErrorMessage(err, 'An unexpected error occurred'))
@@ -94,7 +94,14 @@ export default function AdminStudio() {
           source_tool: 'Replicate',
           source_url: generatedImage,
           final_image_url: generatedImage,
-          orientation: aspectRatio === '1:1' ? 'a3-vertical' : (aspectRatio === '16:9' ? 'a3-wide' : (aspectRatio === '9:16' ? 'a3-vertical' : 'a3-vertical')),
+          orientation:
+            aspectRatio === '1:1'
+              ? 'a3-vertical'
+              : aspectRatio === '16:9'
+                ? 'a3-wide'
+                : aspectRatio === '9:16'
+                  ? 'a3-vertical'
+                  : 'a3-vertical',
           published: false,
           license_status: 'pending',
         })
@@ -121,6 +128,18 @@ export default function AdminStudio() {
           <div className="flex items-center gap-2 text-brand-secondary">
             <Sparkles className="w-5 h-5" />
             <p className="text-sm font-bold uppercase tracking-widest">AI Creation Studio</p>
+            <span className="flex gap-1">
+              <Button variant="secondary" onClick={() => (window.location.href = '/')} type="button">
+                Home
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => (window.location.href = '/admin')}
+                type="button"
+              >
+                Dashboard
+              </Button>
+            </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-display">Flux Schnell Lab</h1>
           <p className="text-brand-tertiary">Gere uma imagem, publique e edite depois.</p>
@@ -140,7 +159,7 @@ export default function AdminStudio() {
                   className="min-h-30 resize-y text-brand-tertiary required:text-brand-primary placeholder:text-brand-primary"
                   required
                 />
-                <Input className='hidden' />
+                <Input className="hidden" />
               </div>
 
               <div className="space-y-2">
@@ -152,8 +171,8 @@ export default function AdminStudio() {
                       onClick={() => setAspectRatio(ratio)}
                       className={`py-2 text-xs font-bold rounded-lg border transition-all ${
                         aspectRatio === ratio
-                        ? 'bg-brand-primary text-brand-octonary border-brand-quibg-brand-primary'
-                        : 'bg-brand-septenary text-brand-tertiary hover:text-brand-octonary border-brand-tertiary hover:bg-brand-primary'
+                          ? 'bg-brand-primary text-brand-octonary border-brand-quibg-brand-primary'
+                          : 'bg-brand-septenary text-brand-tertiary hover:text-brand-octonary border-brand-tertiary hover:bg-brand-primary'
                       }`}
                     >
                       {ratio}
@@ -168,9 +187,13 @@ export default function AdminStudio() {
                 disabled={isGenerating || !prompt}
               >
                 {isGenerating ? (
-                  <><Loader2 className="animate-spin" /> Gerando...</>
+                  <>
+                    <Loader2 className="animate-spin" /> Gerando...
+                  </>
                 ) : (
-                  <><Sparkles /> Gerar Obra</>
+                  <>
+                    <Sparkles /> Gerar Obra
+                  </>
                 )}
               </Button>
             </div>
@@ -187,7 +210,11 @@ export default function AdminStudio() {
           <div className="flex flex-col gap-4">
             <div
               className={`relative w-full overflow-hidden rounded-2xl bg-brand-octonary border-2 border-dashed border-brand-tertiary transition-all ${
-                aspectRatio === '1:1' ? 'aspect-square' : (aspectRatio === '16:9' ? 'aspect-video' : 'aspect-3/4')
+                aspectRatio === '1:1'
+                  ? 'aspect-square'
+                  : aspectRatio === '16:9'
+                    ? 'aspect-video'
+                    : 'aspect-3/4'
               }`}
             >
               {generatedImage ? (
@@ -233,8 +260,9 @@ export default function AdminStudio() {
                           <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
                           <p className="truncate text-xs text-brand-tertiary">
                             /{artwork.slug} ·{' '}
-                            {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} · licença{' '}
-                            {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
+                            {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} ·
+                            licença {artwork.license_status} ·{' '}
+                            {artwork.published ? 'publicada' : 'rascunho'}
                           </p>
                           <p className="text-xs uppercase font-medium text-brand-secondary">
                             {artwork.collections?.name || 'Sem coleção'}
@@ -252,9 +280,13 @@ export default function AdminStudio() {
                   disabled={isSaving}
                 >
                   {isSaving ? (
-                    <><Loader2 className="animate-spin" /> Salvando...</>
+                    <>
+                      <Loader2 className="animate-spin" /> Salvando...
+                    </>
                   ) : (
-                    <><Save /> Promover ao Catálogo</>
+                    <>
+                      <Save /> Promover ao Catálogo
+                    </>
                   )}
                 </Button>
               )}
