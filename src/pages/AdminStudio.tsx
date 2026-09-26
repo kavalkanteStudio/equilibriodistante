@@ -125,9 +125,11 @@ export default function AdminStudio() {
     <div className="min-h-screen bg-brand-septenary p-4 md:p-8">
       <div className="mx-auto max-w-5xl space-y-8">
         <header className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-brand-secondary">
-            <Sparkles className="w-5 h-5" />
-            <p className="text-sm font-bold uppercase tracking-widest">AI Creation Studio</p>
+          <div className="w-full flex items-center justify-between gap-2 text-brand-secondary">
+            <span className="flex gap-1">
+              <Sparkles className="w-5 h-5" />
+              <p className="text-sm font-bold uppercase tracking-widest">AI Creation Studio</p>
+            </span>
             <span className="flex gap-1">
               <Button variant="secondary" onClick={() => (window.location.href = '/')} type="button">
                 Home
