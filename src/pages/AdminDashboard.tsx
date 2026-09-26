@@ -734,7 +734,7 @@ export default function AdminDashboard() {
                         {artwork.license_status} · {artwork.published ? 'publicada' : 'rascunho'}
                       </p>
                       <p className="text-xs uppercase font-medium text-brand-secondary">
-                        {artwork.collections.name}
+                        {artwork.collections?.name || 'Sem coleção'}
                       </p>
                     </div>
                   </div>
