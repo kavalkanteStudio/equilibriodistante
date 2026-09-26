@@ -82,7 +82,7 @@ export default function AdminStudio() {
             <p className="text-sm font-bold uppercase tracking-widest">AI Creation Studio</p>
           </div>
           <h1 className="text-3xl md:text-5xl font-display">Flux Schnell Lab</h1>
-          <p className="text-brand-tertiary">Transforme palavras em arte comercial de alta qualidade.</p>
+          <p className="text-brand-tertiary">Gere uma imagem, publique e edite depois.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -96,14 +96,14 @@ export default function AdminStudio() {
                   placeholder="Ex: A minimalist golden cat silhouette with a vintage twist, luxury background..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-[120px] resize-none"
+                  className="min-h-30 resize-none"
                 />
               </div>
 
               <div className="space-y-2">
                 <Label>Proporção da Imagem</Label>
-                <div className="grid grid-cols-3 gap-2">
-                  {['1:1', '3:4', '16:9'].map((ratio) => (
+                <div className="grid grid-cols-4 gap-2">
+                  {['1:1', '3:4', '9:16', '16:9'].map((ratio) => (
                     <button
                       key={ratio}
                       onClick={() => setAspectRatio(ratio)}
@@ -120,7 +120,7 @@ export default function AdminStudio() {
               </div>
 
               <Button
-                className="w-full py-6 text-lg font-bold gap-2"
+                className="w-full py-6 text-lg font-bold flex flex-1 gap-2"
                 onClick={handleGenerate}
                 disabled={isGenerating || !prompt}
               >
@@ -133,7 +133,7 @@ export default function AdminStudio() {
             </div>
 
             {error && (
-              <div className="flex items-start gap-2 p-3 rounded-lg bg-red-50 text-red-600 text-sm">
+              <div className="flex items-start gap-2 p-3 rounded-lg bg-brand-septenary text-brand-secondary text-sm">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <p>{error}</p>
               </div>

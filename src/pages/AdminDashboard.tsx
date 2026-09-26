@@ -492,6 +492,13 @@ export default function AdminDashboard() {
             </Button>
             <Button
               variant="secondary"
+              onClick={() => window.location.href = "/admin/studio"}
+              type="button"
+            >
+              Studio
+            </Button>
+            <Button
+              variant="secondary"
               onClick={() => void signOut()}
               type="button"
             >
