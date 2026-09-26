@@ -523,8 +523,8 @@ export default function AdminDashboard() {
               aria-selected={activeTab === tab}
               className={`rounded-lg px-3 py-3 text-sm font-bold transition-colors ${
                 activeTab === tab
-                  ? 'bg-brand-primary text-white'
-                  : 'text-brand-primary/50 hover:bg-brand-secondary/10 border border-b-brand-octonary hover:border hover:border-brand-secondary hover:text-brand-primary/70'
+                  ? 'bg-brand-tertiary text-brand-septenary'
+                  : 'text-brand-primary/50 hover:bg-brand-secondary/10 border border-brand-primary hover:border hover:border-brand-secondary hover:text-brand-primary/70'
               }`}
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -568,7 +568,7 @@ export default function AdminDashboard() {
                   <div className="grid gap-3 md:grid-cols-2">
                 {collections.map((collection) => (
                   <article
-                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
+                        className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
                     key={collection.id}
                   >
                         <div className="flex min-w-0 items-center gap-3">
@@ -723,7 +723,7 @@ export default function AdminDashboard() {
             <div className="grid gap-3 md:grid-cols-2">
               {artworks.map((artwork) => (
                 <article
-                  className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
+                  className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
                   key={artwork.id}
                 >
                   <div className="flex min-w-0 items-center gap-3">
@@ -1079,7 +1079,7 @@ export default function AdminDashboard() {
                 const artwork = artworks.find((item) => item.id === product.artwork_id)
                 return (
                   <article
-                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
+                    className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-senary p-3"
                     key={product.id}
                   >
                     <div className="flex min-w-0 items-center gap-3">

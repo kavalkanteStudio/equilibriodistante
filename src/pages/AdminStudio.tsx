@@ -128,7 +128,7 @@ export default function AdminStudio() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Controls */}
-          <div className="space-y-6 bg-white p-6 rounded-2xl border border-brand-octonary shadow-sm">
+          <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-octonary shadow-sm">
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="prompt">Prompt Criativo</Label>
@@ -137,7 +137,7 @@ export default function AdminStudio() {
                   placeholder="Ex: A minimalist golden cat silhouette with a vintage twist, luxury background..."
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-30 resize-y text-brand-tertiary"
+                  className="min-h-30 resize-y text-brand-tertiary required:text-brand-primary placeholder:text-brand-primary"
                   required
                 />
                 <Input className='hidden' />
