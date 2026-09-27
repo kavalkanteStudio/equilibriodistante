@@ -21,3 +21,17 @@ Depending on the "vibe" you want to test, here are three prompt suggestions:
   Since you're testing the pipeline, try a 16:9 ratio for the "A3 Wide" format and a 3:4 or 9:16 for "A3 Vertical" to make sure the orientation detection is working perfectly!
 
   Go ahead and fire one off—I'm excited to hear if the "Permanent Save" syncs perfectly!
+
+---
+
+Eu não tenho preferências pessoais, mas posso sugerir uma imagem que combine com uma galeria decorativa: **uma natureza-morta botânica, contemporânea e sofisticada**, com cores acolhedoras e espaço visual para funcionar bem como arte de parede.
+
+**Prompt para testar no Flux Schnell** — em inglês, já que costuma ser uma forma prática de descrever detalhes visuais:
+
+> A refined contemporary botanical still life for a boutique art print: a sculptural olive branch with delicate leaves arranged in a matte ivory ceramic vase, resting on a pale travertine table. Warm ivory, muted sage green, soft terracotta and subtle antique bronze accents. Thoughtful asymmetrical composition, generous negative space, elegant proportions. A softly textured plaster wall in the background, with gentle afternoon light casting long, delicate leaf shadows across it. Tactile handmade materials, calm Mediterranean atmosphere, editorial art direction, subtle film grain, sophisticated and timeless. The artwork fills the frame, no lettering, no logo, no border.
+
+**Sobre “luxury background”:** o Flux Schnell entende ideias como *luxury background*, mas a expressão não ativa um recurso especial. Ela funciona como uma descrição semântica — e tende a dar resultados mais controlados quando você diz **o que compõe** esse fundo: parede de gesso texturizada, pedra travertino, luz de fim de tarde, sombras suaves e uma paleta específica.
+
+O Schnell é conhecido sobretudo pela **geração rápida**, com poucas etapas de inferência; isso o torna útil para testar conceitos e variações. Para orientar a composição, descreva sujeito, materiais, paleta, enquadramento e iluminação. Se o resultado sair distante do desejado, altere uma coisa por vez — por exemplo, primeiro o fundo, depois a luz — para perceber o que influencia a imagem. A proporção escolhida no Studio define o formato da tela; o prompt ajuda a orientar como os elementos ocupam esse espaço.
+
+Um detalhe: “sem lettering” no prompt é uma orientação, não uma garantia. E, antes de comercializar uma imagem, confira a licença aplicável ao modelo e os termos da plataforma usada para gerá-la.
