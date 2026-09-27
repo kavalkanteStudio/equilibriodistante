@@ -157,7 +157,7 @@ export default function InfiniteArtworkGallery() {
   if (isLoading || artworks.length === 0) return <div className="container mx-auto px-4 py-20"><div className="flex justify-center py-12"><p className="text-brand-tertiary"><span className="flex animate-spin"><LoaderCircle className="w-8 h-8" /></span></p></div></div>
 
   return (
-    <section className="infinite-gallery bg-brand-septenary" aria-labelledby="infinite-gallery-title">
+    <section className="infinite-gallery bg-brand-septenary border-b border-brand-tertiary" aria-labelledby="infinite-gallery-title">
       {/* <div className="infinite-gallery__intro">
         <p className="infinite-gallery__eyebrow">Passeio pela coleção</p>
         <h2 id="infinite-gallery-title">Obras para contemplar</h2>

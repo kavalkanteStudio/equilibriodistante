@@ -3,7 +3,7 @@
   min-height: 90svh;
   overflow: hidden;
   /* padding: clamp(4rem, 10vw, 8rem) 0 clamp(3rem, 8vw, 6rem); */
-  color: #17131b;
+  color: var(--color-brand-quaternary);
 }
 
 .infinite-gallery__intro {
@@ -16,7 +16,7 @@
 
 .infinite-gallery__eyebrow {
   margin-bottom: 0.75rem;
-  color: #b00068;
+  color: var(--color-brand-quaternary);
   font-family: var(--font-display);
   font-size: 0.8rem;
   letter-spacing: 0.16em;
@@ -29,14 +29,14 @@
 }
 
 .infinite-gallery__intro > p:last-child {
-  color: #6b6375;
+  color: var(--color-brand-quaternary);
   font-size: 1.05rem;
 }
 
 .infinite-gallery__viewport {
   position: relative;
   width: 100%;
-  min-height: clamp(29rem, 72svh, 6rem);
+  min-height: clamp(28rem, 72svh, 48rem);
   overflow: hidden;
   padding: 1rem 0 3rem;
 }
@@ -81,7 +81,7 @@
 }
 
 .infinite-gallery__side-button:focus-visible {
-  outline: 2px solid #17131b;
+  outline: 2px solid var(--color-brand-tertiary);
   outline-offset: 0.5rem;
 }
 
@@ -113,17 +113,17 @@
   width: 2.75rem;
   height: 2.75rem;
   place-items: center;
-  border: 1px solid #17131b;
+  border: 1px solid var(--color-brand-tertiary);
   border-radius: 50%;
   background: transparent;
-  color: #17131b;
+  color: var(--color-brand-tertiary);
   cursor: pointer;
   transition: background-color 180ms ease, color 180ms ease;
 }
 
 .infinite-gallery__controls button:hover:not(:disabled),
 .infinite-gallery__controls button:focus-visible {
-  background: #17131b;
+  background: var(--color-brand-tertiary);
   color: #fff;
 }
 

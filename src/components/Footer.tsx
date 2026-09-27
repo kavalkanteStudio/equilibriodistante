@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
 import { Mail } from 'lucide-react'
+import { useLocation } from 'react-router-dom'
 
 export default function Footer() {
+  const isHomePage = useLocation().pathname === '/'
+
   return (
-    <footer className="bg-brand-senary border-t py-12 mt-auto">
+    <footer className={`${isHomePage ? 'bg-brand-septenary' : 'bg-brand-senary'} border-t py-12 mt-auto`}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="col-span-1 md:col-span-2">
