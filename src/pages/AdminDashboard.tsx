@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/context/AuthContext'
 import ImageUploadField from '@/components/ImageUploadField'
 import { slugify } from '@/lib/utils'
-import { Pencil, Trash2, ClipboardPlus } from 'lucide-react'
+import { Pencil, Trash2, ClipboardPlus, CloudUpload } from 'lucide-react'
 import { Button, Input, Textarea, Label, Select } from '@/components/ui'
 
 type Collection = {
@@ -43,7 +43,7 @@ type Artwork = {
 
 type ArtworkForm = Omit<Artwork, 'id' | 'collections'>
 
-type ArtworkOrigin = 'leonardo' | 'civitai'
+type ArtworkOrigin = 'leonardo' | 'civitai' | 'flux'
 
 type LicensePreset = {
   label: string
@@ -69,6 +69,14 @@ const licensePresets: Record<ArtworkOrigin, LicensePreset> = {
     license_source_url: 'https://www.krea.ai/krea-2-licensing',
     license_notes:
       'Este registro considera um modelo base Krea 2 ou um LoRA derivado do Krea 2 obtido no Civitai. A licença aplicável é a Krea 2 Community License Agreement, não CreativeML ou Apache. O uso comercial é permitido somente enquanto a receita anual da empresa e afiliadas for inferior a US$ 1.000.000 e houver menos de 50 assentos; acima desses limites, é necessária uma Enterprise License da Krea. Os outputs pertencem ao usuário, sem reivindicação de propriedade intelectual pela Krea. É obrigatório implementar filtro de conteúdo ou processo de revisão equivalente. A distribuição de um LoRA derivado exige transmitir a licença aos receptores e manter o aviso de atribuição. Confirmar também as licenças separadas de VAE, CLIP e demais componentes antes de publicar.',
+  },
+  flux: {
+    label: 'Flux Schnell',
+    source_tool: 'Flux Schnell',
+    license_type: 'Apache-2.0',
+    license_source_url: 'https://replicate.com/black-forest-labs/flux-schnell',
+    license_notes:
+      'Licença Apache-2.0. Permite uso comercial, modificação e distribuição, desde que os avisos de direitos autorais e a licença original sejam preservados. Os outputs gerados por este modelo são de propriedade do usuário.',
   },
 }
 
@@ -231,7 +239,11 @@ export default function AdminDashboard() {
     setEditingArtworkId(artwork.id)
     setArtworkSlugTouched(true)
     setArtworkOrigin(
-      artwork.source_tool?.toLowerCase().includes('civitai') ? 'civitai' : 'leonardo',
+      artwork.source_tool?.toLowerCase().includes('civitai')
+        ? 'civitai'
+        : artwork.source_tool?.toLowerCase().includes('flux')
+        ? 'flux'
+        : 'leonardo',
     )
     setArtworkForm({
       collection_id: artwork.collection_id || '',
@@ -379,6 +391,34 @@ export default function AdminDashboard() {
       await loadArtworks()
     }
     setIsSaving(false)
+  }
+
+  async function syncArtworkToStorage(id: string, url: string) {
+    if (!url) return
+    setIsSaving(true)
+    setError(null)
+
+    try {
+      const { data, error: syncError } = await supabase.functions.invoke('import-artwork-image', {
+        body: { source_url: url, artwork_id: id },
+      })
+
+      if (syncError) throw syncError
+
+      await loadArtworks()
+      alert('Imagem sincronizada com sucesso para o Storage!')
+    } catch (err: any) {
+      setError(err.message || 'Falha ao sincronizar imagem.')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  async function deleteArtwork(id: string) {
+    if (!window.confirm('Excluir esta obra?')) return
+    const { error: deleteError } = await supabase.from('artworks').delete().eq('id', id)
+    if (deleteError) setError(deleteError.message)
+    else await loadArtworks()
   }
 
   async function deleteArtwork(id: string) {

@@ -208,6 +208,14 @@ Create a professional, scalable, and low-cost web presence for a decorative art 
   - [ ] Create a system to save and reuse "Style Presets" to maintain brand consistency.
 - [ ] **Commercial Licensing Automation**:
   - [ ] Automatically apply the Flux Schnell Apache-2.0 commercial license notes when promoting to catalog.
+- [ ] **Studio Hardening (Image Persistence & Presets)**:
+  - [ ] **Image Persistence Pipeline**:
+    - [ ] Implement "Sync to Storage" logic to move ephemeral Replicate images to Supabase Storage.
+    - [ ] Add UI indicator/checkbox in Studio to confirm storage sync before promotion.
+    - [ ] Ensure `final_image_url` is updated to the permanent Supabase Storage path.
+  - [ ] **Studio-Specific Presets**:
+    - [ ] Create a `Flux Schnell` license and source preset for the Artwork CRUD dashboard.
+    - [ ] Automate the application of this preset when promoting from the Studio to the Catalog.
 
 ### Phase 8 (New/Optional): Automated Payments
 - [ ] Integrate Stripe/PayPal for those who want instant checkout.

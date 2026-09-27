@@ -10,6 +10,7 @@ export default function AdminStudio() {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
+  const [syncToStorage, setSyncToStorage] = useState(true)
   const [artwork, setArtwork] = useState<Artwork[]>([])
 
   type Artwork = {
@@ -91,9 +92,12 @@ export default function AdminStudio() {
           slug: prompt.slice(0, 30).toLowerCase().replace(/\s+/g, '-'),
           prompt_summary: prompt,
           source_model: 'Flux Schnell',
-          source_tool: 'Replicate',
+          source_tool: 'Flux Schnell',
           source_url: generatedImage,
           final_image_url: generatedImage,
+          license_type: 'Apache-2.0',
+          license_source_url: 'https://replicate.com/black-forest-labs/flux-schnell',
+          license_notes: 'Licença Apache-2.0. Permite uso comercial, modificação e distribuição, desde que os avisos de direitos autorais e a licença original sejam preservados. Os outputs gerados por este modelo são de propriedade do usuário.',
           orientation:
             aspectRatio === '1:1'
               ? 'a3-vertical'
@@ -109,9 +113,24 @@ export default function AdminStudio() {
         .single()
 
       if (artError) throw artError
-      if (artwork) setArtwork(artwork)
+      if (artwork) setArtwork([artwork])
 
-      alert('Obra promovida ao catálogo com sucesso! Agora você pode editá-la no Dashboard.')
+      if (syncToStorage && artwork) {
+        const { data: syncData, error: syncError } = await supabase.functions.invoke('import-artwork-image', {
+          body: { source_url: generatedImage, artwork_id: artwork.id },
+        })
+
+        if (syncError) {
+          console.error('Sync error:', syncError)
+          // We don't throw here because the artwork was already created
+          alert('Obra promovida, mas a sincronização da imagem para o storage falhou. Você pode sincronizá-la manualmente no Dashboard.')
+        } else {
+          alert('Obra promovida e imagem salva permanentemente no storage!')
+        }
+      } else {
+        alert('Obra promovida ao catálogo com sucesso! Nota: A imagem ainda está hospedada no Replicate e pode expirar.')
+      }
+
       setGeneratedImage(null)
       setPrompt('')
     } catch (err: unknown) {
@@ -162,6 +181,19 @@ export default function AdminStudio() {
                   required
                 />
                 <Input className="hidden" />
+              </div>
+
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-brand-secondary/10 border border-brand-secondary/20">
+                <input
+                  id="sync-storage"
+                  type="checkbox"
+                  checked={syncToStorage}
+                  onChange={(e) => setSyncToStorage(e.target.checked)}
+                  className="w-4 h-4 accent-brand-primary"
+                />
+                <Label htmlFor="sync-storage" className="text-xs font-bold cursor-pointer">
+                  Salvar imagem permanentemente no Storage (Recomendado)
+                </Label>
               </div>
 
               <div className="space-y-2">

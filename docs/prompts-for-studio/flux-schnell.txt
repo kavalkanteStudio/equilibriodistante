@@ -1,0 +1,23 @@
+Since we are using Flux Schnell, we can push for high detail, luxury textures, and a specific "art gallery" aesthetic. Since this is for your Decorative Art Boutique, we want something that looks stunning when printed on a large A3 canvas.
+
+Depending on the "vibe" you want to test, here are three prompt suggestions:
+
+  Option 1: The "Luxury Minimalist" (Safe & Elegant)
+
+  Prompt: A high-end minimalist composition featuring a single organic 3D golden swirl floating in a void of deep charcoal matte background. Soft cinematic lighting, studio photography, 8k resolution, luxury feel, metallic textures, gold leaf details, contemporary art gallery style.
+
+  Option 2: The "Abstract Nature" (Vibrant & Modern)
+
+  Prompt: An abstract interpretation of a tropical rainforest using only geometric shapes and a palette of emerald green, burnt orange, and cream. Mid-century modern art style,clean lines, balanced composition, high contrast, vector art influence, professional decorative wall art.
+
+  Option 3: The "Surrealist Ethereal" (Experimental & Striking)
+
+  Prompt: A surrealist portrait of a human silhouette filled with a swirling cosmic nebula and shimmering stars, set against a clean white architectural background. Double exposure effect, ethereal atmosphere, deep blues and purples, sharp focus, fine art photography, avant-garde.
+
+  My recommendation:
+  Try Option 1 first. It’s a great test for the "Luxury" branding of the store and usually looks incredible with Flux's handling of lighting and gold textures.
+
+  Pro Tip for the Studio:
+  Since you're testing the pipeline, try a 16:9 ratio for the "A3 Wide" format and a 3:4 or 9:16 for "A3 Vertical" to make sure the orientation detection is working perfectly!
+
+  Go ahead and fire one off—I'm excited to hear if the "Permanent Save" syncs perfectly!
