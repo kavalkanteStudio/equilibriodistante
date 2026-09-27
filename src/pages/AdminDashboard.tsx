@@ -399,7 +399,7 @@ export default function AdminDashboard() {
     setError(null)
 
     try {
-      const { data, error: syncError } = await supabase.functions.invoke('import-artwork-image', {
+      const { error: syncError } = await supabase.functions.invoke('import-artwork-image', {
         body: { source_url: url, artwork_id: id },
       })
 
@@ -407,18 +407,18 @@ export default function AdminDashboard() {
 
       await loadArtworks()
       alert('Imagem sincronizada com sucesso para o Storage!')
-    } catch (err: any) {
-      setError(err.message || 'Falha ao sincronizar imagem.')
+    } catch (err: unknown) {
+      setError(
+        err instanceof Error && err.message
+          ? err.message
+          : typeof err === 'object' && err !== null && 'message' in err &&
+              typeof err.message === 'string'
+            ? err.message
+            : 'Falha ao sincronizar imagem.',
+      )
     } finally {
       setIsSaving(false)
     }
-  }
-
-  async function deleteArtwork(id: string) {
-    if (!window.confirm('Excluir esta obra?')) return
-    const { error: deleteError } = await supabase.from('artworks').delete().eq('id', id)
-    if (deleteError) setError(deleteError.message)
-    else await loadArtworks()
   }
 
   async function deleteArtwork(id: string) {
@@ -784,6 +784,20 @@ export default function AdminDashboard() {
                         </div>
                       </div>
                       <div className="flex shrink-0 gap-1">
+                        {artwork.source_url && (
+                          <Button
+                            variant="ghost"
+                            aria-label={`Salvar imagem de ${artwork.title} no Storage`}
+                            disabled={isSaving}
+                            onClick={() =>
+                              void syncArtworkToStorage(artwork.id, artwork.source_url || '')
+                            }
+                            title="Salvar imagem no Storage"
+                            type="button"
+                          >
+                            <CloudUpload aria-hidden="true" size={15} />
+                          </Button>
+                        )}
                         <Button
                           variant="ghost"
                           aria-label={`Editar obra ${artwork.title}`}

@@ -3,6 +3,23 @@ import { supabase } from '@/lib/supabase'
 import { Loader2, Sparkles, Save, Image as ImageIcon, AlertCircle } from 'lucide-react'
 import { Button, Input, Textarea, Label } from '@/components/ui'
 
+type ImportImageResult = {
+  size_bytes: number
+  saved_to_storage: boolean
+  public_url?: string
+}
+
+type LastPromotion = {
+  id: string
+  title: string
+  imageUrl: string
+  promotedAt: string
+  aspectRatio: string
+  sizeBytes: number | null
+  savedToStorage: boolean
+  warning: string | null
+}
+
 export default function AdminStudio() {
   const [prompt, setPrompt] = useState('')
   const [aspectRatio, setAspectRatio] = useState('3:4')
@@ -10,32 +27,8 @@ export default function AdminStudio() {
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [isSaving, setIsSaving] = useState(false)
-  const [syncToStorage, setSyncToStorage] = useState(true)
-  const [artwork, setArtwork] = useState<Artwork[]>([])
-
-  type Artwork = {
-    id: string
-    collection_id: string | null
-    collections: { name: string } | null
-    title: string
-    slug: string
-    prompt_summary: string | null
-    workflow_description: string | null
-    source_url: string | null
-    license_notes: string | null
-    source_model: string | null
-    source_tool: string | null
-    source_plan: string | null
-    license_status: 'pending' | 'approved' | 'rejected'
-    license_type: string | null
-    license_source_url: string | null
-    license_verified_at: string | null
-    credit_required: boolean
-    credit_text: string | null
-    orientation: 'a3-vertical' | 'a3-wide'
-    final_image_url: string | null
-    published: boolean
-  }
+  const [syncToStorage, setSyncToStorage] = useState(false)
+  const [lastPromotion, setLastPromotion] = useState<LastPromotion | null>(null)
 
   function getErrorMessage(error: unknown, fallback: string): string {
     if (error instanceof Error && error.message) return error.message
@@ -85,10 +78,11 @@ export default function AdminStudio() {
     setError(null)
 
     try {
+      const title = prompt.slice(0, 50) + '...'
       const { data: artwork, error: artError } = await supabase
         .from('artworks')
         .insert({
-          title: prompt.slice(0, 50) + '...',
+          title,
           slug: prompt.slice(0, 30).toLowerCase().replace(/\s+/g, '-'),
           prompt_summary: prompt,
           source_model: 'Flux Schnell',
@@ -113,22 +107,60 @@ export default function AdminStudio() {
         .single()
 
       if (artError) throw artError
-      if (artwork) setArtwork([artwork])
+      if (!artwork) throw new Error('The artwork was created but could not be loaded.')
 
-      if (syncToStorage && artwork) {
-        const { data: syncData, error: syncError } = await supabase.functions.invoke('import-artwork-image', {
-          body: { source_url: generatedImage, artwork_id: artwork.id },
+      setLastPromotion({
+        id: artwork.id,
+        title: artwork.title,
+        imageUrl: generatedImage,
+        promotedAt: new Date().toISOString(),
+        aspectRatio,
+        sizeBytes: null,
+        savedToStorage: false,
+        warning: null,
+      })
+
+      const { data: importResult, error: importError } =
+        await supabase.functions.invoke<ImportImageResult>('import-artwork-image', {
+          body: {
+            source_url: generatedImage,
+            artwork_id: artwork.id,
+            save_to_storage: syncToStorage,
+          },
         })
 
-        if (syncError) {
-          console.error('Sync error:', syncError)
-          // We don't throw here because the artwork was already created
-          alert('Obra promovida, mas a sincronização da imagem para o storage falhou. Você pode sincronizá-la manualmente no Dashboard.')
-        } else {
-          alert('Obra promovida e imagem salva permanentemente no storage!')
-        }
+      if (importError) {
+        setLastPromotion((previous) =>
+          previous
+            ? {
+                ...previous,
+                warning: syncToStorage
+                  ? `Obra promovida, mas não foi possível salvar a imagem no Storage: ${getErrorMessage(importError, 'erro desconhecido')}`
+                  : `Obra promovida, mas não foi possível verificar o tamanho da imagem: ${getErrorMessage(importError, 'erro desconhecido')}`,
+              }
+            : previous,
+        )
+      } else if (
+        !importResult ||
+        !Number.isFinite(importResult.size_bytes) ||
+        typeof importResult.saved_to_storage !== 'boolean'
+      ) {
+        setLastPromotion((previous) =>
+          previous
+            ? { ...previous, warning: 'Obra promovida, mas a resposta não incluiu o tamanho da imagem.' }
+            : previous,
+        )
       } else {
-        alert('Obra promovida ao catálogo com sucesso! Nota: A imagem ainda está hospedada no Replicate e pode expirar.')
+        setLastPromotion((previous) =>
+          previous
+            ? {
+                ...previous,
+                imageUrl: importResult.public_url || previous.imageUrl,
+                sizeBytes: importResult.size_bytes,
+                savedToStorage: importResult.saved_to_storage,
+              }
+            : previous,
+        )
       }
 
       setGeneratedImage(null)
@@ -181,19 +213,6 @@ export default function AdminStudio() {
                   required
                 />
                 <Input className="hidden" />
-              </div>
-
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-brand-secondary/10 border border-brand-secondary/20">
-                <input
-                  id="sync-storage"
-                  type="checkbox"
-                  checked={syncToStorage}
-                  onChange={(e) => setSyncToStorage(e.target.checked)}
-                  className="w-4 h-4 accent-brand-primary"
-                />
-                <Label htmlFor="sync-storage" className="text-xs font-bold cursor-pointer">
-                  Salvar imagem permanentemente no Storage (Recomendado)
-                </Label>
               </div>
 
               <div className="space-y-2">
@@ -270,41 +289,74 @@ export default function AdminStudio() {
                 </div>
               )}
             </div>
-            <div>
-              {artwork.length === 0 ? (
-                <p className="text-brand-tertiary hidden">Aguardando Criação.</p>
-              ) : (
-                <div className="grid gap-3 md:grid-cols-2">
-                  {artwork.map((artwork) => (
-                    <article
-                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-secondary p-3"
-                      key={artwork.id}
-                    >
-                      <div className="flex min-w-0 items-center gap-3">
-                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-brand-secondary">
-                          {artwork.final_image_url && (
-                            <img
-                              className="h-full w-full object-cover"
-                              src={artwork.final_image_url}
-                              alt=""
-                            />
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="truncate text-sm font-bold">{artwork.title}</h3>
-                          <p className="truncate text-xs text-brand-tertiary">
-                            /{artwork.slug} ·{' '}
-                            {artwork.orientation === 'a3-wide' ? 'A3 wide' : 'A3 vertical'} ·
-                            licença {artwork.license_status} ·{' '}
-                            {artwork.published ? 'publicada' : 'rascunho'}
-                          </p>
-                          <p className="text-xs uppercase font-medium text-brand-secondary">
-                            {artwork.collections?.name || 'Sem coleção'}
-                          </p>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
+            <div className="space-y-4">
+              {lastPromotion && (
+                <section className="rounded-xl border border-brand-secondary/30 bg-brand-septenary p-4">
+                  <h2 className="mb-3 text-sm font-bold text-brand-tertiary">Última imagem promovida</h2>
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={lastPromotion.imageUrl}
+                      alt=""
+                      className="h-16 w-16 shrink-0 rounded-lg object-cover"
+                    />
+                    <div className="min-w-0 space-y-1 text-xs text-brand-tertiary">
+                      <p className="truncate font-bold">{lastPromotion.title}</p>
+                      <p>Referência: {lastPromotion.id}</p>
+                      <p>Modelo: Flux Schnell · Proporção: {lastPromotion.aspectRatio}</p>
+                      <p>Licença registrada: Apache-2.0</p>
+                      <p>
+                        Tamanho:{' '}
+                        {lastPromotion.sizeBytes === null
+                          ? isSaving && !lastPromotion.warning
+                            ? 'verificando...'
+                            : 'indisponível'
+                          : `${(lastPromotion.sizeBytes / 1024).toFixed(1)} KB`}
+                      </p>
+                      <p>
+                        Destino:{' '}
+                        {isSaving
+                          ? syncToStorage
+                            ? 'salvando no Supabase Storage...'
+                            : 'Replicate (temporário)'
+                          : lastPromotion.savedToStorage
+                            ? 'Supabase Storage'
+                            : 'Replicate (temporário)'}
+                      </p>
+                      <p>
+                        Promovida em {new Date(lastPromotion.promotedAt).toLocaleString('pt-BR')}
+                      </p>
+                    </div>
+                  </div>
+                  {lastPromotion.warning && (
+                    <p className="mt-3 text-xs text-brand-secondary">{lastPromotion.warning}</p>
+                  )}
+                  {!lastPromotion.savedToStorage && !lastPromotion.warning && (
+                    <p className="mt-3 text-xs text-brand-secondary">
+                      A imagem continua hospedada temporariamente no Replicate e pode expirar.
+                    </p>
+                  )}
+                </section>
+              )}
+              {generatedImage && (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 rounded-lg border border-brand-secondary/20 bg-brand-secondary/10 p-3">
+                    <input
+                      id="sync-storage"
+                      type="checkbox"
+                      checked={syncToStorage}
+                      onChange={(event) => setSyncToStorage(event.target.checked)}
+                      disabled={isSaving}
+                      className="h-4 w-4 accent-brand-primary"
+                    />
+                    <Label htmlFor="sync-storage" className="cursor-pointer text-xs font-bold">
+                      Salvar permanentemente no Supabase Storage
+                    </Label>
+                  </div>
+                  <p className="text-xs text-brand-tertiary">
+                    {syncToStorage
+                      ? 'A imagem será copiada para o Storage ao promover.'
+                      : 'Sem marcar, a imagem ficará na hospedagem temporária do Replicate.'}
+                  </p>
                 </div>
               )}
               {generatedImage && (

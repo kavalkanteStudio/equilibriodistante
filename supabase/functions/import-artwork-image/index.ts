@@ -60,10 +60,17 @@ Deno.serve(async (request) => {
 
   let sourceUrl: URL
   let artworkId: string
+  let saveToStorage = true
   try {
     const payload = await request.json()
     sourceUrl = new URL(payload.source_url)
     artworkId = payload.artwork_id
+    if (payload.save_to_storage !== undefined) {
+      if (typeof payload.save_to_storage !== 'boolean') {
+        return response({ error: 'save_to_storage must be a boolean' }, 400)
+      }
+      saveToStorage = payload.save_to_storage
+    }
   } catch {
     return response({ error: 'source_url and artwork_id are required' }, 400)
   }
@@ -98,6 +105,9 @@ Deno.serve(async (request) => {
     chunks.push(value)
   }
 
+  if (totalBytes === 0) return response({ error: 'Source image is empty' }, 422)
+  if (!saveToStorage) return response({ size_bytes: totalBytes, saved_to_storage: false })
+
   const image = new Uint8Array(totalBytes)
   let offset = 0
   for (const chunk of chunks) {
@@ -120,5 +130,10 @@ Deno.serve(async (request) => {
     .eq('id', artworkId)
 
   if (updateError) return response({ error: updateError.message }, 500)
-  return response({ path, public_url: publicUrl.publicUrl })
+  return response({
+    path,
+    public_url: publicUrl.publicUrl,
+    size_bytes: totalBytes,
+    saved_to_storage: true,
+  })
 })
