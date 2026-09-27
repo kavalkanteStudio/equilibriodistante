@@ -2,8 +2,9 @@ import { useState, useMemo } from 'react'
 import { supabase } from '@/lib/supabase'
 import { Loader2, Sparkles, Save, Image as ImageIcon, AlertCircle, Dices, RotateCcw } from 'lucide-react'
 import { Button, Input, Textarea, Label } from '@/components/ui'
-import { STYLES, CATEGORIES, StyleDef } from '@/studio/data/styles'
+import { STYLES, CATEGORIES } from '@/studio/data/styles'
 import { SUBJECTS } from '@/studio/data/subjects'
+import { type StyleDef } from '@/studio/data/types'
 
 type ImportImageResult = {
   size_bytes: number

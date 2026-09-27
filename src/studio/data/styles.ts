@@ -1,4 +1,4 @@
-import { StyleDef, StyleCategory } from './types';
+import { type StyleDef, type StyleCategory } from './types';
 
 export const STYLES: StyleDef[] = [
   { id: '2d-game-art', label: '2D Game Art', category: 'movement', signature: ['2D game art', 'platformers', 'pixel art', 'side-scrolling games'] },
