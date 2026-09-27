@@ -168,7 +168,7 @@ export default function AdminStudio() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Controls */}
-          <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-octonary shadow-sm">
+          <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-secondary shadow-sm">
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="prompt">Prompt Criativo</Label>
@@ -205,7 +205,7 @@ export default function AdminStudio() {
                       onClick={() => setAspectRatio(ratio)}
                       className={`py-2 text-xs font-bold rounded-lg border transition-all ${
                         aspectRatio === ratio
-                          ? 'bg-brand-primary text-brand-octonary border-brand-quibg-brand-primary'
+                          ? 'bg-brand-primary text-brand-octonary border-brand-quaternary'
                           : 'bg-brand-septenary text-brand-tertiary hover:text-brand-octonary border-brand-tertiary hover:bg-brand-primary'
                       }`}
                     >
@@ -243,7 +243,7 @@ export default function AdminStudio() {
           {/* Right: Preview */}
           <div className="flex flex-col gap-4">
             <div
-              className={`relative w-full overflow-hidden rounded-2xl bg-brand-octonary border-2 border-dashed border-brand-tertiary transition-all ${
+              className={`relative w-full overflow-hidden rounded-2xl bg-brand-secondary/20 border-2 border-dashed border-brand-secondary transition-all ${
                 aspectRatio === '1:1'
                   ? 'aspect-square'
                   : aspectRatio === '16:9'
@@ -258,7 +258,7 @@ export default function AdminStudio() {
                   className="h-full w-full object-cover animate-in fade-in duration-500"
                 />
               ) : (
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 gap-2">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-brand-secondary gap-2">
                   <ImageIcon className="w-12 h-12 opacity-20" />
                   <p className="text-sm font-medium">Aguardando criação...</p>
                 </div>
@@ -277,7 +277,7 @@ export default function AdminStudio() {
                 <div className="grid gap-3 md:grid-cols-2">
                   {artwork.map((artwork) => (
                     <article
-                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-octonary p-3"
+                      className="flex min-w-0 items-center justify-between gap-3 rounded-xl border border-brand-secondary p-3"
                       key={artwork.id}
                     >
                       <div className="flex min-w-0 items-center gap-3">
@@ -309,7 +309,7 @@ export default function AdminStudio() {
               )}
               {generatedImage && (
                 <Button
-                  className="w-full px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
+                  className="w-full flex flex-1 px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
                   onClick={promoteToCatalog}
                   disabled={isSaving}
                 >
