@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { supabase } from '@/lib/supabase'
-import { Loader2, Sparkles, Save, Image as ImageIcon, AlertCircle } from 'lucide-react'
+import { Loader2, Sparkles, Save, Image as ImageIcon, AlertCircle, Dices, RotateCcw } from 'lucide-react'
 import { Button, Input, Textarea, Label } from '@/components/ui'
+import { STYLES, CATEGORIES, StyleDef } from '@/studio/data/styles'
+import { SUBJECTS } from '@/studio/data/subjects'
 
 type ImportImageResult = {
   size_bytes: number
@@ -30,30 +32,46 @@ export default function AdminStudio() {
   const [syncToStorage, setSyncToStorage] = useState(false)
   const [lastPromotion, setLastPromotion] = useState<LastPromotion | null>(null)
 
+  // Workbench State
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedStyle, setSelectedStyle] = useState<StyleDef | null>(null)
+  const [selectedTraits, setSelectedTraits] = useState<string[]>([])
+  const [subject, setSubject] = useState('')
+
+  // Prompt Assembler
+  const assembledPrompt = useMemo(() => {
+    if (!subject) return '';
+
+    let base = subject;
+    if (selectedStyle) {
+      const stylePrefix = selectedStyle.category === 'artist' ? 'in the manner of' : 'in the style of';
+      base += `, ${stylePrefix} ${selectedStyle.label}`;
+
+      if (selectedTraits.length > 0) {
+        base += `. ${selectedTraits.join(', ')}`;
+      }
+    }
+    return base;
+  }, [subject, selectedStyle, selectedTraits]);
+
   function getErrorMessage(error: unknown, fallback: string): string {
     if (error instanceof Error && error.message) return error.message
-
-    if (
-      typeof error === 'object' &&
-      error !== null &&
-      'message' in error &&
-      typeof error.message === 'string'
-    ) {
+    if (typeof error === 'object' && error !== null && 'message' in error && typeof error.message === 'string') {
       return error.message || fallback
     }
-
     return fallback
   }
 
   async function handleGenerate() {
-    if (!prompt) return
+    const finalPrompt = assembledPrompt || prompt;
+    if (!finalPrompt) return
     setIsGenerating(true)
     setError(null)
     setGeneratedImage(null)
 
     try {
       const { data, error: funcError } = await supabase.functions.invoke('generate-artwork', {
-        body: { prompt, aspect_ratio: aspectRatio },
+        body: { prompt: finalPrompt, aspect_ratio: aspectRatio },
       })
 
       if (funcError) throw funcError
@@ -73,18 +91,19 @@ export default function AdminStudio() {
   }
 
   async function promoteToCatalog() {
-    if (!generatedImage || !prompt) return
+    const finalPrompt = assembledPrompt || prompt;
+    if (!generatedImage || !finalPrompt) return
     setIsSaving(true)
     setError(null)
 
     try {
-      const title = prompt.slice(0, 50) + '...'
+      const title = finalPrompt.slice(0, 50) + '...'
       const { data: artwork, error: artError } = await supabase
         .from('artworks')
         .insert({
           title,
-          slug: prompt.slice(0, 30).toLowerCase().replace(/\s+/g, '-'),
-          prompt_summary: prompt,
+          slug: finalPrompt.slice(0, 30).toLowerCase().replace(/\s+/g, '-'),
+          prompt_summary: finalPrompt,
           source_model: 'Flux Schnell',
           source_tool: 'Flux Schnell',
           source_url: generatedImage,
@@ -165,11 +184,42 @@ export default function AdminStudio() {
 
       setGeneratedImage(null)
       setPrompt('')
+      setSelectedCategory(null)
+      setSelectedStyle(null)
+      setSelectedTraits([])
+      setSubject('')
     } catch (err: unknown) {
       setError(getErrorMessage(err, 'An unexpected error occurred'))
     } finally {
       setIsSaving(false)
     }
+  }
+
+  function handleRandomize() {
+    const randomSubject = SUBJECTS[Math.floor(Math.random() * SUBJECTS.length)];
+    const randomCategory = CATEGORIES[Math.floor(Math.random() * CATEGORIES.length)];
+    const filteredStyles = STYLES.filter(s => s.category === randomCategory);
+    const randomStyle = filteredStyles[Math.floor(Math.random() * filteredStyles.length)];
+
+    const shuffledTraits = [...randomStyle.signature].sort(() => 0.5 - Math.random());
+    const randomTraits = shuffledTraits.slice(0, Math.floor(Math.random() * 3) + 2);
+
+    setSubject(randomSubject);
+    setSelectedCategory(randomCategory);
+    setSelectedStyle(randomStyle);
+    setSelectedTraits(randomTraits);
+    setPrompt('');
+  }
+
+  function suggestSubject() {
+    const randomSubject = SUBJECTS[Math.floor(Math.random() * SUBJECTS.length)];
+    setSubject(randomSubject);
+  }
+
+  function toggleTrait(trait: string) {
+    setSelectedTraits(prev =>
+      prev.includes(trait) ? prev.filter(t => t !== trait) : [...prev, trait]
+    );
   }
 
   return (
@@ -201,18 +251,140 @@ export default function AdminStudio() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Controls */}
           <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-secondary shadow-sm">
-            <div className="space-y-4">
+            <div className="space-y-6">
+              {/* Prompt Workbench */}
+              <div className="space-y-4 p-4 rounded-xl bg-brand-secondary/5 border border-brand-secondary/20">
+                <div className="flex items-center justify-between mb-2">
+                  <Label className="text-brand-primary flex items-center gap-2">
+                    <Sparkles className="w-4 h-4" /> Workbench de Prompt
+                  </Label>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    className="h-7 text-xs gap-1"
+                    onClick={handleRandomize}
+                  >
+                    <Dices className="w-3 h-3" /> Aleatório
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Step 1: Subject */}
+                  <div className="space-y-2">
+                    <Label className="text-xs uppercase tracking-wider opacity-70">1. Sujeito</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="O que queremos ver?"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        className="text-sm"
+                      />
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className="shrink-0"
+                        onClick={suggestSubject}
+                      >
+                        <RotateCcw className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Step 2: Style Category */}
+                  <div className="space-y-2">
+                    <Label className="text-xs uppercase tracking-wider opacity-70">2. Categoria</Label>
+                    <div className="flex flex-wrap gap-1">
+                      {CATEGORIES.map(cat => (
+                        <button
+                          key={cat}
+                          onClick={() => {
+                            setSelectedCategory(cat);
+                            setSelectedStyle(null);
+                            setSelectedTraits([]);
+                          }}
+                          className={`px-2 py-1 text-[10px] font-bold rounded-full border transition-all ${
+                            selectedCategory === cat
+                              ? 'bg-brand-primary text-brand-septenary border-brand-primary'
+                              : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Step 3: Style Selection */}
+                {selectedCategory && (
+                  <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <Label className="text-xs uppercase tracking-wider opacity-70">3. Estilo</Label>
+                    <div className="flex flex-wrap gap-2">
+                      {STYLES.filter(s => s.category === selectedCategory).map(style => (
+                        <button
+                          key={style.id}
+                          onClick={() => {
+                            setSelectedStyle(style);
+                            setSelectedTraits([]);
+                          }}
+                          className={`px-3 py-1 text-xs rounded-lg border transition-all ${
+                            selectedStyle?.id === style.id
+                              ? 'bg-brand-primary text-brand-septenary border-brand-primary shadow-sm'
+                              : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
+                          }`}
+                        >
+                          {style.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 4: Trait Refinement */}
+                {selectedStyle && (
+                  <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <Label className="text-xs uppercase tracking-wider opacity-70">4. Características (Sintonize)</Label>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedStyle.signature.map(trait => (
+                        <button
+                          key={trait}
+                          onClick={() => toggleTrait(trait)}
+                          className={`px-2 py-1 text-[11px] rounded-md border transition-all ${
+                            selectedTraits.includes(trait)
+                              ? 'bg-brand-secondary text-brand-septenary border-brand-secondary'
+                              : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/20 hover:border-brand-secondary'
+                          }`}
+                        >
+                          {trait}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Final Assembly Preview */}
+                <div className="mt-4 p-3 rounded-lg bg-brand-primary/10 border border-brand-primary/20">
+                  <Label className="text-xs font-bold text-brand-primary block mb-1">Prompt Final:</Label>
+                  <p className="text-sm text-brand-tertiary italic leading-relaxed">
+                    {assembledPrompt || "Comece a montar seu prompt acima ou use o modo aleatório..."}
+                  </p>
+                </div>
+              </div>
+
+              {/* Manual Override */}
               <div className="space-y-2">
-                <Label htmlFor="prompt">Prompt Criativo</Label>
+                <Label htmlFor="prompt">Ou escreva manualmente</Label>
                 <Textarea
                   id="prompt"
-                  placeholder="Ex: A minimalist golden cat silhouette with a vintage twist, luxury background..."
+                  placeholder="Ex: A minimalist golden cat silhouette..."
                   value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  className="min-h-30 resize-y text-brand-tertiary required:text-brand-primary placeholder:text-brand-primary"
-                  required
+                  onChange={(e) => {
+                    setPrompt(e.target.value);
+                    setSubject(''); // Clear workbench when manual editing
+                    setSelectedStyle(null);
+                  }}
+                  className="min-h-20 resize-y text-brand-tertiary required:text-brand-primary placeholder:text-brand-primary"
                 />
-                <Input className="hidden" />
               </div>
 
               <div className="space-y-2">
@@ -237,7 +409,7 @@ export default function AdminStudio() {
               <Button
                 className="w-full flex flex-1 px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
                 onClick={handleGenerate}
-                disabled={isGenerating || !prompt}
+                disabled={isGenerating || (!prompt && !assembledPrompt)}
               >
                 {isGenerating ? (
                   <>
