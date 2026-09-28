@@ -37,46 +37,24 @@ export default function Checkout() {
     setError(null)
 
     try {
-      // 1. Create the order
-      // We store the customer details in shipping_reference as JSON since the schema is minimal
-      const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          status: 'pending',
-          total_amount: totalPrice,
-          shipping_reference: JSON.stringify({
-            fullName: data.fullName,
-            email: data.email,
-            address: data.address,
-            city: data.city,
-            zipCode: data.zipCode,
-          }),
-        })
-        .select()
-        .single()
+      const { error: orderError } = await supabase.functions.invoke('create-order', {
+        body: {
+          customer: data,
+          items: cart.map((item) => ({
+            variantId: item.variantId,
+            quantity: item.quantity,
+            expectedUnitPrice: item.price,
+          })),
+        },
+      })
 
       if (orderError) throw orderError
 
-      // 2. Create order items
-      const orderItems = cart.map((item) => ({
-        order_id: order.id,
-        product_variant_id: item.variantId,
-        quantity: item.quantity,
-        unit_price: item.price,
-      }))
-
-      const { error: itemsError } = await supabase
-        .from('order_items')
-        .insert(orderItems)
-
-      if (itemsError) throw itemsError
-
-      // 3. Success
       clearCart()
       navigate('/order-success')
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Order error:', err)
-      setError(err.message || 'Algo deu errado ao tentar salvar o pedido. Pode ser conexão. Tente novamente.')
+      setError(err instanceof Error ? err.message : 'Algo deu errado ao tentar salvar o pedido. Tente novamente.')
     } finally {
       setIsLoading(false)
     }
