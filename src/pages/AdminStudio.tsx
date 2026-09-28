@@ -304,7 +304,7 @@ export default function AdminStudio() {
                               setSelectedStyle(null);
                               setSelectedTraits([]);
                             }}
-                            className={`px-2 py-1 text-[10px] font-bold rounded-full border transition-all ${selectedCategory === cat
+                            className={`px-2 py-1 text-[9px] font-bold rounded-lg tracking-wider uppercase border transition-all ${selectedCategory === cat
                               ? 'bg-brand-primary text-brand-septenary border-brand-primary'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
                               }`}

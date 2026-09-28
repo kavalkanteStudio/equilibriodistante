@@ -113,7 +113,7 @@ export const STYLES: StyleDef[] = [
   { id: 'concept-art-for-movies', label: 'Concept Art for Movies', category: 'commercial', signature: ['character design', 'environments', 'visual development'] },
   { id: 'concept-art-for-video-games', label: 'Concept Art for Video Games', category: 'commercial', signature: ['characters', 'levels', 'game mechanics'] },
   { id: 'conceptual-art', label: 'Conceptual Art', category: 'movement', signature: ['ideas over visual concerns', 'dematerialized object'] },
-  { id: 'concert-poster-design', label: 'Concert Poster Design', category: 'commercial', signature: ['gig promotion', 'band event', 'live music advertising'] },
+  { id: 'concept-poster-design', label: 'Concept Poster Design', category: 'commercial', signature: ['gig promotion', 'band event', 'live music advertising'] },
   { id: 'creepy-children', label: 'Creepy Children', category: 'dark', signature: ['pale faces', 'dark eyes', 'haunting stare', 'deeply unsettling'], nsfwRisk: true },
   { id: 'creepy-porcelain-doll', label: 'Creepy Porcelain Doll', category: 'dark', signature: ['pale cracked face', 'intricately detailed dress', 'glassy dead-eyed stare'], nsfwRisk: true },
   { id: 'crime-films', label: 'Crime Films', category: 'movement', signature: ['criminal activity', 'police investigation', 'underworld intrigue'] },
