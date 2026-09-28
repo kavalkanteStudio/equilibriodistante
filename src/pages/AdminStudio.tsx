@@ -153,11 +153,11 @@ export default function AdminStudio() {
         setLastPromotion((previous) =>
           previous
             ? {
-                ...previous,
-                warning: syncToStorage
-                  ? `Obra promovida, mas não foi possível salvar a imagem no Storage: ${getErrorMessage(importError, 'erro desconhecido')}`
-                  : `Obra promovida, mas não foi possível verificar o tamanho da imagem: ${getErrorMessage(importError, 'erro desconhecido')}`,
-              }
+              ...previous,
+              warning: syncToStorage
+                ? `Obra promovida, mas não foi possível salvar a imagem no Storage: ${getErrorMessage(importError, 'erro desconhecido')}`
+                : `Obra promovida, mas não foi possível verificar o tamanho da imagem: ${getErrorMessage(importError, 'erro desconhecido')}`,
+            }
             : previous,
         )
       } else if (
@@ -174,11 +174,11 @@ export default function AdminStudio() {
         setLastPromotion((previous) =>
           previous
             ? {
-                ...previous,
-                imageUrl: importResult.public_url || previous.imageUrl,
-                sizeBytes: importResult.size_bytes,
-                savedToStorage: importResult.saved_to_storage,
-              }
+              ...previous,
+              imageUrl: importResult.public_url || previous.imageUrl,
+              sizeBytes: importResult.size_bytes,
+              savedToStorage: importResult.saved_to_storage,
+            }
             : previous,
         )
       }
@@ -249,199 +249,198 @@ export default function AdminStudio() {
           <p className="text-brand-tertiary">Gere uma imagem, publique e edite depois.</p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Left: Controls */}
-          <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-secondary shadow-sm">
-            <div className="space-y-6">
-              {/* Prompt Workbench */}
-              <div className="space-y-4 p-4 rounded-xl bg-brand-secondary/5 border border-brand-secondary/20">
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="text-brand-primary flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" /> Workbench de Prompt
-                  </Label>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="h-7 text-xs gap-1"
-                    onClick={handleRandomize}
-                  >
-                    <Dices className="w-3 h-3" /> Aleatório
-                  </Button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Step 1: Subject */}
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-wider opacity-70">1. Sujeito</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        placeholder="O que queremos ver?"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        className="text-sm"
-                      />
+          <div className="flex flex-col gap-6">
+            <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-secondary shadow-sm">
+              <div className="space-y-6">
+                {/* Prompt Workbench */}
+                <div className="space-y-4 p-4 rounded-xl bg-brand-secondary/5 border border-brand-secondary/20">
+                  <div className="flex items-center justify-between gap-6 mb-6">
+                    <Label className="text-brand-primary flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />Prompt Workbench
+                    </Label>
+                    <span className="w-20 flex flex-row items-center justify-end gap-2">
                       <Button
                         variant="secondary"
-                        size="icon"
-                        className="shrink-0"
-                        onClick={suggestSubject}
+                        className="text-xs flex items-center justify-center gap-1"
+                        onClick={handleRandomize}
                       >
-                        <RotateCcw className="w-4 h-4" />
+                        <Dices className="w-4 h-4" /> Aleatório
                       </Button>
-                    </div>
+                    </span>
                   </div>
 
-                  {/* Step 2: Style Category */}
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-wider opacity-70">2. Categoria</Label>
-                    <div className="flex flex-wrap gap-1">
-                      {CATEGORIES.map(cat => (
-                        <button
-                          key={cat}
-                          onClick={() => {
-                            setSelectedCategory(cat);
-                            setSelectedStyle(null);
-                            setSelectedTraits([]);
-                          }}
-                          className={`px-2 py-1 text-[10px] font-bold rounded-full border transition-all ${
-                            selectedCategory === cat
+                  <div className="grid grid-cols-1 gap-4">
+                    {/* Step 1: Subject */}
+                    <div className="space-y-2">
+                      <Label className="text-xs uppercase tracking-wider opacity-70">1. Sujeito</Label>
+                      <div className="flex flex-row items-center justify-between gap-1">
+                        <Input
+                          placeholder="O que queremos ver?"
+                          value={subject}
+                          onChange={(e) => setSubject(e.target.value)}
+                          className="text-xs py-2! mt-0! text-brand-tertiary placeholder:text-brand-primary flex-1"
+                        />
+                        <Button
+                          variant="secondary"
+                          className="text-xs flex items-center justify-center gap-1"
+                          onClick={suggestSubject}
+                        >
+                          <RotateCcw className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Step 2: Style Category */}
+                    <div className="space-y-2">
+                      <Label className="text-xs uppercase tracking-wider opacity-70">2. Categoria</Label>
+                      <div className="flex flex-wrap gap-1">
+                        {CATEGORIES.map(cat => (
+                          <button
+                            key={cat}
+                            onClick={() => {
+                              setSelectedCategory(cat);
+                              setSelectedStyle(null);
+                              setSelectedTraits([]);
+                            }}
+                            className={`px-2 py-1 text-[10px] font-bold rounded-full border transition-all ${selectedCategory === cat
                               ? 'bg-brand-primary text-brand-septenary border-brand-primary'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
-                          }`}
-                        >
-                          {cat}
-                        </button>
-                      ))}
+                              }`}
+                          >
+                            {cat}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Step 3: Style Selection */}
-                {selectedCategory && (
-                  <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <Label className="text-xs uppercase tracking-wider opacity-70">3. Estilo</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {STYLES.filter(s => s.category === selectedCategory).map(style => (
-                        <button
-                          key={style.id}
-                          onClick={() => {
-                            setSelectedStyle(style);
-                            setSelectedTraits([]);
-                          }}
-                          className={`px-3 py-1 text-xs rounded-lg border transition-all ${
-                            selectedStyle?.id === style.id
+                  {/* Step 3: Style Selection */}
+                  {selectedCategory && (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <Label className="text-xs uppercase tracking-wider opacity-70">3. Estilo</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {STYLES.filter(s => s.category === selectedCategory).map(style => (
+                          <button
+                            key={style.id}
+                            onClick={() => {
+                              setSelectedStyle(style);
+                              setSelectedTraits([]);
+                            }}
+                            className={`px-3 py-1 text-xs rounded-lg border transition-all ${selectedStyle?.id === style.id
                               ? 'bg-brand-primary text-brand-septenary border-brand-primary shadow-sm'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
-                          }`}
-                        >
-                          {style.label}
-                        </button>
-                      ))}
+                              }`}
+                          >
+                            {style.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Step 4: Trait Refinement */}
-                {selectedStyle && (
-                  <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <Label className="text-xs uppercase tracking-wider opacity-70">4. Características (Sintonize)</Label>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedStyle.signature.map(trait => (
-                        <button
-                          key={trait}
-                          onClick={() => toggleTrait(trait)}
-                          className={`px-2 py-1 text-[11px] rounded-md border transition-all ${
-                            selectedTraits.includes(trait)
+                  {/* Step 4: Trait Refinement */}
+                  {selectedStyle && (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <Label className="text-xs uppercase tracking-wider opacity-70">4. Características (Sintonize)</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedStyle.signature.map(trait => (
+                          <button
+                            key={trait}
+                            onClick={() => toggleTrait(trait)}
+                            className={`px-2 py-1 text-[11px] rounded-md border transition-all ${selectedTraits.includes(trait)
                               ? 'bg-brand-secondary text-brand-septenary border-brand-secondary'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/20 hover:border-brand-secondary'
-                          }`}
-                        >
-                          {trait}
-                        </button>
-                      ))}
+                              }`}
+                          >
+                            {trait}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                {/* Final Assembly Preview */}
-                <div className="mt-4 p-3 rounded-lg bg-brand-primary/10 border border-brand-primary/20">
-                  <Label className="text-xs font-bold text-brand-primary block mb-1">Prompt Final:</Label>
-                  <p className="text-sm text-brand-tertiary italic leading-relaxed">
-                    {assembledPrompt || "Comece a montar seu prompt acima ou use o modo aleatório..."}
-                  </p>
+                  {/* Final Assembly Preview */}
+                  <div className="mt-4 p-3 rounded-lg bg-brand-primary/10 border border-brand-primary/20">
+                    <Label className="text-xs font-bold text-brand-primary block mb-1">Prompt Final:</Label>
+                    <p className="text-xs text-brand-tertiary italic leading-relaxed">
+                      {assembledPrompt || "Comece a montar seu prompt acima ou use o modo aleatório..."}
+                    </p>
+                  </div>
                 </div>
               </div>
+            </div>
+            <div className="space-y-6 bg-brand-septenary p-6 rounded-2xl border border-brand-secondary shadow-sm">
+              <div className="space-y-6">
+                {/* Manual Override */}
+                <div className="space-y-2">
+                  <Label htmlFor="prompt">Ou escreva manualmente</Label>
+                  <Textarea
+                    id="prompt"
+                    placeholder="Ex: A minimalist golden cat silhouette..."
+                    value={prompt}
+                    onChange={(e) => {
+                      setPrompt(e.target.value);
+                      setSubject(''); // Clear workbench when manual editing
+                      setSelectedStyle(null);
+                    }}
+                    className="text-xs min-h-20 resize-y text-brand-tertiary required:text-brand-primary placeholder:text-brand-primary"
+                  />
+                </div>
 
-              {/* Manual Override */}
-              <div className="space-y-2">
-                <Label htmlFor="prompt">Ou escreva manualmente</Label>
-                <Textarea
-                  id="prompt"
-                  placeholder="Ex: A minimalist golden cat silhouette..."
-                  value={prompt}
-                  onChange={(e) => {
-                    setPrompt(e.target.value);
-                    setSubject(''); // Clear workbench when manual editing
-                    setSelectedStyle(null);
-                  }}
-                  className="min-h-20 resize-y text-brand-tertiary required:text-brand-primary placeholder:text-brand-primary"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Proporção da Imagem</Label>
-                <div className="grid grid-cols-4 gap-2">
-                  {['1:1', '3:4', '9:16', '16:9'].map((ratio) => (
-                    <button
-                      key={ratio}
-                      onClick={() => setAspectRatio(ratio)}
-                      className={`py-2 text-xs font-bold rounded-lg border transition-all ${
-                        aspectRatio === ratio
+                <div className="space-y-2">
+                  <Label>Proporção da Imagem</Label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {['1:1', '3:4', '9:16', '16:9'].map((ratio) => (
+                      <button
+                        key={ratio}
+                        onClick={() => setAspectRatio(ratio)}
+                        className={`py-2 text-xs font-bold rounded-lg border transition-all ${aspectRatio === ratio
                           ? 'bg-brand-primary text-brand-octonary border-brand-quaternary'
                           : 'bg-brand-septenary text-brand-tertiary hover:text-brand-octonary border-brand-tertiary hover:bg-brand-primary'
-                      }`}
-                    >
-                      {ratio}
-                    </button>
-                  ))}
+                          }`}
+                      >
+                        {ratio}
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
+                <Button
+                  className="w-full flex flex-1 px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
+                  onClick={handleGenerate}
+                  disabled={isGenerating || (!prompt && !assembledPrompt)}
+                >
+                  {isGenerating ? (
+                    <>
+                      <Loader2 className="animate-spin" /> Gerando...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles /> Gerar Obra
+                    </>
+                  )}
+                </Button>
               </div>
 
-              <Button
-                className="w-full flex flex-1 px-4 py-2 font-bold gap-2 bg-brand-primary hover:bg-brand-secondary text-brand-septenary"
-                onClick={handleGenerate}
-                disabled={isGenerating || (!prompt && !assembledPrompt)}
-              >
-                {isGenerating ? (
-                  <>
-                    <Loader2 className="animate-spin" /> Gerando...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles /> Gerar Obra
-                  </>
-                )}
-              </Button>
+              {error && (
+                <div className="flex items-start gap-2 p-3 rounded-lg bg-brand-septenary text-brand-secondary text-sm">
+                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                  <p>{error}</p>
+                </div>
+              )}
             </div>
-
-            {error && (
-              <div className="flex items-start gap-2 p-3 rounded-lg bg-brand-septenary text-brand-secondary text-sm">
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                <p>{error}</p>
-              </div>
-            )}
           </div>
-
           {/* Right: Preview */}
           <div className="flex flex-col gap-4">
             <div
-              className={`relative w-full overflow-hidden rounded-2xl bg-brand-secondary/20 border-2 border-dashed border-brand-secondary transition-all ${
-                aspectRatio === '1:1'
-                  ? 'aspect-square'
-                  : aspectRatio === '16:9'
-                    ? 'aspect-video'
-                    : 'aspect-3/4'
-              }`}
+              className={`relative w-full overflow-hidden rounded-2xl bg-brand-secondary/20 border-2 border-dashed border-brand-secondary transition-all ${aspectRatio === '1:1'
+                ? 'aspect-square'
+                : aspectRatio === '16:9'
+                  ? 'aspect-video'
+                  : 'aspect-3/4'
+                }`}
             >
               {generatedImage ? (
                 <img
@@ -551,8 +550,9 @@ export default function AdminStudio() {
               )}
             </div>
           </div>
+
         </div>
       </div>
-    </div>
+    </div >
   )
 }
