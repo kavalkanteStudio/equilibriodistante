@@ -7,6 +7,7 @@ import { gsap } from 'gsap'
 import ArtFrame from './ArtFrame'
 import { supabase } from '@/lib/supabase'
 import './InfiniteArtworkGallery.css'
+//import { is } from 'zod/locales'
 
 type Artwork = {
   id: string
@@ -45,6 +46,7 @@ export default function InfiniteArtworkGallery() {
   const [activeIndex, setActiveIndex] = useState(0)
   //const [isPaused, setIsPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+  const [isWide, setIsWide] = useState(true)
 
   const { data: artworks = [], isLoading } = useQuery({
     queryKey: ['home-artworks'],
@@ -87,7 +89,7 @@ export default function InfiniteArtworkGallery() {
 
     const stage = stageRef.current
     const cards = Array.from(stage.querySelectorAll<HTMLElement>('[data-artwork-card]'))
-    const sideOffset = Math.min(window.innerWidth * 0.28, 360)
+    const sideOffset = isWide ? Math.min(window.innerWidth * 0.36, 360) : Math.min(window.innerWidth * 0.28, 240)
     const previousIndex = previousIndexRef.current
     const direction = directionRef.current
     const isInitialLayout = previousIndex === null
@@ -102,7 +104,7 @@ export default function InfiniteArtworkGallery() {
         && getCarouselDistance(index, previousIndex, artworks.length) === -direction
       const target = {
         x,
-        scale: isCenter ? 1 : 0.68,
+        scale: isCenter ? isWide ? 1.44 : 1 : isSide ? 0.58 : 0.68,
         autoAlpha: isCenter ? 1 : isSide ? 0.62 : 0,
         zIndex: isCenter ? 3 : isSide ? 2 : 0,
         duration: prefersReducedMotion ? 0 : 0.8,
@@ -157,7 +159,7 @@ export default function InfiniteArtworkGallery() {
   if (isLoading || artworks.length === 0) return <div className="container mx-auto px-4 py-20"><div className="flex justify-center py-12"><p className="text-brand-tertiary"><span className="flex animate-spin"><LoaderCircle className="w-8 h-8" /></span></p></div></div>
 
   return (
-    <section className="infinite-gallery bg-brand-septenary border-b border-brand-tertiary" aria-labelledby="infinite-gallery-title">
+    <section className="infinite-gallery bg-brand-septenary" aria-labelledby="infinite-gallery-title">
       {/* <div className="infinite-gallery__intro">
         <p className="infinite-gallery__eyebrow">Passeio pela coleção</p>
         <h2 id="infinite-gallery-title">Obras para contemplar</h2>
@@ -171,6 +173,7 @@ export default function InfiniteArtworkGallery() {
               const normalizedDistance = getCarouselDistance(index, currentIndex, artworks.length)
               const isCenter = normalizedDistance === 0
               const isSide = Math.abs(normalizedDistance) === 1
+              const isWide = artwork.orientation === 'a3-wide'
 
               return (
                 <li
@@ -194,7 +197,10 @@ export default function InfiniteArtworkGallery() {
                     <button
                       type="button"
                       className="infinite-gallery__side-button"
-                      onClick={() => move(normalizedDistance < 0 ? -1 : 1)}
+                      onClick={() => {
+                        move(normalizedDistance < 0 ? -1 : 1)
+                        isWide ? setIsWide(true) : setIsWide(false)
+                      }}
                       tabIndex={isSide ? undefined : -1}
                       aria-label={`${normalizedDistance < 0 ? 'Obra anterior' : 'Próxima obra'}: ${artwork.title}`}
                     >

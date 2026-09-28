@@ -137,7 +137,7 @@
   height: 1rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1024px) {
   .infinite-gallery {
     /*min-height: auto;*/
     min-height: 70svh;
