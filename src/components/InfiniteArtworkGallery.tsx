@@ -46,7 +46,6 @@ export default function InfiniteArtworkGallery() {
   const [activeIndex, setActiveIndex] = useState(0)
   //const [isPaused, setIsPaused] = useState(false)
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
-  const [isWide, setIsWide] = useState(true)
 
   const { data: artworks = [], isLoading } = useQuery({
     queryKey: ['home-artworks'],
@@ -73,6 +72,7 @@ export default function InfiniteArtworkGallery() {
   }, [])
 
   const currentIndex = artworks.length > 0 ? activeIndex % artworks.length : 0
+  const isWide = artworks[currentIndex]?.orientation === 'a3-wide'
 
   /* useEffect(() => {
     if (artworks.length < 2 || isPaused || prefersReducedMotion) return
@@ -89,7 +89,7 @@ export default function InfiniteArtworkGallery() {
 
     const stage = stageRef.current
     const cards = Array.from(stage.querySelectorAll<HTMLElement>('[data-artwork-card]'))
-    const sideOffset = isWide ? Math.min(window.innerWidth * 0.36, 360) : Math.min(window.innerWidth * 0.28, 240)
+    const sideOffset = isWide ? Math.min(window.innerWidth * 0.36, 360) : Math.min(window.innerWidth * 0.48, 360)
     const previousIndex = previousIndexRef.current
     const direction = directionRef.current
     const isInitialLayout = previousIndex === null
@@ -136,7 +136,7 @@ export default function InfiniteArtworkGallery() {
     return () => {
       gsap.killTweensOf(cards)
     }
-  }, [currentIndex, artworks.length, prefersReducedMotion])
+  }, [currentIndex, artworks.length, prefersReducedMotion, isWide])
 
   useEffect(() => {
     const nearbyArtworks = artworks.length > 0
@@ -144,7 +144,7 @@ export default function InfiniteArtworkGallery() {
       : []
 
     nearbyArtworks.forEach((artwork) => preloadArtworkImage(artwork.final_image_url))
-  }, [currentIndex, artworks])
+  }, [currentIndex, artworks, isWide])
 
   function move(direction: 1 | -1) {
     if (artworks.length < 2) return
@@ -173,7 +173,6 @@ export default function InfiniteArtworkGallery() {
               const normalizedDistance = getCarouselDistance(index, currentIndex, artworks.length)
               const isCenter = normalizedDistance === 0
               const isSide = Math.abs(normalizedDistance) === 1
-              const isWide = artwork.orientation === 'a3-wide'
 
               return (
                 <li
@@ -199,7 +198,7 @@ export default function InfiniteArtworkGallery() {
                       className="infinite-gallery__side-button"
                       onClick={() => {
                         move(normalizedDistance < 0 ? -1 : 1)
-                        isWide ? setIsWide(true) : setIsWide(false)
+                        isWide ? window.scrollTo({ top: 0, behavior: 'smooth' }) : undefined
                       }}
                       tabIndex={isSide ? undefined : -1}
                       aria-label={`${normalizedDistance < 0 ? 'Obra anterior' : 'Próxima obra'}: ${artwork.title}`}
@@ -222,13 +221,17 @@ export default function InfiniteArtworkGallery() {
       </div>
 
       <div className="infinite-gallery__controls" aria-label="Controles da galeria">
-        <button type="button" onClick={() => move(-1)} aria-label="Obra anterior" disabled={artworks.length < 2}>
+        <button type="button" onClick={() => {
+          move(-1)
+          }} aria-label="Obra anterior" disabled={artworks.length < 2}>
           <ArrowLeft aria-hidden="true" />
         </button>
         {/* <button type="button" onClick={togglePause} aria-label={isPaused ? 'Retomar galeria' : 'Pausar galeria'}>
           {isPaused ? <Play aria-hidden="true" /> : <Pause aria-hidden="true" />}
         </button> */}
-        <button type="button" onClick={() => move(1)} aria-label="Próxima obra" disabled={artworks.length < 2}>
+        <button type="button" onClick={() => {
+          move(1)
+          }} aria-label="Próxima obra" disabled={artworks.length < 2}>
           <ArrowRight aria-hidden="true" />
         </button>
       </div>
