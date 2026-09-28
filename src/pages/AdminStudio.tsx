@@ -304,8 +304,8 @@ export default function AdminStudio() {
                               setSelectedStyle(null);
                               setSelectedTraits([]);
                             }}
-                            className={`px-2 py-1 text-[9px] font-bold rounded-lg tracking-wider uppercase border transition-all ${selectedCategory === cat
-                              ? 'bg-brand-primary text-brand-septenary border-brand-primary'
+                            className={`px-3 py-1 text-xs rounded-lg tracking-wider uppercase border transition-all ${selectedCategory === cat
+                              ? 'bg-brand-primary text-brand-septenary border-brand-primary shadow-sm'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
                               }`}
                           >
@@ -329,7 +329,7 @@ export default function AdminStudio() {
                               setSelectedTraits([]);
                             }}
                             className={`px-3 py-1 text-xs rounded-lg border transition-all ${selectedStyle?.id === style.id
-                              ? 'bg-brand-primary text-brand-septenary border-brand-primary shadow-sm'
+                              ? 'bg-brand-secondary text-brand-septenary border-brand-secondary shadow-sm'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/30 hover:border-brand-primary'
                               }`}
                           >
@@ -350,7 +350,7 @@ export default function AdminStudio() {
                             key={trait}
                             onClick={() => toggleTrait(trait)}
                             className={`px-2 py-1 text-[11px] rounded-md border transition-all ${selectedTraits.includes(trait)
-                              ? 'bg-brand-secondary text-brand-septenary border-brand-secondary'
+                              ? 'bg-brand-secondary text-brand-septenary border-brand-secondary shadow-sm'
                               : 'bg-brand-septenary text-brand-tertiary border-brand-secondary/20 hover:border-brand-secondary'
                               }`}
                           >
@@ -362,9 +362,9 @@ export default function AdminStudio() {
                   )}
 
                   {/* Final Assembly Preview */}
-                  <div className="mt-4 p-3 rounded-lg bg-brand-primary/10 border border-brand-primary/20">
-                    <Label className="text-xs font-bold text-brand-primary block mb-1">Prompt Final:</Label>
-                    <p className="text-xs text-brand-tertiary italic leading-relaxed">
+                  <div className="mt-4 p-3 rounded-lg bg-brand-quaternary border border-brand-tertiary">
+                    <Label className="text-[10px] uppercase font-bold text-brand-septenary block mb-1">Prompt Final</Label>
+                    <p className="text-sm text-white italic leading-relaxed">
                       {assembledPrompt || "Comece a montar seu prompt acima ou use o modo aleatório..."}
                     </p>
                   </div>
