@@ -51,7 +51,7 @@ export default function Checkout() {
       if (orderError) throw orderError
 
       clearCart()
-      navigate('/order-success')
+      navigate('/pedido-sucesso')
     } catch (err: unknown) {
       console.error('Order error:', err)
       setError(err instanceof Error ? err.message : 'Algo deu errado ao tentar salvar o pedido. Tente novamente.')
