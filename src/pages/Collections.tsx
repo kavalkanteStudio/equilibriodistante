@@ -32,7 +32,7 @@ export default function Collections() {
       {/* Page Header */}
       <div className="bg-brand-senary py-20 border-b">
         <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
-          <h1 className="text-2xl md:text-4xl">Formas, Luz e Emoção</h1>
+          <h1 className="text-2xl md:text-4xl">Luz & Emoção</h1>
           <div className="w-24 h-1 bg-brand-primary mx-auto" />
           <p className="text-lg text-brand-tertiary max-w-2xl mx-auto font-light">
             Descubra obras digitais interessantes.
