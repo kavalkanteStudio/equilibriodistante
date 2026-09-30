@@ -89,7 +89,7 @@ export default function Checkout() {
                         {...register('fullName')}
                         type="text"
                         placeholder="Nome"
-                        className={`w-full p-3 border rounded-lg ${errors.fullName ? 'border-red-500' : ''}`}
+                        className={`w-full p-3 border rounded-lg ${errors.fullName ? 'border-brand-primary' : ''}`}
                       />
                       {errors.fullName && <p className="text-brand-primary text-xs mt-1">{errors.fullName.message}</p>}
                     </div>
@@ -98,7 +98,7 @@ export default function Checkout() {
                         {...register('email')}
                         type="email"
                         placeholder="Email"
-                        className={`w-full p-3 border rounded-lg ${errors.email ? 'border-red-500' : ''}`}
+                        className={`w-full p-3 border rounded-lg ${errors.email ? 'border-brand-primary' : ''}`}
                       />
                       {errors.email && <p className="text-brand-primary text-xs mt-1">{errors.email.message}</p>}
                     </div>
@@ -107,7 +107,7 @@ export default function Checkout() {
                         {...register('address')}
                         type="text"
                         placeholder="Endereço"
-                        className={`w-full p-3 border rounded-lg ${errors.address ? 'border-red-500' : ''}`}
+                        className={`w-full p-3 border rounded-lg ${errors.address ? 'border-brand-primary' : ''}`}
                       />
                       {errors.address && <p className="text-brand-primary text-xs mt-1">{errors.address.message}</p>}
                     </div>
@@ -117,7 +117,7 @@ export default function Checkout() {
                           {...register('city')}
                           type="text"
                           placeholder="Cidade"
-                          className={`w-full p-3 border rounded-lg ${errors.city ? 'border-red-500' : ''}`}
+                          className={`w-full p-3 border rounded-lg ${errors.city ? 'border-brand-primary' : ''}`}
                         />
                         {errors.city && <p className="text-brand-primary text-xs mt-1">{errors.city.message}</p>}
                       </div>
@@ -126,7 +126,7 @@ export default function Checkout() {
                           {...register('zipCode')}
                           type="text"
                           placeholder="CEP"
-                          className={`w-full p-3 border rounded-lg ${errors.zipCode ? 'border-red-500' : ''}`}
+                          className={`w-full p-3 border rounded-lg ${errors.zipCode ? 'border-brand-primary' : ''}`}
                         />
                         {errors.zipCode && <p className="text-brand-primary text-xs mt-1">{errors.zipCode.message}</p>}
                       </div>
