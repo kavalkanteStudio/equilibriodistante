@@ -103,7 +103,51 @@ type ProductForm = Omit<Product, 'id' | 'base_price' | 'product_variants'> & {
   product_variants: ProductVariant[]
 }
 
-type AdminTab = 'collections' | 'artworks' | 'products'
+type OrderItem = {
+  id: string
+  quantity: number
+  unit_price: number
+  product_variants: {
+    name: string
+    products: { title: string } | null
+  } | null
+}
+
+type Order = {
+  id: string
+  created_at: string
+  status: string
+  total_amount: number
+  shipping_reference: string | null
+  order_items: OrderItem[]
+}
+
+type ContactMessage = {
+  id: string
+  name: string
+  email: string
+  message: string
+  created_at: string
+}
+
+type ShippingDetails = {
+  fullName?: string
+  email?: string
+  address?: string
+  city?: string
+  zipCode?: string
+}
+
+function parseShippingDetails(value: string | null): ShippingDetails | null {
+  if (!value) return null
+  try {
+    return JSON.parse(value) as ShippingDetails
+  } catch {
+    return null
+  }
+}
+
+type AdminTab = 'collections' | 'artworks' | 'products' | 'orders' | 'messages'
 
 const emptyForm: CollectionForm = {
   slug: '',
@@ -151,6 +195,10 @@ export default function AdminDashboard() {
   const [collections, setCollections] = useState<Collection[]>([])
   const [artworks, setArtworks] = useState<Artwork[]>([])
   const [products, setProducts] = useState<Product[]>([])
+  const [orders, setOrders] = useState<Order[]>([])
+  const [contactMessages, setContactMessages] = useState<ContactMessage[]>([])
+  const [isLoadingOrders, setIsLoadingOrders] = useState(true)
+  const [isLoadingContactMessages, setIsLoadingContactMessages] = useState(true)
   const [form, setForm] = useState<CollectionForm>(emptyForm)
   const [artworkForm, setArtworkForm] = useState<ArtworkForm>(emptyArtworkForm)
   const [productForm, setProductForm] = useState<ProductForm>(emptyProductForm)
@@ -199,13 +247,41 @@ export default function AdminDashboard() {
     else setProducts((data || []) as Product[])
   }
 
+  async function loadOrders() {
+    setIsLoadingOrders(true)
+    const { data, error: queryError } = await supabase
+      .from('orders')
+      .select(`
+        id, created_at, status, total_amount, shipping_reference,
+        order_items (
+          id, quantity, unit_price,
+          product_variants ( name, products ( title ) )
+        )
+      `)
+      .order('created_at', { ascending: false })
+    if (queryError) setError(queryError.message)
+    else setOrders((data || []) as unknown as Order[])
+    setIsLoadingOrders(false)
+  }
+
+  async function loadContactMessages() {
+    setIsLoadingContactMessages(true)
+    const { data, error: queryError } = await supabase
+      .from('contact_messages')
+      .select('*')
+      .order('created_at', { ascending: false })
+    if (queryError) setError(queryError.message)
+    else setContactMessages((data || []) as ContactMessage[])
+    setIsLoadingContactMessages(false)
+  }
+
   // Start Loading Data
   const [sload, setSload] = useState(false)
   setTimeout(() => setSload(true), 100)
   useEffect(() => {
     if (sload) {
       void Promise.resolve().then(() =>
-        Promise.all([loadCollections(), loadArtworks(), loadProducts()]),
+        Promise.all([loadCollections(), loadArtworks(), loadProducts(), loadOrders(), loadContactMessages()]),
       )
     }
   }, [sload])
@@ -517,6 +593,20 @@ export default function AdminDashboard() {
     else await loadProducts()
   }
 
+  async function deleteOrder(id: string) {
+    if (!window.confirm('Excluir este pedido e todos os seus itens? Esta ação não pode ser desfeita.')) return
+    const { error: deleteError } = await supabase.from('orders').delete().eq('id', id)
+    if (deleteError) setError(deleteError.message)
+    else await loadOrders()
+  }
+
+  async function deleteContactMessage(id: string) {
+    if (!window.confirm('Excluir esta mensagem de contato? Esta ação não pode ser desfeita.')) return
+    const { error: deleteError } = await supabase.from('contact_messages').delete().eq('id', id)
+    if (deleteError) setError(deleteError.message)
+    else await loadContactMessages()
+  }
+
   return (
     <main className="min-h-screen bg-brand-septenary p-4 md:p-8">
       <div className="mx-auto max-w-7xl flex flex-col gap-8">
@@ -546,14 +636,16 @@ export default function AdminDashboard() {
         </header>
 
         <nav
-          aria-label="Seções do catálogo"
-          className="grid grid-rows-3 md:grid-cols-3 gap-1 rounded-xl border border-gray-200 bg-brand-septenary p-1 shadow-sm"
+          aria-label="Seções administrativas"
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1 rounded-xl border border-gray-200 bg-brand-septenary p-1 shadow-sm"
         >
           {(
             [
               ['collections', 'Coleções', collections.length],
               ['artworks', 'Obras', artworks.length],
               ['products', 'Produtos', products.length],
+              ['orders', 'Pedidos', orders.length],
+              ['messages', 'Contato', contactMessages.length],
             ] as const
           ).map(([tab, label, count]) => (
             <button
@@ -581,6 +673,109 @@ export default function AdminDashboard() {
             </button>
           ))}
         </nav>
+
+        {activeTab === 'orders' && (
+          <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
+            <h2 className="mb-5 text-2xl font-display">Pedidos</h2>
+            {error && <p role="alert" className="mb-4 text-sm text-red-700">{error}</p>}
+            {isLoadingOrders ? (
+              <p className="text-brand-tertiary">Carregando pedidos...</p>
+            ) : orders.length === 0 ? (
+              <p className="text-brand-tertiary">Nenhum pedido encontrado.</p>
+            ) : (
+              <div className="space-y-3">
+                {orders.map((order) => {
+                  const shipping = parseShippingDetails(order.shipping_reference)
+                  return (
+                    <article className="rounded-xl border border-brand-senary p-4" key={order.id}>
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <h3 className="font-bold">{shipping?.fullName || 'Cliente'}</h3>
+                          <p className="text-sm text-brand-tertiary">
+                            {shipping?.email || 'Email indisponível'} · {new Date(order.created_at).toLocaleString('pt-BR')}
+                          </p>
+                          {shipping && (
+                            <p className="text-sm text-brand-tertiary">
+                              {[shipping.address, shipping.city, shipping.zipCode].filter(Boolean).join(', ')}
+                            </p>
+                          )}
+                        </div>
+                        <Button
+                          variant="danger"
+                          aria-label={`Excluir pedido ${order.id}`}
+                          onClick={() => void deleteOrder(order.id)}
+                          title="Excluir pedido"
+                          type="button"
+                        >
+                          <Trash2 aria-hidden="true" size={15} />
+                        </Button>
+                      </div>
+                      <ul className="my-3 space-y-1 border-y border-brand-senary py-3 text-sm">
+                        {order.order_items.map((item) => (
+                          <li className="flex flex-wrap justify-between gap-2" key={item.id}>
+                            <span>
+                              {item.product_variants?.products?.title || 'Produto indisponível'}
+                              {item.product_variants?.name ? ` · ${item.product_variants.name}` : ''}
+                              {' '}× {item.quantity}
+                            </span>
+                            <span>${(Number(item.unit_price) * item.quantity).toFixed(2)}</span>
+                          </li>
+                        ))}
+                        {order.order_items.length === 0 && (
+                          <li className="text-brand-tertiary">Este pedido não possui itens.</li>
+                        )}
+                      </ul>
+                      <div className="flex justify-between text-sm">
+                        <span>Status: {order.status}</span>
+                        <strong>Total: ${Number(order.total_amount).toFixed(2)}</strong>
+                      </div>
+                    </article>
+                  )
+                })}
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeTab === 'messages' && (
+          <section className="rounded-2xl border border-gray-200 bg-brand-septenary p-6 shadow-sm">
+            <h2 className="mb-5 text-2xl font-display">Mensagens de contato</h2>
+            {error && <p role="alert" className="mb-4 text-sm text-red-700">{error}</p>}
+            {isLoadingContactMessages ? (
+              <p className="text-brand-tertiary">Carregando mensagens...</p>
+            ) : contactMessages.length === 0 ? (
+              <p className="text-brand-tertiary">Nenhuma mensagem encontrada.</p>
+            ) : (
+              <div className="space-y-3">
+                {contactMessages.map((message) => (
+                  <article className="rounded-xl border border-brand-senary p-4" key={message.id}>
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <h3 className="font-bold">{message.name}</h3>
+                        <a className="text-sm text-brand-primary underline" href={`mailto:${message.email}`}>
+                          {message.email}
+                        </a>
+                        <p className="text-xs text-brand-tertiary">
+                          {new Date(message.created_at).toLocaleString('pt-BR')}
+                        </p>
+                      </div>
+                      <Button
+                        variant="danger"
+                        aria-label={`Excluir mensagem de ${message.name}`}
+                        onClick={() => void deleteContactMessage(message.id)}
+                        title="Excluir mensagem"
+                        type="button"
+                      >
+                        <Trash2 aria-hidden="true" size={15} />
+                      </Button>
+                    </div>
+                    <p className="mt-3 whitespace-pre-wrap wrap-break-word text-sm">{message.message}</p>
+                  </article>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* Tab Coleções*/}
         {activeTab === 'collections' && (

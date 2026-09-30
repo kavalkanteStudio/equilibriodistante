@@ -1,7 +1,28 @@
 import { Mail, User, MessageCircle, LucideSend } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { supabase } from '@/lib/supabase'
 import SEO from '@/components/SEO'
 
 export default function Contact() {
+  const [form, setForm] = useState({ name: '', email: '', message: '', website: '' })
+  const [isSending, setIsSending] = useState(false)
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
+
+  async function submitContact(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setIsSending(true)
+    setFeedback(null)
+
+    const { error } = await supabase.functions.invoke('submit-contact', { body: form })
+    if (error) {
+      setFeedback({ type: 'error', text: 'Não foi possível enviar sua mensagem. Tente novamente.' })
+    } else {
+      setForm({ name: '', email: '', message: '', website: '' })
+      setFeedback({ type: 'success', text: 'Mensagem enviada. Obrigado por entrar em contato!' })
+    }
+    setIsSending(false)
+  }
+
   return (
     <div className="min-h-screen bg-brand-septenary">
       <SEO title="Contato SKOPPOVIC" description="Fale com a SKOPPOVIC. Estamos aqui para ouvir você, inclusive secretamente. Retornamos emails durante as manhâs de segunda à sexta. Mande uma dúvida sobre uma peça ou faça uma encomenda ou solicitação personalizada." />
@@ -21,7 +42,7 @@ export default function Contact() {
 
       <div className="flex flex-col items-center gap-16 mb-16">
         <div className="bg-brand-septenary min-w-sm p-8 border rounded-3xl shadow-sm">
-          <form className="container mx-auto" onSubmit={(e) => e.preventDefault()}>
+          <form className="container mx-auto" onSubmit={submitContact}>
             <div className="min-w-sm max-w-md flex-1 space-y-8">
               <div className="container mx-auto px-4 text-center space-y-4 flex flex-col items-center justify-center">
                 <h3 className="text-xl md:text-3xl font-bold">Fale<br/>com<br/>a<br/>SKOPPOVIC</h3>
@@ -31,38 +52,49 @@ export default function Contact() {
                 <div className="w-24 h-1 bg-brand-secondary mx-auto" />
               </div>
 
+              <div aria-hidden="true" className="sr-only">
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  autoComplete="off"
+                  id="contact-website"
+                  tabIndex={-1}
+                  value={form.website}
+                  onChange={(event) => setForm({ ...form, website: event.target.value })}
+                />
+              </div>
+
               <div>
-                <label className="hidden text-sm font-medium text-gray-700 mb-2">Nome</label>
+                <label htmlFor="contact-name" className="sr-only">Nome</label>
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-brand-senary text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
                     <User className="w-6 h-6" />
                   </div>
                   <div className="w-full">
-                    <input type="text" className="w-full p-3 border-b rounded-none focus:ring-2 focus:ring-brand-primary outline-none" placeholder="Simplesmente Joana" />
+                    <input id="contact-name" autoComplete="name" maxLength={120} required type="text" value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} className="w-full p-3 border-b rounded-none focus:ring-2 focus:ring-brand-primary outline-none" placeholder="Simplesmente Joana" />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="hidden text-sm font-medium text-gray-700 mb-2">Email</label>
+                <label htmlFor="contact-email" className="sr-only">Email</label>
                 <div className="flex items-center gap-3">
                   <div className="p-3 bg-brand-senary text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div className="w-full">
-                    <input type="email" className="w-full p-3 border-b rounded-none focus:ring-2 focus:ring-brand-primary outline-none" placeholder="joana@email.com" />
+                    <input id="contact-email" autoComplete="email" maxLength={254} required type="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} className="w-full p-3 border-b rounded-none focus:ring-2 focus:ring-brand-primary outline-none" placeholder="joana@email.com" />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="hidden text-sm font-medium text-gray-700 mb-2">Mensagem</label>
+                <label htmlFor="contact-message" className="sr-only">Mensagem</label>
                 <div className="flex items-start gap-3">
                   <div className="p-3 bg-brand-senary text-brand-primary rounded-xl group-hover:bg-brand-primary group-hover:text-white transition-all">
                     <MessageCircle className="w-6 h-6" />
                   </div>
                   <div className="w-full">
-                    <textarea rows={4} className="w-full p-3 border-b rounded-none focus:ring-2 focus:ring-brand-primary outline-none" placeholder="Bom dia! Quero encomendar um presente de aniversário para o meu filho João..."></textarea>
+                    <textarea id="contact-message" maxLength={5000} required rows={4} value={form.message} onChange={(event) => setForm({ ...form, message: event.target.value })} className="w-full p-3 border-b rounded-none focus:ring-2 focus:ring-brand-primary outline-none" placeholder="Bom dia! Quero encomendar um presente de aniversário para o meu filho João..." />
                   </div>
                 </div>
               </div>
@@ -73,13 +105,19 @@ export default function Contact() {
                     <LucideSend className="w-6 h-6" />
                   </div>
                   <div className="w-full">
-                    <button className="bg-brand-primary hover:bg-brand-secondary px-4 py-2 rounded-full text-white flex items-center justify-self-start gap-3">
+                    <button disabled={isSending} className="bg-brand-primary hover:bg-brand-secondary px-4 py-2 rounded-full text-white flex items-center justify-self-start gap-3 disabled:opacity-60" type="submit">
                       <LucideSend className="w-6 h-6" />
-                      <span className="font-bold">Mandar mensagem</span>
+                      <span className="font-bold">{isSending ? 'Enviando...' : 'Mandar mensagem'}</span>
                     </button>
                   </div>
                 </div>
               </div>
+
+              {feedback && (
+                <p aria-live="polite" className={feedback.type === 'success' ? 'text-green-700' : 'text-red-700'}>
+                  {feedback.text}
+                </p>
+              )}
 
               <div>
                 <div className="flex items-center gap-3">
