@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { supabase } from '@/lib/supabase'
-import { Loader2 } from 'lucide-react'
+import { Loader2, ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 import SEO from '@/components/SEO'
 
@@ -64,8 +64,9 @@ export default function Checkout() {
     <div className="min-h-screen p-4 md:p-8 bg-brand-septenary">
       <SEO title="Checkout" description="Complete seu pedido e garanta sua peça de arte digital." />
       <div className="max-w-3xl mx-auto">
-        <Link to="/" className="text-brand-primary hover:underline mb-8 inline-block">
-          ← Home
+        <Link to="/" className="text-sm md:text-base text-brand-primary hover:underline mb-24 flex items-center uppercase tracking-wider md:tracking-widest">
+          <ArrowLeft className="inline-block mr-2" />
+          Home
         </Link>
 
         <h1 className="text-2xl md:text-4xl mb-8">Checkout</h1>
@@ -74,6 +75,7 @@ export default function Checkout() {
           <div className="text-center py-12">
             <p className="text-lg text-brand-tertiary mb-4">Seu pacote está vazio</p>
             <Link to="/" className="text-brand-primary font-bold hover:underline">
+              <ArrowLeft className="inline-block mr-2" />
               Return to Gallery
             </Link>
           </div>
