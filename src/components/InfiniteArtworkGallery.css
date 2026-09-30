@@ -140,16 +140,18 @@
 @media (max-width: 1024px) {
   .infinite-gallery {
     /*min-height: auto;*/
-    min-height: 70svh;
+    min-height: 90svh;
   }
 
   .infinite-gallery__viewport {
     /*min-height: 31rem;*/
-    min-height: clamp(29rem, 72svh, 6rem);
+    /* min-height: clamp(29rem, 72svh, 6rem); */
+    min-height: clamp(28rem, 72svh, 48rem);
   }
 
   .infinite-gallery__card {
-    width: min(58vw, 17rem);
+    /* width: min(58vw, 17rem); */
+    width: clamp(13rem, 23vw, 19rem);
   }
 }
 
